@@ -15,11 +15,14 @@ export default function App() {
 
   useEffect(() => {
     let ativo = true;
-    const url = `${import.meta.env.BASE_URL}dados/licitacoes.json`;
+    const url = './dados/licitacoes.json';
 
     fetch(url)
       .then((r) => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        if (!(r.headers.get('content-type') || '').includes('json')) {
+          throw new Error('O snapshot ainda não foi gerado.');
+        }
         return r.json() as Promise<Snapshot>;
       })
       .then((dados) => {
