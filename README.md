@@ -1,0 +1,89 @@
+# Radar Cultural PR
+
+Radar de **licitações e editais de cultura do Paraná** — Governo do Estado e todos os municípios — com foco em oportunidades **com inscrição ainda aberta**, organizadas por **categoria**, prazo, órgão e município.
+
+- Fonte oficial: **PNCP** (Portal Nacional de Contratações Públicas), API `/api/consulta/v1/contratacoes/proposta`.
+- Site 100% estático (GitHub Pages). Um job do GitHub Actions coleta os dados, grava um snapshot JSON e publica o site.
+
+## Por que existe um job de coleta
+
+A API do PNCP **não envia cabeçalhos CORS**, então o navegador não pode chamá-la direto. Ela também é lenta, limita requisições (às vezes respondendo `200` com HTML em vez de JSON) e cai com frequência. Por isso os dados são coletados fora do navegador, por um job agendado, e servidos como arquivo estático — o site abre rápido e continua no ar mesmo se o PNCP estiver fora.
+
+## Arquitetura
+
+```
+scripts/coletar.ts        Coletor PNCP: retry/backoff, paginação, orçamento de tempo, snapshot
+src/lib/categorias.ts     Classificador de cultura por palavras-chave (compartilhado)
+src/lib/tipos.ts          Tipos do snapshot e da licitação
+src/lib/filtros.ts        Regras de filtro/ordenação (funções puras)
+src/lib/formato.ts        Formatação de moeda, data e prazo
+src/componentes/          KPIs, filtros e cartões
+src/App.tsx               Dashboard
+public/dados/licitacoes.json   Snapshot publicado
+.github/workflows/pages.yml    Coleta diária + build + deploy no Pages
+```
+
+## Categorias
+
+A categoria é inferida por palavras-chave do objeto do edital (uma licitação pode ter várias tags):
+
+Música · Artes cênicas · Audiovisual e cinema · Artes visuais · Literatura e livro · Patrimônio e memória · Cultura popular e tradicional · Eventos e festivais · Fomento, editais e prêmios · Equipamentos e espaços culturais · Formação e oficinas · Gestão e produção cultural · Cultura (geral).
+
+> A classificação é automática e aproximada; não substitui a leitura do edital.
+
+## Dados de cada licitação
+
+Cada item do arquivo `public/dados/licitacoes.json` (que funciona como a sua API pessoal) traz o que é preciso para pesquisar e participar:
+
+- `objeto` e `informacaoComplementar` — o que está sendo contratado;
+- `orgao`, `cnpj`, `esfera`, `municipio`, `uf`, `codigoIbge` — quem está comprando;
+- `numeroCompra`, `numeroControlePncp`, `anoCompra`, `sequencialCompra` — identificação do processo;
+- `dataPublicacao`, `dataAberturaProposta`, `dataEncerramentoProposta` — **período de inscrição**;
+- `linkPncp` — página oficial do edital no PNCP;
+- `linkSistemaOrigem` — link do sistema do órgão (quando existe), útil para dar o lance/proposta;
+- `valorEstimado`, `modalidade`, `situacao`;
+- `categorias` e `categoriaPrincipal` — classificação por segmento cultural.
+
+## Rodando localmente
+
+```bash
+npm install
+npm run coletar     # baixa do PNCP e gera public/dados/licitacoes.json
+npm run dev         # abre o dashboard em http://localhost:5173
+```
+
+Outros scripts:
+
+```bash
+npm run processar   # reprocessa APENAS o cache local (.cache/pncp), sem tocar no PNCP
+npm run reprocessar # reclassifica o snapshot já existente, sem rede
+npm run typecheck   # checagem de tipos
+npm run build       # build de produção em dist/
+npm run test        # testes (vitest)
+```
+
+### Cache e modo offline
+
+O PNCP é lento e limita requisições. Para não repetir chamadas, cada página baixada é gravada em `.cache/pncp/` (fora do git). Rodar `npm run coletar` de novo reaproveita o que já está em cache e só busca o que falta; `npm run processar` regenera o snapshot inteiramente offline. Assim dá para ajustar categorias e apresentação sem bater na API.
+
+> Se o PNCP estiver fora do ar, a coleta mantém o snapshot anterior e nada é perdido.
+
+
+## Deploy (GitHub Pages)
+
+1. No repositório: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. Faça push para `main`. O workflow `Radar Cultural PR` roda a coleta, o build e publica.
+3. A URL fica em `https://<usuario>.github.io/lotus-radar/`.
+4. A coleta roda automaticamente todo dia (`cron: 0 9 * * *`, 06h de Brasília) e também pode ser disparada à mão em **Actions → Radar Cultural PR → Run workflow**.
+
+Se usar domínio próprio, ajuste `base` em `vite.config.ts` para `'/'` (ou defina a variável `BASE_PATH`).
+
+## Limites conhecidos
+
+- A cobertura depende de o órgão publicar no PNCP. Alguns municípios pequenos usam sistemas próprios e podem não aparecer.
+- O coletor tem limites de páginas e de tempo; quando corta, o snapshot é marcado como **parcial**.
+- `valorTotalEstimado` ausente ou zero é tratado como **não informado** (nunca como R$ 0,00).
+
+## Licença
+
+MIT.
