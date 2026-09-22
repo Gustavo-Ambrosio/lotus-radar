@@ -15,7 +15,19 @@ export const CATEGORIAS: Categoria[] = [
     palavras: [
       'music', 'show', 'banda', 'orquestr', 'coral', 'cantor', 'cantora', 'concerto',
       'instrumento musical', 'sonorizac', 'fanfarra', 'percuss', 'dj ',
-      'apresentacao musical', 'apresentacoes musicais',
+      'apresentacao musical', 'apresentacoes musicais', 'reggae', 'ska ', 'mpb', 'samba',
+      'pagode', 'festival de musica', 'dupla sertaneja',
+    ],
+  },
+  {
+    id: 'musica-eletronica',
+    label: 'Música eletrônica',
+    cor: '#8b5cf6',
+    palavras: [
+      'musica eletronica', 'eletronic dance', 'electronic dance', 'musica eletronica music',
+      'edm ', 'psytrance', 'psytranc', 'darkpsy', 'dark psy', 'trance', 'dubstep',
+      'techno', 'house music', 'rave ', 'festival de musica eletronica',
+      'evento de musica eletronica', 'dj set', 'palco eletronico', 'som eletronico',
     ],
   },
   {
@@ -25,7 +37,8 @@ export const CATEGORIAS: Categoria[] = [
     palavras: [
       'teatr', 'danc', 'circo', 'circense', 'espetac', 'dramaturg', 'coreograf', 'ballet',
       'mimica', 'teatro de bonec', 'performance artistic', 'artes cenic',
-      'stand up', 'magica', 'ilusionism', 'figurino',
+      'stand up', 'magica', 'ilusionism', 'figurino', 'festival de teatro',
+      'mostra de teatro', 'montagem teatral', 'grupo teatral', 'encenac',
     ],
   },
   {
@@ -35,6 +48,8 @@ export const CATEGORIAS: Categoria[] = [
     palavras: [
       'audiovisual', 'cinem', 'film', 'documentari', 'curta metrag', 'longa metrag',
       'producao de video', 'equipamento audiovisual', 'streaming', 'animac', 'cinegraf',
+      'sala de cinema', 'festival de cinema', 'mostra de cinema', 'cineclub',
+      'producao cinematografic', 'videoclipe', 'clipe musical', 'cinemadeatro',
     ],
   },
   {
@@ -44,7 +59,19 @@ export const CATEGORIAS: Categoria[] = [
     palavras: [
       'artes visuais', 'artes plastic', 'exposic', 'fotograf', 'pintura artistic', 'escultur',
       'grafite', 'mural artistic', 'instalacao artistic', 'galeria de arte', 'gravur', 'ilustrac',
-      'design grafic', 'ceramic', 'ceramist', 'xilogravur',
+      'design grafic', 'ceramic', 'ceramist', 'xilogravur', 'ensaio fotografico',
+      'fotografia artistic', 'exposicao fotografica', 'sala de exposicao',
+    ],
+  },
+  {
+    id: 'experimental',
+    label: 'Experimental e arte digital',
+    cor: '#0891b2',
+    palavras: [
+      'musica experimental', 'arte experimental', 'artes experimentais', 'performance experimental',
+      'som experimental', 'composicao experimental', 'cinema experimental', 'videoarte',
+      'video arte', 'arte sonora', 'sound art', 'tecnoarte', 'arte digital', 'artes digitais',
+      'arte tecnologica',
     ],
   },
   {
@@ -54,7 +81,7 @@ export const CATEGORIAS: Categoria[] = [
     palavras: [
       'literat', 'livro', 'poesi', 'escritor', 'editora', 'quadrinh',
       'historias em quadrinho', 'contacao de histor', 'feira do livro', 'sarau',
-      'bibliotec',
+      'bibliotec', 'hq ', 'graphic novel', 'clube de leitura',
     ],
   },
   {
@@ -73,7 +100,7 @@ export const CATEGORIAS: Categoria[] = [
     palavras: [
       'cultura popular', 'folclor', 'artesanat', 'capoeir', 'fandang', 'religiosidade',
       'comunidade tradicional', 'indigena', 'quilombol', 'afro', 'etnia',
-      'manifestacao popular', 'congada', 'tropeirism', 'feitio',
+      'manifestacao popular', 'congada', 'tropeirism', 'feitio', 'maracatu', 'coco de roda',
     ],
   },
   {
@@ -83,7 +110,17 @@ export const CATEGORIAS: Categoria[] = [
     palavras: [
       'festiv', 'carnav', 'evento cultur', 'aniversario do municipio',
       'semana cultur', 'mostra cultur', 'programacao cultur', 'feira cultur',
-      'festa junina',
+      'festa junina', 'arraia', 'festival gastronomico cultural',
+    ],
+  },
+  {
+    id: 'multicultural',
+    label: 'Eventos multiculturais',
+    cor: '#c026d3',
+    palavras: [
+      'multicultural', 'multiculturais', 'intercultural', 'interculturais',
+      'festa das nacoes', 'encontro de culturas', 'mostra pluricultural',
+      'semana multicultural', 'evento de integracao cultural',
     ],
   },
   {
@@ -103,7 +140,7 @@ export const CATEGORIAS: Categoria[] = [
     palavras: [
       'equipamento cultur', 'centro cultur', 'casa de cultura', 'teatro municipal',
       'cine teatro', 'auditori', 'espaco cultur', 'espaco multius',
-      'centro de eventos',
+      'centro de eventos', 'galpao de eventos',
     ],
   },
   {
@@ -113,6 +150,7 @@ export const CATEGORIAS: Categoria[] = [
     palavras: [
       'oficin', 'curso', 'formac', 'workshop', 'palestr', 'capacitac',
       'educacao cultural', 'mediacao cultural', 'seminari', 'laboratorio cultural',
+      'clube de arte', 'ateliê',
     ],
   },
   {
@@ -139,15 +177,18 @@ export const CATEGORIAS: Categoria[] = [
 /** Sinais fortes: sem pelo menos um deles, o objeto não é tratado como cultura. */
 const ANCORAS = [
   'cultur', 'artist', 'artes cenic', 'artes visuais', 'artes plastic', 'ceramic',
-  'music', 'show', 'banda', 'orquestr', 'coral', 'fanfarra',
+  'music', 'show', 'banda', 'orquestr', 'coral', 'fanfarra', 'reggae', 'samba',
   'espetac', 'teatr', 'danc', 'circo', 'circense', 'ballet', 'performance artistic',
-  'cinem', 'audiovisual', 'film', 'documentari', 'animac',
+  'cinem', 'audiovisual', 'film', 'documentari', 'animac', 'cineclub', 'videoclipe',
   'exposic', 'fotograf', 'escultur', 'gravur', 'galeria de arte', 'museu',
-  'patrimoni', 'acervo', 'literat', 'livro', 'poesi', 'bibliotec',
+  'patrimoni', 'acervo', 'literat', 'livro', 'poesi', 'bibliotec', 'quadrinh',
   'festiv', 'folclor', 'artesanat', 'capoeir', 'fandang', 'carnav',
   'quadrinh', 'sarau', 'oficina cultur', 'edital de foment',
   'lei paulo gustavo', 'aldir blanc', 'premio cultur', 'mostra cultur',
   'apresentacao artistic', 'manifestacao cultur', 'projeto cultur',
+  'psytrance', 'darkpsy', 'trance', 'dj ', 'rave ', 'eletronic dance', 'electronic dance',
+  'eletronic music', 'multicultural', 'intercultural', 'pluricultural',
+  'videoarte', 'video arte', 'arte sonora', 'arte digital', 'artes digitais', 'tecnoarte',
 ];
 
 /** Veto: se aparecer (substring), o objeto não é considerado cultura. */
@@ -164,6 +205,7 @@ const EXCLUSOES = [
   'banda larga', 'banda de rodagem',
   'bens inserviveis', 'bens moveis', 'alienacao de bens', 'patrimonio do municipio',
   'memoria de calculo', 'material grafic', 'material de escritorio', 'informatica',
+  'circuito eletronico', 'placa eletronica', 'componente eletronico', 'equipamento eletronico',
 ];
 
 function compilar(palavra: string): RegExp {

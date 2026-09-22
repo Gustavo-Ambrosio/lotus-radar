@@ -40,6 +40,8 @@ export function PainelFiltros({
     );
   }
 
+  const ativos = montarAtivos(filtros, onChange, categorias);
+
   return (
     <section className="painel filtros" aria-label="Filtros">
       <div className="filtros__titulo">
@@ -70,12 +72,8 @@ export function PainelFiltros({
               placeholder="Objeto, órgão ou município"
               value={filtros.busca}
               autoComplete="off"
-              aria-describedby="ajuda-busca"
               onChange={(e) => atualizar('busca', e.target.value)}
             />
-            <span id="ajuda-busca" hidden>
-              Busca por palavras-chave do objeto, nome do órgão ou município
-            </span>
           </div>
         </div>
 
@@ -139,6 +137,25 @@ export function PainelFiltros({
             <option value="30">Encerra em 30 dias</option>
           </select>
         </div>
+      </div>
+
+      <div className="filtros__linha filtros__linha--secundaria">
+        <div className="campo">
+          <label htmlFor="publicado">Publicados em</label>
+          <select
+            id="publicado"
+            value={filtros.publicadoDias === null ? '' : String(filtros.publicadoDias)}
+            onChange={(e) =>
+              atualizar('publicadoDias', e.target.value === '' ? null : Number(e.target.value))
+            }
+          >
+            <option value="">Qualquer data</option>
+            <option value="7">Últimos 7 dias</option>
+            <option value="15">Últimos 15 dias</option>
+            <option value="30">Últimos 30 dias</option>
+            <option value="60">Últimos 60 dias</option>
+          </select>
+        </div>
 
         <div className="campo">
           <label htmlFor="ordenacao">Ordenar por</label>
@@ -152,7 +169,48 @@ export function PainelFiltros({
             <option value="valor-desc">Maior valor</option>
             <option value="valor-asc">Menor valor</option>
             <option value="municipio">Município</option>
+            <option value="orgao">Órgão (A–Z)</option>
           </select>
+        </div>
+
+        <div className="campo">
+          <label htmlFor="valor-min">Valor mínimo (R$)</label>
+          <input
+            id="valor-min"
+            type="number"
+            inputMode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="sem mínimo"
+            value={filtros.valorMinimo ?? ''}
+            onChange={(e) => atualizar('valorMinimo', parseNumero(e.target.value))}
+          />
+        </div>
+
+        <div className="campo">
+          <label htmlFor="valor-max">Valor máximo (R$)</label>
+          <input
+            id="valor-max"
+            type="number"
+            inputMode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="sem máximo"
+            value={filtros.valorMaximo ?? ''}
+            onChange={(e) => atualizar('valorMaximo', parseNumero(e.target.value))}
+          />
+        </div>
+
+        <div className="campo campo--check">
+          <span className="campo__rotulo">Valor estimado</span>
+          <label className="campo__check-rotulo">
+            <input
+              type="checkbox"
+              checked={filtros.somenteComValor}
+              onChange={(e) => atualizar('somenteComValor', e.target.checked)}
+            />
+            Só com valor
+          </label>
         </div>
       </div>
 
@@ -178,9 +236,32 @@ export function PainelFiltros({
         </div>
       </div>
 
+      {ativos.length > 0 && (
+        <div className="filtros__ativos">
+          <p className="filtros__subtitulo">
+            Filtros ativos ({ativos.length})
+          </p>
+          <div className="chips">
+            {ativos.map((ativo) => (
+              <span key={ativo.chave} className="ativo">
+                {ativo.rotulo}
+                <button
+                  type="button"
+                  className="ativo__remover"
+                  aria-label={`Remover filtro ${ativo.rotulo}`}
+                  onClick={ativo.limpar}
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="filtros__rodape">
         <span className="filtros__rodape-info">
-          Resultado {filtradosTexto(totalFiltrado)} — filtros aplicados em tempo real
+          Resultado {plural(totalFiltrado)} — filtros aplicados em tempo real
         </span>
         <button
           type="button"
@@ -194,6 +275,10 @@ export function PainelFiltros({
               esfera: '',
               modalidade: '',
               prazoMaxDias: null,
+              publicadoDias: null,
+              valorMinimo: null,
+              valorMaximo: null,
+              somenteComValor: false,
             })
           }
         >
@@ -204,6 +289,66 @@ export function PainelFiltros({
   );
 }
 
-function filtradosTexto(total: number): string {
+interface FiltroAtivo {
+  chave: string;
+  rotulo: string;
+  limpar: () => void;
+}
+
+function montarAtivos(
+  filtros: Filtros,
+  onChange: (filtros: Filtros) => void,
+  categorias: OpcaoCategoria[],
+): FiltroAtivo[] {
+  const ativos: FiltroAtivo[] = [];
+  const limpar = (patch: Partial<Filtros>) => onChange({ ...filtros, ...patch });
+
+  if (filtros.busca) {
+    const curto = filtros.busca.length > 24 ? `${filtros.busca.slice(0, 24)}…` : filtros.busca;
+    ativos.push({ chave: 'busca', rotulo: `Busca: “${curto}”`, limpar: () => limpar({ busca: '' }) });
+  }
+  if (filtros.municipio) {
+    ativos.push({ chave: 'municipio', rotulo: `Município: ${filtros.municipio}`, limpar: () => limpar({ municipio: '' }) });
+  }
+  if (filtros.esfera) {
+    ativos.push({ chave: 'esfera', rotulo: `Esfera: ${filtros.esfera}`, limpar: () => limpar({ esfera: '' }) });
+  }
+  if (filtros.modalidade) {
+    ativos.push({ chave: 'modalidade', rotulo: `Modalidade: ${filtros.modalidade}`, limpar: () => limpar({ modalidade: '' }) });
+  }
+  if (filtros.prazoMaxDias !== null) {
+    ativos.push({ chave: 'prazo', rotulo: `Encerra em até ${filtros.prazoMaxDias} dias`, limpar: () => limpar({ prazoMaxDias: null }) });
+  }
+  if (filtros.publicadoDias !== null) {
+    ativos.push({ chave: 'publicado', rotulo: `Publicados em ${filtros.publicadoDias} dias`, limpar: () => limpar({ publicadoDias: null }) });
+  }
+  if (filtros.valorMinimo !== null) {
+    ativos.push({ chave: 'valor-min', rotulo: `Valor mínimo: ${filtros.valorMinimo.toLocaleString('pt-BR')}`, limpar: () => limpar({ valorMinimo: null }) });
+  }
+  if (filtros.valorMaximo !== null) {
+    ativos.push({ chave: 'valor-max', rotulo: `Valor máximo: ${filtros.valorMaximo.toLocaleString('pt-BR')}`, limpar: () => limpar({ valorMaximo: null }) });
+  }
+  if (filtros.somenteComValor) {
+    ativos.push({ chave: 'valor-ok', rotulo: 'Só com valor informado', limpar: () => limpar({ somenteComValor: false }) });
+  }
+  for (const id of filtros.categorias) {
+    const categoria = categorias.find((c) => c.id === id);
+    ativos.push({
+      chave: `categoria-${id}`,
+      rotulo: `Categoria: ${categoria?.label ?? id}`,
+      limpar: () => limpar({ categorias: filtros.categorias.filter((c) => c !== id) }),
+    });
+  }
+
+  return ativos;
+}
+
+function parseNumero(valor: string): number | null {
+  if (valor === '') return null;
+  const numero = Number(valor);
+  return Number.isFinite(numero) && numero >= 0 ? numero : null;
+}
+
+function plural(total: number): string {
   return total === 1 ? '1 edital' : `${total} editais`;
 }

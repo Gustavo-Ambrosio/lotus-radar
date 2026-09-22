@@ -1,5 +1,7 @@
 export type Esfera = 'Estadual' | 'Municipal' | 'Federal' | 'Distrital' | 'Não informada';
 
+export type Segmento = 'cultura' | 'tecnologia';
+
 export interface Licitacao {
   id: string;
   orgao: string;
@@ -23,7 +25,8 @@ export interface Licitacao {
   linkPncp: string;
   linkSistemaOrigem: string | null;
   categorias: string[];
-  categoriaPrincipal: string;
+  categoriaPrincipal: string | null;
+  segmentos: Segmento[];
   situacao: string;
 }
 

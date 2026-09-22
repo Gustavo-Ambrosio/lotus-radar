@@ -2,8 +2,9 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { classificar } from '../src/lib/categorias';
+import { classificarTecnologia } from '../src/lib/segmentos/tecnologia';
 import { urlSegura } from '../src/lib/seguranca';
-import type { Licitacao, Snapshot } from '../src/lib/tipos';
+import type { Licitacao, Segmento, Snapshot } from '../src/lib/tipos';
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, '..');
@@ -29,7 +30,18 @@ function derivarNumeros(id: string): {
 
 function reprocessar(licitacao: Licitacao): Licitacao | null {
   const classificacao = classificar(licitacao.objeto);
-  if (!classificacao.principal) return null;
+  const classificacaoTecnologia = classificarTecnologia(licitacao.objeto);
+
+  const segmentos: Segmento[] = [];
+  if (classificacao.principal) segmentos.push('cultura');
+  if (classificacaoTecnologia.principal) segmentos.push('tecnologia');
+  if (segmentos.length === 0) return null;
+
+  const categorias = [
+    ...(classificacao.categorias ?? []),
+    ...(classificacaoTecnologia.categorias ?? []),
+  ];
+  const categoriaPrincipal = classificacao.principal ?? classificacaoTecnologia.principal;
 
   const derivado = derivarNumeros(licitacao.id);
   const linkAtual = licitacao.link || '';
@@ -51,8 +63,9 @@ function reprocessar(licitacao: Licitacao): Licitacao | null {
     linkPncp,
     linkSistemaOrigem,
     link: linkSistemaOrigem || linkPncp,
-    categorias: classificacao.categorias,
-    categoriaPrincipal: classificacao.principal,
+    categorias,
+    categoriaPrincipal,
+    segmentos,
   };
 }
 

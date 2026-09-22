@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
-import { CATEGORIAS } from './lib/categorias';
+import { categoriasDoSegmento } from './lib/segmentos';
 import { aplicarFiltros, FILTROS_INICIAIS, valoresUnicos, type Filtros } from './lib/filtros';
 import { formatarDataHora } from './lib/formato';
-import type { Snapshot } from './lib/tipos';
+import type { Segmento, Snapshot } from './lib/tipos';
 import { Kpis } from './componentes/Kpis';
 import { PainelFiltros } from './componentes/Filtros';
 import { CartaoLicitacao } from './componentes/CartaoLicitacao';
 
-const SEGMENTOS = [
-  { id: 'cultura', rotulo: 'Cultural', ativo: true, emBreve: false },
-  { id: 'tecnologia', rotulo: 'Tecnologia', ativo: false, emBreve: true },
-] as const;
+const SEGMENTOS: { id: Segmento; rotulo: string; emBreve: boolean }[] = [
+  { id: 'cultura', rotulo: 'Cultural', emBreve: false },
+  { id: 'tecnologia', rotulo: 'Tecnologia', emBreve: false },
+];
 
 function LogoRadar() {
   return (
@@ -29,6 +29,7 @@ export default function App() {
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
+  const [segmento, setSegmento] = useState<Segmento>('cultura');
   const [filtros, setFiltros] = useState<Filtros>(FILTROS_INICIAIS);
 
   useEffect(() => {
@@ -62,25 +63,47 @@ export default function App() {
   }, []);
 
   const licitacoes = snapshot?.licitacoes ?? [];
+  const licitacoesDoSegmento = useMemo(
+    () => licitacoes.filter((l) => l.segmentos.includes(segmento)),
+    [licitacoes, segmento],
+  );
 
-  const municipios = useMemo(() => valoresUnicos(licitacoes, (l) => l.municipio), [licitacoes]);
-  const modalidades = useMemo(() => valoresUnicos(licitacoes, (l) => l.modalidade), [licitacoes]);
-  const esferas = useMemo(() => valoresUnicos(licitacoes, (l) => l.esfera), [licitacoes]);
+  const municipios = useMemo(
+    () => valoresUnicos(licitacoesDoSegmento, (l) => l.municipio),
+    [licitacoesDoSegmento],
+  );
+  const modalidades = useMemo(
+    () => valoresUnicos(licitacoesDoSegmento, (l) => l.modalidade),
+    [licitacoesDoSegmento],
+  );
+  const esferas = useMemo(
+    () => valoresUnicos(licitacoesDoSegmento, (l) => l.esfera),
+    [licitacoesDoSegmento],
+  );
 
-  const categoriasDisponiveis = useMemo(
-    () =>
-      CATEGORIAS.map((c) => ({
+  const categoriasDisponiveis = useMemo(() => {
+    const base = categoriasDoSegmento(segmento);
+    return base
+      .map((c) => ({
         id: c.id,
         label: c.label,
         cor: c.cor,
-        total: licitacoes.filter((l) => l.categorias.includes(c.id)).length,
+        total: licitacoesDoSegmento.filter((l) => l.categorias.includes(c.id)).length,
       }))
-        .filter((c) => c.total > 0)
-        .sort((a, b) => b.total - a.total),
-    [licitacoes],
+      .filter((c) => c.total > 0)
+      .sort((a, b) => b.total - a.total);
+  }, [segmento, licitacoesDoSegmento]);
+
+  const filtradas = useMemo(
+    () => aplicarFiltros(licitacoesDoSegmento, filtros),
+    [licitacoesDoSegmento, filtros],
   );
 
-  const filtradas = useMemo(() => aplicarFiltros(licitacoes, filtros), [licitacoes, filtros]);
+  function trocarSegmento(novo: Segmento) {
+    if (novo === segmento) return;
+    setSegmento(novo);
+    setFiltros((atual) => ({ ...atual, categorias: [] }));
+  }
 
   return (
     <>
@@ -92,14 +115,15 @@ export default function App() {
             </span>
             <div className="marca__texto">
               <h1 className="marca__nome">Radar Cultural Paraná</h1>
-              <p className="marca__legenda">Oportunidades de cultura — licitações, editais e prêmios</p>
+              <p className="marca__legenda">Oportunidades públicas em cultura e tecnologia</p>
             </div>
           </div>
 
           <p className="hero__resumo">
-            Acompanhe, em um só lugar, as <strong>licitações e editais de cultura abertos</strong> do
-            Governo do Paraná e de todos os municípios. Encontre por categoria, prazo, órgão ou
-            município e inscreva-se direto na fonte oficial.
+            Acompanhe em um só lugar as <strong>licitações e editais abertos</strong> do Governo do
+            Paraná e de todos os municípios — em <strong>cultura</strong> e{' '}
+            <strong>tecnologia</strong>. Encontre por categoria, prazo, órgão, município ou valor e
+            inscreva-se direto na fonte oficial.
           </p>
 
           <div className="hero__selos">
@@ -123,10 +147,10 @@ export default function App() {
               <button
                 key={seg.id}
                 type="button"
-                className={seg.ativo ? 'segmento segmento--ativo' : 'segmento segmento--em-breve'}
+                className={segmento === seg.id ? 'segmento segmento--ativo' : 'segmento'}
+                onClick={() => trocarSegmento(seg.id)}
+                aria-pressed={segmento === seg.id}
                 disabled={seg.emBreve}
-                aria-pressed={seg.ativo}
-                title={seg.emBreve ? 'Em breve' : undefined}
               >
                 {seg.rotulo}
                 {seg.emBreve && <span className="segmento__selo">em breve</span>}
@@ -152,7 +176,7 @@ export default function App() {
 
         {snapshot && (
           <>
-            <Kpis licitacoes={licitacoes} truncado={snapshot.truncado} />
+            <Kpis licitacoes={licitacoesDoSegmento} truncado={snapshot.truncado} />
 
             <PainelFiltros
               filtros={filtros}
@@ -162,12 +186,12 @@ export default function App() {
               esferas={esferas}
               categorias={categoriasDisponiveis}
               totalFiltrado={filtradas.length}
-              totalGeral={licitacoes.length}
+              totalGeral={licitacoesDoSegmento.length}
             />
 
             {filtradas.length === 0 ? (
               <div className="estado">
-                <strong>Nenhum edital corresponde aos filtros selecionados.</strong>
+                <strong>Nenhuma oportunidade corresponde aos filtros selecionados.</strong>
                 <span>Tente ampliar a busca ou limpar os filtros.</span>
                 <button
                   type="button"
@@ -178,7 +202,7 @@ export default function App() {
                 </button>
               </div>
             ) : (
-              <section className="lista" aria-label="Editais abertos">
+              <section className="lista" aria-label="Oportunidades abertas">
                 <header className="lista__cabecalho">
                   <h2>Oportunidades abertas</h2>
                   <span className="lista__contador">
@@ -187,7 +211,7 @@ export default function App() {
                 </header>
                 <div className="lista__grade">
                   {filtradas.map((licitacao) => (
-                    <CartaoLicitacao key={licitacao.id} licitacao={licitacao} />
+                    <CartaoLicitacao key={licitacao.id} licitacao={licitacao} segmento={segmento} />
                   ))}
                 </div>
               </section>
@@ -212,14 +236,12 @@ export default function App() {
               <a href="https://pncp.gov.br" target="_blank" rel="noopener noreferrer">
                 Portal Nacional de Contratações Públicas (PNCP)
               </a>
-              . A categoria é inferida automaticamente pelo texto do objeto e pode não refletir a
-              classificação oficial.
+              . A classificação (cultural ou tecnológica) é inferida automaticamente pelo texto do
+              objeto e pode não refletir a classificação oficial.
             </p>
           </div>
         </div>
-        <p className="rodape__base">
-          Radar Cultural Paraná · atualização diária automática
-        </p>
+        <p className="rodape__base">Radar Cultural Paraná · atualização diária automática</p>
       </footer>
     </>
   );

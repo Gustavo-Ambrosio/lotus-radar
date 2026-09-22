@@ -344,8 +344,13 @@ strong {
 
 .filtros__linha {
   display: grid;
-  grid-template-columns: 1.4fr repeat(5, 1fr);
+  grid-template-columns: 1.4fr repeat(4, 1fr);
   gap: 14px;
+}
+
+.filtros__linha--secundaria {
+  grid-template-columns: repeat(5, 1fr);
+  margin-top: 14px;
 }
 
 .campo {
@@ -355,12 +360,40 @@ strong {
 }
 
 .campo label,
+.campo__rotulo,
 .filtros__subtitulo {
   font-size: 0.78rem;
   font-weight: 650;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--tinta-fraca);
+}
+
+.campo--check {
+  justify-content: end;
+}
+
+.campo__check-rotulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.93rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--tinta);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-campo);
+  padding: 9px 12px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.campo__check-rotulo input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primario);
+  cursor: pointer;
 }
 
 .campo input,
@@ -406,6 +439,43 @@ strong {
   margin-top: 20px;
   padding-top: 16px;
   border-top: 1px solid var(--linha);
+}
+
+.filtros__ativos {
+  margin-top: 14px;
+}
+
+.ativo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  padding: 6px 8px 6px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--primario);
+  background: var(--primario-claro);
+  color: var(--primario-forte);
+}
+
+.ativo__remover {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(109, 46, 241, 0.14);
+  color: var(--primario-forte);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ativo__remover:hover {
+  background: var(--destaque);
+  color: #fff;
 }
 
 .chips {
@@ -571,6 +641,12 @@ strong {
 
 .badge--categoria {
   font-weight: 700;
+}
+
+.badge--outro-segmento {
+  border-color: rgba(109, 46, 241, 0.4);
+  background: rgba(109, 46, 241, 0.08);
+  color: var(--primario-forte);
 }
 
 .badge--fino {
@@ -816,7 +892,8 @@ strong {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .filtros__linha {
+  .filtros__linha,
+  .filtros__linha--secundaria {
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -838,8 +915,17 @@ strong {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .filtros__linha {
+  .filtros__linha,
+  .filtros__linha--secundaria {
     grid-template-columns: 1fr;
+  }
+
+  .campo--check {
+    justify-content: stretch;
+  }
+
+  .campo__check-rotulo {
+    justify-content: center;
   }
 
   .filtros__titulo,

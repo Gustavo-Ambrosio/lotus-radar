@@ -46,4 +46,43 @@ describe('classificar', () => {
   it('tem rótulo legível para toda categoria classificada', () => {
     expect(rotuloCategoria('musica')).toBe('Música');
   });
+
+  it('detecta festival de música eletrônica', () => {
+    const resultado = classificar('Festival de psytrance e darkpsy');
+    expect(resultado.categorias).toContain('musica-eletronica');
+    expect(resultado.principal).toBe('musica-eletronica');
+  });
+
+  it('detecta reggae como música', () => {
+    expect(classificar('Contratação de banda de reggae para a festa da cidade').categorias).toContain(
+      'musica',
+    );
+  });
+
+  it('detecta evento multicultural', () => {
+    expect(classificar('Realização de evento multicultural de música, dança e gastronomia').categorias).toContain(
+      'multicultural',
+    );
+  });
+
+  it('detecta arte experimental e digital', () => {
+    const resultado = classificar('Mostra de música experimental e arte digital');
+    expect(resultado.categorias).toContain('experimental');
+  });
+
+  it('detecta cinema e teatro em festival', () => {
+    const resultado = classificar('Festival de cinema e mostra de teatro municipal');
+    expect(resultado.categorias).toContain('audiovisual');
+    expect(resultado.categorias).toContain('artes-cenicas');
+  });
+
+  it('detecta ensaio fotográfico como artes visuais', () => {
+    expect(classificar('Ensaio fotográfico artístico de acervo municipal').categorias).toContain(
+      'artes-visuais',
+    );
+  });
+
+  it('não trata placas eletrônicas como cultura', () => {
+    expect(ehCultura('Manutenção de placas eletrônicas de sinalização de trânsito')).toBe(false);
+  });
 });

@@ -7,13 +7,12 @@ Radar de **licitações e editais de cultura do Paraná** — Governo do Estado 
 
 ## Segmentos (abas)
 
-A interface é preparada para múltiplos segmentos. Hoje existe a aba **Cultural** (ativa). A aba **Tecnologia** está prevista para a próxima etapa:
+A interface tem duas abas: **Cultural** e **Tecnologia**. Cada licitação carrega um campo `segmentos` e aparece na aba correspondente (uma mesma compra pode ser dos dois — ex.: plataforma de streaming de um festival).
 
-- Criar `src/lib/segmentos/tecnologia.ts` com a mesma arquitetura de `categorias.ts` (radicais + âncoras + exclusões) para classificar objetos de TI (software, redes, equipamentos, serviços de nuvem etc.).
-- Adicionar o classificador ao **coletor**, que passa a gerar licitações rotuladas por segmento (`cultura`, `tecnologia` ou ambos).
-- Ativar a aba no dashboard, com os mesmos filtros e KPIs aplicados ao segmento escolhido.
+- **Cultural**: categorias de artes e cultura (ver abaixo).
+- **Tecnologia**: desenvolvimento de software, infraestrutura e redes, qualidade de software, testes de software, segurança e firewall, licenças de software e tecnologia geral.
 
-O layout já define a navegação (`src/App.tsx`, classe `.segmentos`) e o tipo `Segmento` pode ser adicionado em `src/lib/tipos.ts` sem quebrar o snapshot atual.
+A arquitetura é escalável: basta criar um classificador por segmento em `src/lib/segmentos/` e registrar as categorias em `src/lib/segmentos.ts` (que unifica rótulos, cores e a categoria principal exibida).
 
 ## Por que existe um job de coleta
 
@@ -24,6 +23,8 @@ A API do PNCP **não envia cabeçalhos CORS**, então o navegador não pode cham
 ```
 scripts/coletar.ts        Coletor PNCP: retry/backoff, paginação, orçamento de tempo, snapshot
 src/lib/categorias.ts     Classificador de cultura por palavras-chave (compartilhado)
+src/lib/segmentos/tecnologia.ts  Classificador de tecnologia por palavras-chave
+src/lib/segmentos.ts      Registro unificado de segmentos/categorias (rótulo, cor, principal)
 src/lib/seguranca.ts      Sanitização de URLs externas (http/https)
 src/lib/tipos.ts          Tipos do snapshot e da licitação
 src/lib/filtros.ts        Regras de filtro/ordenação (funções puras)
@@ -38,9 +39,23 @@ public/dados/licitacoes.json   Snapshot publicado
 
 A categoria é inferida por palavras-chave do objeto do edital (uma licitação pode ter várias tags):
 
-Música · Artes cênicas · Audiovisual e cinema · Artes visuais · Literatura e livro · Patrimônio e memória · Cultura popular e tradicional · Eventos e festivais · Fomento, editais e prêmios · Equipamentos e espaços culturais · Formação e oficinas · Gestão e produção cultural · Cultura (geral).
+**Cultura:** Música · Música eletrônica (psytrance, darkpsy, trance, rave, DJ) · Artes cênicas (teatro, dança, circo) · Audiovisual e cinema · Artes visuais (inclui fotografia) · Experimental e arte digital · Literatura e livro · Patrimônio e memória · Cultura popular e tradicional · Eventos e festivais · Eventos multiculturais · Fomento, editais e prêmios · Equipamentos e espaços culturais · Formação e oficinas · Gestão e produção cultural · Cultura (geral).
+
+**Tecnologia:** Desenvolvimento de software · Infraestrutura e redes · Qualidade de software · Testes de software · Segurança e firewall · Licenças de software · Tecnologia (geral).
 
 > A classificação é automática e aproximada; não substitui a leitura do edital.
+
+## Filtros
+
+Além da busca por texto e dos chips de categoria, o painel permite combinar:
+
+- Município, esfera (estadual/municipal) e modalidade;
+- Prazo de encerramento (3, 7, 15 ou 30 dias);
+- Publicação (últimos 7, 15, 30 ou 60 dias);
+- Valor estimado (mínimo e máximo) e "só com valor informado";
+- Ordenação por prazo, data de publicação, valor, município ou órgão.
+
+Os **filtros ativos** aparecem como chips removíveis, um a um, acima do botão "Limpar filtros".
 
 ## Dados de cada licitação
 
@@ -53,7 +68,8 @@ Cada item do arquivo `public/dados/licitacoes.json` (que funciona como a sua API
 - `linkPncp` — página oficial do edital no PNCP;
 - `linkSistemaOrigem` — link do sistema do órgão (quando existe), útil para dar o lance/proposta;
 - `valorEstimado`, `modalidade`, `situacao`;
-- `categorias` e `categoriaPrincipal` — classificação por segmento cultural.
+- `segmentos` — em quais abas a licitação aparece (`cultura` e/ou `tecnologia`);
+- `categorias` e `categoriaPrincipal` — classificação por segmento.
 
 ## Rodando localmente
 

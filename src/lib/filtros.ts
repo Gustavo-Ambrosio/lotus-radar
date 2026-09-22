@@ -9,7 +9,11 @@ export interface Filtros {
   esfera: string;
   modalidade: string;
   prazoMaxDias: number | null;
-  ordenacao: 'prazo' | 'recentes' | 'valor-desc' | 'valor-asc' | 'municipio';
+  publicadoDias: number | null;
+  valorMinimo: number | null;
+  valorMaximo: number | null;
+  somenteComValor: boolean;
+  ordenacao: 'prazo' | 'recentes' | 'valor-desc' | 'valor-asc' | 'municipio' | 'orgao';
 }
 
 export const FILTROS_INICIAIS: Filtros = {
@@ -19,6 +23,10 @@ export const FILTROS_INICIAIS: Filtros = {
   esfera: '',
   modalidade: '',
   prazoMaxDias: null,
+  publicadoDias: null,
+  valorMinimo: null,
+  valorMaximo: null,
+  somenteComValor: false,
   ordenacao: 'prazo',
 };
 
@@ -39,6 +47,19 @@ export function aplicarFiltros(lista: Licitacao[], filtros: Filtros): Licitacao[
     if (filtros.prazoMaxDias !== null) {
       const dias = diasRestantes(item.dataEncerramentoProposta);
       if (dias === null || dias > filtros.prazoMaxDias) return false;
+    }
+    if (filtros.publicadoDias !== null) {
+      const publicado = item.dataPublicacao ? new Date(item.dataPublicacao).getTime() : null;
+      if (publicado === null) return false;
+      const limite = Date.now() - filtros.publicadoDias * 24 * 60 * 60 * 1000;
+      if (publicado < limite) return false;
+    }
+    if (filtros.somenteComValor && item.valorEstimado === null) return false;
+    if (filtros.valorMinimo !== null && (item.valorEstimado === null || item.valorEstimado < filtros.valorMinimo)) {
+      return false;
+    }
+    if (filtros.valorMaximo !== null && (item.valorEstimado === null || item.valorEstimado > filtros.valorMaximo)) {
+      return false;
     }
     return true;
   });
@@ -63,6 +84,9 @@ function ordenar(lista: Licitacao[], ordenacao: Filtros['ordenacao']): Licitacao
       break;
     case 'municipio':
       copia.sort((a, b) => a.municipio.localeCompare(b.municipio, 'pt-BR'));
+      break;
+    case 'orgao':
+      copia.sort((a, b) => a.orgao.localeCompare(b.orgao, 'pt-BR'));
       break;
     case 'prazo':
     default:

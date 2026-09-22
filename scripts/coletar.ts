@@ -1,10 +1,11 @@
 import { createHash } from 'node:crypto';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { classificar } from '../src/lib/categorias';
+import { classificarTecnologia } from '../src/lib/segmentos/tecnologia';
 import { urlSegura } from '../src/lib/seguranca';
-import type { Esfera, Licitacao, Snapshot } from '../src/lib/tipos';
+import type { Esfera, Licitacao, Segmento, Snapshot } from '../src/lib/tipos';
 
 const BASE_PNCP = 'https://pncp.gov.br/api/consulta/v1';
 const UF = 'PR';
@@ -142,7 +143,18 @@ function normalizar(item: ItemPncp, agora: number): Licitacao | null {
   if (new Date(encerramento).getTime() < agora) return null;
 
   const classificacao = classificar(objeto);
-  if (!classificacao.principal) return null;
+  const classificacaoTecnologia = classificarTecnologia(objeto);
+
+  const segmentos: Segmento[] = [];
+  if (classificacao.principal) segmentos.push('cultura');
+  if (classificacaoTecnologia.principal) segmentos.push('tecnologia');
+  if (segmentos.length === 0) return null;
+
+  const categorias = [
+    ...(classificacao.categorias ?? []),
+    ...(classificacaoTecnologia.categorias ?? []),
+  ];
+  const categoriaPrincipal = classificacao.principal ?? classificacaoTecnologia.principal;
 
   const linkPncp = urlPncp(item);
   const linkSistemaOrigem = urlSistemaOrigem(item);
@@ -179,8 +191,9 @@ function normalizar(item: ItemPncp, agora: number): Licitacao | null {
     link: linkSistemaOrigem || linkPncp,
     linkPncp,
     linkSistemaOrigem,
-    categorias: classificacao.categorias,
-    categoriaPrincipal: classificacao.principal,
+    categorias,
+    categoriaPrincipal,
+    segmentos,
     situacao: String(item.situacaoCompraNome || '').trim(),
   };
 }
@@ -295,6 +308,26 @@ function dataFinal(): string {
   return d.toISOString().slice(0, 10).replace(/-/g, '');
 }
 
+async function lerCacheCompleto(): Promise<ItemPncp[] | null> {
+  try {
+    const arquivos = await readdir(CACHE_DIR);
+    const itens: ItemPncp[] = [];
+    for (const arquivo of arquivos.filter((f) => f.endsWith('.json'))) {
+      try {
+        const bruto = await readFile(resolve(CACHE_DIR, arquivo), 'utf8');
+        const pacote = JSON.parse(bruto) as { dados?: RespostaPg };
+        const lote = Array.isArray(pacote.dados?.data) ? pacote.dados.data : [];
+        itens.push(...lote);
+      } catch {
+        // arquivo corrompido ou não relacionado; ignora
+      }
+    }
+    return itens.length > 0 ? itens : null;
+  } catch {
+    return null;
+  }
+}
+
 async function coletarPaginas(
   modalidade?: number,
 ): Promise<{ itens: ItemPncp[]; truncado: boolean; falhou: boolean }> {
@@ -309,7 +342,17 @@ async function coletarPaginas(
     }
 
     const dados = await obterResposta(urlProposta(pagina, modalidade));
-    if (!dados) return { itens, truncado: true, falhou: true };
+    if (!dados) {
+      if (MODO_OFFLINE) {
+        const completo = await lerCacheCompleto();
+        if (completo) {
+          itens.push(...completo);
+          console.log(`[pncp] offline: ${completo.length} itens carregados do cache completo`);
+          break;
+        }
+      }
+      return { itens, truncado: true, falhou: true };
+    }
 
     const lote = Array.isArray(dados.data) ? dados.data : [];
     itens.push(...lote);
@@ -381,7 +424,7 @@ async function principal(): Promise<void> {
     return da - db;
   });
 
-  console.log(`[pncp] ${itens.length} registros brutos -> ${licitacoes.length} licitações de cultura abertas`);
+  console.log(`[pncp] ${itens.length} registros brutos -> ${licitacoes.length} licitações abertas (cultura/tecnologia)`);
 
   if (licitacoes.length === 0) {
     const atual = await lerSnapshotAtual();
@@ -399,7 +442,7 @@ async function principal(): Promise<void> {
     total: licitacoes.length,
     truncado,
     observacao:
-      'Editais de cultura abertos no Paraná. A cobertura depende de o órgão publicar no PNCP. A categoria é inferida por palavras-chave do objeto.',
+      'Licitações de cultura e tecnologia abertas no Paraná. A cobertura depende de o órgão publicar no PNCP. A classificação é inferida por palavras-chave do objeto.',
     licitacoes,
   };
 

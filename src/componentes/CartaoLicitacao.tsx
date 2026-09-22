@@ -1,4 +1,4 @@
-import { corCategoria, rotuloCategoria } from '../lib/categorias';
+import { corCategoria, principalDoSegmento, rotuloCategoria, rotuloSegmento } from '../lib/segmentos';
 import {
   diasRestantes,
   formatarData,
@@ -8,18 +8,22 @@ import {
   rotuloPrazo,
 } from '../lib/formato';
 import { urlSegura } from '../lib/seguranca';
-import type { Licitacao } from '../lib/tipos';
+import type { Licitacao, Segmento } from '../lib/tipos';
 
 interface Props {
   licitacao: Licitacao;
+  segmento: Segmento;
 }
 
-export function CartaoLicitacao({ licitacao }: Props) {
+export function CartaoLicitacao({ licitacao, segmento }: Props) {
   const dias = diasRestantes(licitacao.dataEncerramentoProposta);
   const nivel = nivelPrazo(dias);
   const identificacao =
     licitacao.numeroControlePncp || licitacao.numeroCompra || `ID ${licitacao.id}`;
-  const cor = corCategoria(licitacao.categoriaPrincipal);
+
+  const principal = principalDoSegmento(licitacao, segmento) ?? licitacao.categoriaPrincipal;
+  const cor = corCategoria(principal ?? '');
+  const outrosSegmentos = licitacao.segmentos.filter((s) => s !== segmento);
 
   const linkPncp = urlSegura(licitacao.linkPncp || licitacao.link);
   const linkOrigem = urlSegura(licitacao.linkSistemaOrigem);
@@ -36,10 +40,15 @@ export function CartaoLicitacao({ licitacao }: Props) {
               borderColor: `${cor}40`,
             }}
           >
-            {rotuloCategoria(licitacao.categoriaPrincipal)}
+            {principal ? rotuloCategoria(principal) : rotuloSegmento(segmento)}
           </span>
           <span className="badge">{licitacao.esfera}</span>
           <span className="badge">{licitacao.modalidade}</span>
+          {outrosSegmentos.map((s) => (
+            <span key={s} className="badge badge--outro-segmento">
+              + {rotuloSegmento(s)}
+            </span>
+          ))}
         </div>
         <span className={`prazo prazo--${nivel}`}>{rotuloPrazo(dias)}</span>
       </header>
@@ -92,7 +101,7 @@ export function CartaoLicitacao({ licitacao }: Props) {
       <footer className="cartao__rodape">
         <div className="cartao__rotulos">
           {licitacao.categorias
-            .filter((c) => c !== licitacao.categoriaPrincipal)
+            .filter((c) => c !== principal)
             .slice(0, 4)
             .map((c) => (
               <span key={c} className="badge badge--fino">
@@ -113,12 +122,7 @@ export function CartaoLicitacao({ licitacao }: Props) {
             </a>
           )}
           {linkOrigem && (
-            <a
-              className="botao-link"
-              href={linkOrigem}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a className="botao-link" href={linkOrigem} target="_blank" rel="noopener noreferrer">
               Sistema de origem
               <span className="botao-link__seta">↗</span>
             </a>

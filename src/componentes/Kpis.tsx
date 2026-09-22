@@ -1,4 +1,4 @@
-import { corCategoria, rotuloCategoria } from '../lib/categorias';
+import { corCategoria, rotuloCategoria } from '../lib/segmentos';
 import type { Licitacao } from '../lib/tipos';
 import { formatarMoeda, diasRestantes } from '../lib/formato';
 
@@ -20,9 +20,13 @@ export function Kpis({ licitacoes, truncado }: Props) {
 
   const municipios = new Set(licitacoes.map((l) => l.municipio)).size;
 
-  const porCategoria = new Map<string, number>();
+  const porCategoria = new Map<string | null, number>();
   for (const l of licitacoes) {
-    porCategoria.set(l.categoriaPrincipal, (porCategoria.get(l.categoriaPrincipal) ?? 0) + 1);
+    if (l.categoriaPrincipal) {
+      porCategoria.set(l.categoriaPrincipal, (porCategoria.get(l.categoriaPrincipal) ?? 0) + 1);
+    } else {
+      porCategoria.set(null, (porCategoria.get(null) ?? 0) + 1);
+    }
   }
   const principal = [...porCategoria.entries()].sort((a, b) => b[1] - a[1])[0];
 
@@ -53,7 +57,7 @@ export function Kpis({ licitacoes, truncado }: Props) {
       <div className="kpi">
         <p className="kpi__rotulo">Categoria recorrente</p>
         <p className="kpi__valor kpi__valor--rotulo">
-          {principal ? (
+          {principal && principal[0] ? (
             <span style={{ color: corCategoria(principal[0]) }}>{rotuloCategoria(principal[0])}</span>
           ) : (
             '—'
