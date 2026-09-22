@@ -103,6 +103,8 @@ O PNCP é lento e limita requisições. Para não repetir chamadas, cada página
 3. A URL fica em `https://<usuario>.github.io/lotus-radar/`.
 4. A coleta roda automaticamente todo dia (`cron: 0 9 * * *`, 06h de Brasília) e também pode ser disparada à mão em **Actions → Radar Cultural PR → Run workflow**.
 
+> Observação: o GitHub Actions ignora commits cuja mensagem contenha `[skip ci]` (é o que o commit automático da coleta usa para não republicar a cada dia). Para disparar um deploy via push, **não** inclua `[skip ci]` na mensagem.
+
 Se usar domínio próprio, ajuste `base` em `vite.config.ts` para `'/'` (ou defina a variável `BASE_PATH`).
 
 ## Limites conhecidos
