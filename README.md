@@ -5,6 +5,16 @@ Radar de **licitações e editais de cultura do Paraná** — Governo do Estado 
 - Fonte oficial: **PNCP** (Portal Nacional de Contratações Públicas), API `/api/consulta/v1/contratacoes/proposta`.
 - Site 100% estático (GitHub Pages). Um job do GitHub Actions coleta os dados, grava um snapshot JSON e publica o site.
 
+## Segmentos (abas)
+
+A interface é preparada para múltiplos segmentos. Hoje existe a aba **Cultural** (ativa). A aba **Tecnologia** está prevista para a próxima etapa:
+
+- Criar `src/lib/segmentos/tecnologia.ts` com a mesma arquitetura de `categorias.ts` (radicais + âncoras + exclusões) para classificar objetos de TI (software, redes, equipamentos, serviços de nuvem etc.).
+- Adicionar o classificador ao **coletor**, que passa a gerar licitações rotuladas por segmento (`cultura`, `tecnologia` ou ambos).
+- Ativar a aba no dashboard, com os mesmos filtros e KPIs aplicados ao segmento escolhido.
+
+O layout já define a navegação (`src/App.tsx`, classe `.segmentos`) e o tipo `Segmento` pode ser adicionado em `src/lib/tipos.ts` sem quebrar o snapshot atual.
+
 ## Por que existe um job de coleta
 
 A API do PNCP **não envia cabeçalhos CORS**, então o navegador não pode chamá-la direto. Ela também é lenta, limita requisições (às vezes respondendo `200` com HTML em vez de JSON) e cai com frequência. Por isso os dados são coletados fora do navegador, por um job agendado, e servidos como arquivo estático — o site abre rápido e continua no ar mesmo se o PNCP estiver fora.
@@ -14,6 +24,7 @@ A API do PNCP **não envia cabeçalhos CORS**, então o navegador não pode cham
 ```
 scripts/coletar.ts        Coletor PNCP: retry/backoff, paginação, orçamento de tempo, snapshot
 src/lib/categorias.ts     Classificador de cultura por palavras-chave (compartilhado)
+src/lib/seguranca.ts      Sanitização de URLs externas (http/https)
 src/lib/tipos.ts          Tipos do snapshot e da licitação
 src/lib/filtros.ts        Regras de filtro/ordenação (funções puras)
 src/lib/formato.ts        Formatação de moeda, data e prazo
@@ -83,6 +94,15 @@ Se usar domínio próprio, ajuste `base` em `vite.config.ts` para `'/'` (ou defi
 - A cobertura depende de o órgão publicar no PNCP. Alguns municípios pequenos usam sistemas próprios e podem não aparecer.
 - O coletor tem limites de páginas e de tempo; quando corta, o snapshot é marcado como **parcial**.
 - `valorTotalEstimado` ausente ou zero é tratado como **não informado** (nunca como R$ 0,00).
+
+## Segurança
+
+O site é estático e não guarda dados de usuários, mas trata conteúdo **externo** (objetos, links e informações complementares vindos do PNCP):
+
+- **URLs**: todo link exibido passa por `src/lib/seguranca.ts` (`urlSegura`) — aceita apenas `http`/`https`, sem credenciais embutidas e com tamanho limitado. A sanitização é aplicada na coleta (`scripts/coletar.ts`, `scripts/reprocessar.ts`) e de novo na renderização (`CartaoLicitacao.tsx`) como defesa em profundidade.
+- **CSP**: o build injeta uma Content-Security-Policy restritiva (`default-src 'self'`, sem scripts inline, `object-src 'none'`, `frame-ancestors 'none'`), via plugin em `vite.config.ts`.
+- **Código/caracteres**: o conteúdo é renderizado com React (XSS mitigado por padrão); o coletor valida e limita tamanhos de todos os campos.
+- **Dependências**: `npm audit` acompanhado; as dependências de produção são só `react`/`react-dom`.
 
 ## Licença
 

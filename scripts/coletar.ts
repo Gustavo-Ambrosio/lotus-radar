@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { classificar } from '../src/lib/categorias';
+import { urlSegura } from '../src/lib/seguranca';
 import type { Esfera, Licitacao, Snapshot } from '../src/lib/tipos';
 
 const BASE_PNCP = 'https://pncp.gov.br/api/consulta/v1';
@@ -121,7 +122,7 @@ function valorOuNulo(valor?: number | null): number | null {
 
 function urlSistemaOrigem(item: ItemPncp): string | null {
   const sistema = item.linkSistemaOrigem || item.linkProcessoEletronico;
-  return sistema && /^https?:\/\//i.test(sistema) ? sistema : null;
+  return urlSegura(sistema);
 }
 
 function urlPncp(item: ItemPncp): string {

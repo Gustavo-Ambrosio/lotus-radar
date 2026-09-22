@@ -29,41 +29,37 @@ export function Kpis({ licitacoes, truncado }: Props) {
   return (
     <section className="kpis" aria-label="Indicadores">
       <div className="kpi">
-        <div className="kpi__rotulo">Editais abertos</div>
-        <div className="kpi__valor">{total.toLocaleString('pt-BR')}</div>
-        <div className="kpi__nota">
-          {truncado ? 'Coleta parcial nesta atualização' : 'Todas as inscrições abertas'}
-        </div>
+        <p className="kpi__rotulo">Oportunidades abertas</p>
+        <p className="kpi__valor">{total.toLocaleString('pt-BR')}</p>
+        <p className="kpi__nota">{truncado ? 'Coleta parcial nesta atualização' : 'Com inscrição em aberto'}</p>
       </div>
       <div className="kpi">
-        <div className="kpi__rotulo">Encerram em até 7 dias</div>
-        <div className="kpi__valor">{urgentes.toLocaleString('pt-BR')}</div>
-        <div className="kpi__nota">Prioridade de análise</div>
+        <p className="kpi__rotulo">Encerram em 7 dias</p>
+        <p className="kpi__valor kpi__valor--alerta">{urgentes.toLocaleString('pt-BR')}</p>
+        <p className="kpi__nota">Prioridade de análise</p>
       </div>
       <div className="kpi">
-        <div className="kpi__rotulo">Valor estimado somado</div>
-        <div className="kpi__valor" style={{ fontSize: '1.35rem' }}>
-          {formatarMoeda(valorTotal)}
-        </div>
-        <div className="kpi__nota">
+        <p className="kpi__rotulo">Valor estimado somado</p>
+        <p className="kpi__valor kpi__valor--compacto">{formatarMoeda(valorTotal)}</p>
+        <p className="kpi__nota">
           {comValor.length} de {total} com valor informado
-        </div>
+        </p>
       </div>
       <div className="kpi">
-        <div className="kpi__rotulo">Municípios atendidos</div>
-        <div className="kpi__valor">{municipios.toLocaleString('pt-BR')}</div>
-        <div className="kpi__nota">Do total de 399 do Paraná</div>
+        <p className="kpi__rotulo">Municípios atendidos</p>
+        <p className="kpi__valor">{municipios.toLocaleString('pt-BR')}</p>
+        <p className="kpi__nota">De 399 municípios do Paraná</p>
       </div>
       <div className="kpi">
-        <div className="kpi__rotulo">Categoria predominante</div>
-        <div className="kpi__valor" style={{ fontSize: '1.15rem' }}>
+        <p className="kpi__rotulo">Categoria recorrente</p>
+        <p className="kpi__valor kpi__valor--rotulo">
           {principal ? (
             <span style={{ color: corCategoria(principal[0]) }}>{rotuloCategoria(principal[0])}</span>
           ) : (
             '—'
           )}
-        </div>
-        <div className="kpi__nota">{principal ? `${principal[1]} editais` : 'Sem dados'}</div>
+        </p>
+        <p className="kpi__nota">{principal ? `${principal[1]} oportunidades` : 'Sem dados'}</p>
       </div>
     </section>
   );

@@ -2,6 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { classificar } from '../src/lib/categorias';
+import { urlSegura } from '../src/lib/seguranca';
 import type { Licitacao, Snapshot } from '../src/lib/tipos';
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
@@ -34,9 +35,11 @@ function reprocessar(licitacao: Licitacao): Licitacao | null {
   const linkAtual = licitacao.link || '';
   const linkPncp =
     licitacao.linkPncp || (/^https?:\/\/pncp\.gov\.br\//i.test(linkAtual) ? linkAtual : derivado.linkPncp);
-  const linkSistemaOrigem =
-    licitacao.linkSistemaOrigem ??
-    (linkAtual && !/^https?:\/\/pncp\.gov\.br\//i.test(linkAtual) ? linkAtual : null);
+  const linkSistemaOrigem = licitacao.linkSistemaOrigem
+    ? urlSegura(licitacao.linkSistemaOrigem)
+    : linkAtual && !/^https?:\/\/pncp\.gov\.br\//i.test(linkAtual)
+      ? urlSegura(linkAtual)
+      : null;
 
   return {
     ...licitacao,

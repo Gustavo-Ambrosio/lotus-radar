@@ -7,6 +7,7 @@ import {
   nivelPrazo,
   rotuloPrazo,
 } from '../lib/formato';
+import { urlSegura } from '../lib/seguranca';
 import type { Licitacao } from '../lib/tipos';
 
 interface Props {
@@ -18,51 +19,68 @@ export function CartaoLicitacao({ licitacao }: Props) {
   const nivel = nivelPrazo(dias);
   const identificacao =
     licitacao.numeroControlePncp || licitacao.numeroCompra || `ID ${licitacao.id}`;
+  const cor = corCategoria(licitacao.categoriaPrincipal);
+
+  const linkPncp = urlSegura(licitacao.linkPncp || licitacao.link);
+  const linkOrigem = urlSegura(licitacao.linkSistemaOrigem);
 
   return (
-    <article className="cartao" style={{ borderLeftColor: corCategoria(licitacao.categoriaPrincipal) }}>
-      <div className="cartao__topo">
-        <span
-          className="badge"
-          style={{
-            background: `${corCategoria(licitacao.categoriaPrincipal)}1a`,
-            color: corCategoria(licitacao.categoriaPrincipal),
-          }}
-        >
-          {rotuloCategoria(licitacao.categoriaPrincipal)}
-        </span>
-        <span className="badge badge--contorno">{licitacao.esfera}</span>
-        <span className="badge badge--contorno">{licitacao.modalidade}</span>
-        <span className={`badge badge--prazo prazo--${nivel}`}>{rotuloPrazo(dias)}</span>
-      </div>
+    <article className="cartao">
+      <header className="cartao__topo">
+        <div className="cartao__selos">
+          <span
+            className="badge badge--categoria"
+            style={{
+              color: cor,
+              background: `${cor}1f`,
+              borderColor: `${cor}40`,
+            }}
+          >
+            {rotuloCategoria(licitacao.categoriaPrincipal)}
+          </span>
+          <span className="badge">{licitacao.esfera}</span>
+          <span className="badge">{licitacao.modalidade}</span>
+        </div>
+        <span className={`prazo prazo--${nivel}`}>{rotuloPrazo(dias)}</span>
+      </header>
 
-      <p className="cartao__objeto">{licitacao.objeto}</p>
+      <h3 className="cartao__objeto">{licitacao.objeto}</h3>
 
-      <p className="cartao__inscricao">
-        <span className="cartao__inscricao-rotulo">Período de inscrição</span>
-        <strong>
+      <p className="inscricao">
+        <span className="inscricao__rotulo">Período de inscrição</span>
+        <strong className="inscricao__datas">
           {formatarPeriodo(licitacao.dataAberturaProposta, licitacao.dataEncerramentoProposta)}
         </strong>
+        <span className="inscricao__nota">
+          {dias !== null && dias >= 0 ? `${dias} dia(s) restante(s)` : 'encerrada'}
+        </span>
       </p>
 
-      <div className="cartao__dados">
-        <span>
-          Órgão: <strong>{licitacao.orgao}</strong>
-          {licitacao.cnpj ? ` (${licitacao.cnpj})` : ''}
-        </span>
-        <span>
-          Município: <strong>{licitacao.municipio}</strong>
-        </span>
-        <span>
-          Identificação: <strong>{identificacao}</strong>
-        </span>
-        <span>
-          Publicado: <strong>{formatarData(licitacao.dataPublicacao)}</strong>
-        </span>
-        <span>
-          Valor estimado: <strong>{formatarMoeda(licitacao.valorEstimado)}</strong>
-        </span>
-      </div>
+      <dl className="cartao__dados">
+        <div>
+          <dt>Órgão</dt>
+          <dd>
+            {licitacao.orgao}
+            {licitacao.cnpj ? <span className="cartao__dados-cnpj">{licitacao.cnpj}</span> : null}
+          </dd>
+        </div>
+        <div>
+          <dt>Município</dt>
+          <dd>{licitacao.municipio}</dd>
+        </div>
+        <div>
+          <dt>Identificação</dt>
+          <dd>{identificacao}</dd>
+        </div>
+        <div>
+          <dt>Publicado</dt>
+          <dd>{formatarData(licitacao.dataPublicacao)}</dd>
+        </div>
+        <div>
+          <dt>Valor estimado</dt>
+          <dd>{formatarMoeda(licitacao.valorEstimado)}</dd>
+        </div>
+      </dl>
 
       {licitacao.informacaoComplementar && (
         <details className="cartao__complemento">
@@ -71,38 +89,42 @@ export function CartaoLicitacao({ licitacao }: Props) {
         </details>
       )}
 
-      <div className="cartao__acoes">
-        <div className="chips">
+      <footer className="cartao__rodape">
+        <div className="cartao__rotulos">
           {licitacao.categorias
             .filter((c) => c !== licitacao.categoriaPrincipal)
             .slice(0, 4)
             .map((c) => (
-              <span key={c} className="badge badge--contorno">
+              <span key={c} className="badge badge--fino">
                 {rotuloCategoria(c)}
               </span>
             ))}
         </div>
         <div className="cartao__links">
-          <a
-            className="link-edital"
-            href={licitacao.linkPncp || licitacao.link}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ver no PNCP →
-          </a>
-          {licitacao.linkSistemaOrigem && (
+          {linkPncp && (
             <a
-              className="link-edital link-edital--secundario"
-              href={licitacao.linkSistemaOrigem}
+              className="botao-link botao-link--primario"
+              href={linkPncp}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Sistema de origem →
+              Acessar edital
+              <span className="botao-link__seta">↗</span>
+            </a>
+          )}
+          {linkOrigem && (
+            <a
+              className="botao-link"
+              href={linkOrigem}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Sistema de origem
+              <span className="botao-link__seta">↗</span>
             </a>
           )}
         </div>
-      </div>
+      </footer>
     </article>
   );
 }
