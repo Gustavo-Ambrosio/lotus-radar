@@ -1114,6 +1114,14 @@ strong {
   z-index: 1;
 }
 
+.mapa__moldura--carregando {
+  min-height: 200px;
+  display: grid;
+  place-items: center;
+  color: var(--tinta-fraca);
+  font-size: 0.9rem;
+}
+
 .mapa__dica {
   margin: 10px 2px 0;
   font-size: 0.82rem;

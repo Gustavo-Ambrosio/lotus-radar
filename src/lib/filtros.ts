@@ -1,7 +1,7 @@
 import type { Licitacao } from './tipos';
 import { diasRestantes } from './formato';
 import { normalizarTexto } from './texto';
-import { coordenadasDeLicitacao, distanciaKm, type Coordenadas } from './geo';
+import { coordenadasDeLicitacao, distanciaKm, municipiosCarregados, type Coordenadas } from './geo';
 
 export interface Filtros {
   busca: string;
@@ -54,7 +54,9 @@ export function aplicarFiltros(
     if (filtros.municipio && item.municipio !== filtros.municipio) return false;
     if (filtros.esfera && item.esfera !== filtros.esfera) return false;
     if (filtros.modalidade && item.modalidade !== filtros.modalidade) return false;
-    if (filtros.distanciaMaxKm !== null && localizacao) {
+    // Distância depende da lista de municípios (carregada em runtime); sem ela o filtro é
+    // ignorado de forma transparente (evita listagem vazia enquanto os dados carregam).
+    if (filtros.distanciaMaxKm !== null && localizacao && municipiosCarregados()) {
       const origem = coordenadasDeLicitacao(item.uf, item.municipio);
       if (!origem) return false;
       if (distanciaKm(localizacao, origem) > filtros.distanciaMaxKm) return false;

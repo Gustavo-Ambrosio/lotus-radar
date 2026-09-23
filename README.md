@@ -27,7 +27,7 @@ O snapshot contém **somente oportunidades abertas**: a cada coleta, e também n
 ```
 scripts/coletar.ts        Coletor PNCP: 27 UFs (+orgãos federais), retry/backoff, paginação, orçamento, snapshot
 scripts/coletar-sic.ts    Coletor SIC Cultura (editais de fomento do PR), best-effort com cache
-scripts/gerar-geo-br.ts   Regenera municipios-br.ts (municípios + coordenadas) a partir do IBGE e GeoJSON
+scripts/gerar-geo-br.ts   Regenera municipios-br.ts + public/dados/municipios.json (lista oficial IBGE com coordenadas)
 src/lib/categorias.ts     Classificador de cultura por palavras-chave (compartilhado)
 src/lib/segmentos/tecnologia.ts  Classificador de tecnologia por palavras-chave
 src/lib/segmentos.ts      Registro unificado de segmentos/categorias (rótulo, cor, principal)
@@ -41,11 +41,12 @@ src/lib/agrupar.ts        Agrupamento da lista por dia (Hoje/Ontem/data)
 src/lib/destaque.ts       Destaque dos termos da busca no cartão
 src/lib/exportar.ts       Exportação CSV/JSON do recorte filtrado
 src/lib/geo.ts            UFs, distância (haversine) e lookup de municípios no mapa/filtros
-src/lib/municipios-br.ts  Lista oficial IBGE: 5.570 municípios com coordenadas (mapa + filtros)
+src/lib/municipios-br.ts  Lista IBGE embutida — usada em scripts/testes; o app carrega a versão JSON em runtime
 scripts/gerar-feeds.ts    Gera feed.rss e calendario.ics no build
-src/componentes/          KPIs, filtros, cartões e mapa (Leaflet)
+src/componentes/          KPIs, filtros, cartões e mapa (Leaflet, carregado sob demanda)
 src/App.tsx               Dashboard
 public/dados/licitacoes.json   Snapshot publicado
+public/dados/municipios.json   Municípios em JSON compacto, carregado em runtime (fora do bundle inicial)
 .github/workflows/pages.yml    Coleta diária + build + deploy no Pages
 ```
 
@@ -79,7 +80,7 @@ Os **filtros ativos** aparecem como chips removíveis, um a um, acima do botão 
 
 - **URL compartilhável**: cada combinação de segmento + filtros fica salva na query string (`?seg=tecnologia&uf=PR&busca=rede&municipio=Curitiba&distancia=100`). Copie com o botão **"Copiar link"** acima da lista e compartilhe o recorte exato.
 - **Agrupamento por dia**: a lista é organizada em **Hoje / Ontem / data** conforme a data de publicação, com ordenação interna seguindo o filtro escolhido.
-- **Mapa do Brasil** (Leaflet): o botão **"Ver mapa"** mostra um ponto por município com tamanho proporcional ao número de oportunidades; cada ponto pode ser usado para **filtrar** por aquele município. As coordenadas vêm de `src/lib/geo.ts` + `src/lib/municipios-br.ts` (gerados por `scripts/gerar-geo-br.ts` a partir da lista do IBGE e do GeoJSON público).
+- **Mapa do Brasil** (Leaflet): o botão **"Ver mapa"** mostra um ponto por município com tamanho proporcional ao número de oportunidades; cada ponto pode ser usado para **filtrar** por aquele município. Como o Leaflet e a lista de municípios são carregados **sob demanda** (chunk separado + `public/dados/municipios.json`), o bundle inicial fica enxuto e o mapa só baixa o que precisa.
 - **Cartões**: o termo da busca fica **destacado em amarelo**, selos indicam **"novo"** (publicado nas últimas 72h) e **"encerra em Xh"** (últimas 24h), o cartão indica a **criticidade** pela borda (vermelho = encerra em ≤ 3 dias, âmbar = ≤ 10 dias) e dá para **expandir** para ver as informações complementares sem sair da lista.
 - **Exportar e assinar**: acima da lista, os botões **CSV** e **JSON** exportam exatamente o recorte filtrado. O build também gera **`dist/feed.rss`** (últimos 50 em RSS) e **`dist/calendario.ics`** (todos encerrando em um calendário do iCal), acessíveis em `/feed.rss` e `/calendario.ics` e linkados no rodapé — dá para assinar e acompanhar em qualquer leitor de feeds ou agenda.
 
@@ -137,6 +138,8 @@ Se usar domínio próprio, ajuste `base` em `vite.config.ts` para `'/'` (ou defi
 ## Limites conhecidos
 
 - A cobertura depende de o órgão publicar no PNCP. Alguns municípios pequenos usam sistemas próprios e podem não aparecer.
+- Editais de **fomento (PNAB, Ministério da Cultura, fundos de cultura)** que não passam pelo PNCP ficam de fora: o Mapa da Cultura/CultBR (que os centraliza em todo o país) não expõe API pública estruturada e a página de editais do gov.br não tem prazo detectável de forma confiável em texto (as datas são baixadas em PDF). Próxima evolução natural é um coletor dedicado quando houver endpoint estruturado.
+- A classificação considera somente o **objeto**. Usar também a *informação complementar* foi testado, mas gerou falsos positivos em massa (ex.: "meio de cultura" em compras de laboratório, "creche" virando tecnologia) e foi mantida a regra conservadora atual.
 - O coletor tem limites de páginas e de tempo; quando corta, o snapshot é marcado como **parcial**.
 - `valorTotalEstimado` ausente ou zero é tratado como **não informado** (nunca como R$ 0,00).
 - O coletor do SIC Cultura é **best-effort**: o portal divulga prazos em linguagem natural; só entram os editais com data de encerramento futura claramente detectável.

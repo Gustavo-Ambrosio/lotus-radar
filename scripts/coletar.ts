@@ -159,6 +159,9 @@ function normalizar(item: ItemPncp, agora: number): Licitacao | null {
   if (!encerramento) return null;
   if (estaEncerrada(encerramento, item.situacaoCompraNome, agora)) return null;
 
+  // A classificação usa somente o objeto. Informação complementar já foi testada como fonte
+  // extra de recall, mas produziu falsos positivos em massa (ex.: "meio de cultura" em compras
+  // de laboratório) e foi descartada. Ver histórico de commits.
   const classificacao = classificar(objeto);
   const classificacaoTecnologia = classificarTecnologia(objeto);
 

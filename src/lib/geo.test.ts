@@ -1,12 +1,23 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+  carregarMunicipios,
+  definirMunicipios,
   distanciaKm,
+  municipiosCarregados,
   municipioPorNome,
   municipiosDoEstado,
   NOME_UF,
   UFS_ORDENADAS,
 } from './geo';
 import { MUNICIPIOS_BR } from './municipios-br';
+
+beforeEach(() => {
+  definirMunicipios(MUNICIPIOS_BR);
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe('geo', () => {
   it('calcula distância aproximada entre Curitiba e Londrina', () => {
@@ -55,5 +66,30 @@ describe('geo', () => {
   it('encontra municípios recém-criados', () => {
     expect(municipioPorNome('Boa Esperança do Norte')?.uf).toBe('MT');
     expect(municipioPorNome('Pinto Bandeira')?.uf).toBe('RS');
+  });
+
+  it('carrega municípios do arquivo no formato compacto', async () => {
+    const corpo = JSON.stringify([['4104901', 'PR', 'Curitiba', -25.43, -49.27]]);
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response(corpo, { status: 200 })),
+    );
+    definirMunicipios([]);
+    expect(municipiosCarregados()).toBe(false);
+
+    const carregados = await carregarMunicipios();
+    expect(carregados).toHaveLength(1);
+    expect(municipiosCarregados()).toBe(true);
+    expect(municipioPorNome('curitiba')?.uf).toBe('PR');
+  });
+
+  it('fica sem dados quando o carregamento falha', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('erro', { status: 404 })),
+    );
+    definirMunicipios([]);
+    await expect(carregarMunicipios()).rejects.toThrow(/404/);
+    expect(municipiosCarregados()).toBe(false);
   });
 });

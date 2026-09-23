@@ -1,4 +1,4 @@
-import { MUNICIPIOS_BR, type MunicipioBrasil } from './municipios-br';
+import type { MunicipioBrasil } from './municipios-br';
 
 export interface Coordenadas {
   lat: number;
@@ -39,23 +39,67 @@ export const UFS_ORDENADAS: ReadonlyArray<string> = Object.entries(NOME_UF)
   .sort((a, b) => a[1].localeCompare(b[1], 'pt-BR'))
   .map(([sigla]) => sigla);
 
+// A lista de municípios (5.570 municípios do IBGE) é carregada em runtime a partir de
+// public/dados/municipios.json para não embutir ~100 KB no bundle inicial. Scripts e testes
+// chamam definirMunicipios() com os dados embutidos de municipios-br.ts.
+let MUNICIPIOS: MunicipioBrasil[] = [];
+
+export function definirMunicipios(dados: ReadonlyArray<MunicipioBrasil>): void {
+  MUNICIPIOS = dados.map((m) => ({ ...m }));
+}
+
+export function municipiosCarregados(): boolean {
+  return MUNICIPIOS.length > 0;
+}
+
+/** Formato compacto do municipios.json: [codigoIbge, uf, nome, lat, lng]. */
+function deTupla(tupla: unknown[]): MunicipioBrasil | null {
+  const [codigoIbge, uf, nome, lat, lng] = tupla as [unknown, unknown, unknown, unknown, unknown];
+  if (typeof codigoIbge !== 'string' || !codigoIbge) return null;
+  return {
+    codigoIbge,
+    uf: String(uf ?? '').toUpperCase(),
+    nome: String(nome ?? '').trim(),
+    lat: Number(lat),
+    lng: Number(lng),
+  };
+}
+
+export async function carregarMunicipios(
+  url = './dados/municipios.json',
+): Promise<MunicipioBrasil[]> {
+  const resposta = await fetch(url, { headers: { accept: 'application/json' } });
+  if (!resposta.ok) throw new Error(`HTTP ${resposta.status} ao carregar ${url}`);
+  const bruto = (await resposta.json()) as unknown;
+  const lista = Array.isArray(bruto)
+    ? bruto
+        .filter(Array.isArray)
+        .map(deTupla)
+        .filter((m): m is MunicipioBrasil => m !== null)
+    : [];
+  definirMunicipios(lista);
+  return MUNICIPIOS;
+}
+
 export function municipiosDoEstado(uf: string): MunicipioBrasil[] {
   const alvo = uf.trim().toUpperCase();
-  if (!alvo) return [...MUNICIPIOS_BR];
-  return MUNICIPIOS_BR.filter((m) => m.uf === alvo);
+  if (!alvo) return [...MUNICIPIOS];
+  return MUNICIPIOS.filter((m) => m.uf === alvo);
 }
 
 export function municipioPorCodigoIbge(codigoIbge: string): MunicipioBrasil | null {
-  return MUNICIPIOS_BR.find((m) => m.codigoIbge === codigoIbge) ?? null;
+  return MUNICIPIOS.find((m) => m.codigoIbge === codigoIbge) ?? null;
 }
 
 export function municipioPorNome(nome: string, uf = ''): MunicipioBrasil | null {
   const busca = normalizarMunicipio(nome);
   if (!busca) return null;
   const alvo = uf.trim().toUpperCase();
-  return MUNICIPIOS_BR.find(
-    (m) => (!alvo || m.uf === alvo) && normalizarMunicipio(m.nome) === busca,
-  ) ?? null;
+  return (
+    MUNICIPIOS.find(
+      (m) => (!alvo || m.uf === alvo) && normalizarMunicipio(m.nome) === busca,
+    ) ?? null
+  );
 }
 
 export function normalizarMunicipio(valor: string): string {

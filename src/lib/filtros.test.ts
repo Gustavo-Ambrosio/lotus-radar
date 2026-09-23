@@ -1,6 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { aplicarFiltros, FILTROS_INICIAIS, type Filtros } from './filtros';
+import { definirMunicipios } from './geo';
+import { MUNICIPIOS_BR } from './municipios-br';
 import type { Licitacao } from './tipos';
+
+beforeEach(() => {
+  definirMunicipios(MUNICIPIOS_BR);
+});
 
 function licitacao(parte: Partial<Licitacao>): Licitacao {
   return {

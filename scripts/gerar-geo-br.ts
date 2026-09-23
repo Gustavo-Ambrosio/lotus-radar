@@ -6,6 +6,7 @@ const GEO_BASE = 'https://raw.githubusercontent.com/tbrugz/geodata-br/master/geo
 const CACHE_DIR = new URL('../.cache/geo/', import.meta.url);
 const CACHE_IBGE = new URL('brasil-municipios-ibge.json', CACHE_DIR);
 const SAIDA = new URL('../src/lib/municipios-br.ts', import.meta.url);
+const SAIDA_JSON = new URL('../public/dados/municipios.json', import.meta.url);
 
 const UFS = [
   'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS',
@@ -171,10 +172,18 @@ async function principal(): Promise<void> {
 
   municipios.sort((a, b) => (a.uf === b.uf ? a.nome.localeCompare(b.nome, 'pt-BR') : a.uf.localeCompare(b.uf)));
 
-  const linhas = municipios
+  // Coordenadas arredondadas para 2 casas (~1 km): suficiente para o radar de distância e
+  // reduz o peso dos dados embutidos no bundle.
+  const arredondados = municipios.map((m) => ({
+    ...m,
+    lat: Number(m.lat.toFixed(2)),
+    lng: Number(m.lng.toFixed(2)),
+  }));
+
+  const linhas = arredondados
     .map((m) => {
       const nome = m.nome.replace(/'/g, "\\'");
-      return `  { codigoIbge: '${m.codigoIbge}', uf: '${m.uf}', nome: '${nome}', lat: ${m.lat.toFixed(4)}, lng: ${m.lng.toFixed(4)} },`;
+      return `  { codigoIbge: '${m.codigoIbge}', uf: '${m.uf}', nome: '${nome}', lat: ${m.lat}, lng: ${m.lng} },`;
     })
     .join('\n');
 
@@ -197,6 +206,15 @@ ${linhas}
 
   writeFileSync(SAIDA, conteudo);
   console.log(`OK: ${municipios.length} municípios → ${SAIDA.pathname}`);
+
+  const tuplas = arredondados.map((m) => [m.codigoIbge, m.uf, m.nome, m.lat, m.lng]);
+  // JSON puro (sem comentários) — precisa ser válido para response.json().
+  const corpoJson = `[
+${tuplas.map((t) => `  ${JSON.stringify(t)}`).join(',\n')}
+]
+`;
+  writeFileSync(SAIDA_JSON, corpoJson);
+  console.log(`OK: ${tuplas.length} municípios → ${SAIDA_JSON.pathname}`);
 }
 
 principal().catch((e: unknown) => {

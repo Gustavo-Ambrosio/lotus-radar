@@ -1,17 +1,20 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { categoriasDoSegmento } from './lib/segmentos';
 import { aplicarFiltros, FILTROS_INICIAIS, valoresUnicos, type Filtros } from './lib/filtros';
 import { formatarDataHora } from './lib/formato';
 import { agruparPorDia } from './lib/agrupar';
 import { filtrosDaUrl, montarQuery, segmentoDaUrl } from './lib/url';
 import { baixarArquivo, licitacoesParaCsv } from './lib/exportar';
-import { UFS_ORDENADAS, type Coordenadas } from './lib/geo';
-import { MUNICIPIOS_BR } from './lib/municipios-br';
+import { carregarMunicipios, UFS_ORDENADAS, type Coordenadas } from './lib/geo';
+import type { MunicipioBrasil } from './lib/municipios-br';
 import type { Segmento, Snapshot } from './lib/tipos';
 import { Kpis } from './componentes/Kpis';
 import { PainelFiltros } from './componentes/Filtros';
 import { CartaoLicitacao } from './componentes/CartaoLicitacao';
-import { MapaLicitacoes } from './componentes/MapaLicitacoes';
+
+const MapaLicitacoes = lazy(() =>
+  import('./componentes/MapaLicitacoes').then((mod) => ({ default: mod.MapaLicitacoes })),
+);
 
 const SEGMENTOS: { id: Segmento; rotulo: string; emBreve: boolean }[] = [
   { id: 'cultura', rotulo: 'Cultural', emBreve: false },
@@ -42,7 +45,22 @@ export default function App() {
   const [localizacao, setLocalizacao] = useState<Coordenadas | null>(null);
   const [localizando, setLocalizando] = useState(false);
   const [localizacaoErro, setLocalizacaoErro] = useState<string | null>(null);
+  const [municipios, setMunicipios] = useState<MunicipioBrasil[]>([]);
   const primeiroRender = useRef(true);
+
+  useEffect(() => {
+    let ativo = true;
+    carregarMunicipios()
+      .then((dados) => {
+        if (ativo) setMunicipios(dados);
+      })
+      .catch((e: unknown) => {
+        console.warn('[geo] lista de municípios não carregada:', e instanceof Error ? e.message : e);
+      });
+    return () => {
+      ativo = false;
+    };
+  }, []);
 
   useEffect(() => {
     let ativo = true;
@@ -100,7 +118,6 @@ export default function App() {
     [licitacoes, segmento],
   );
 
-  const municipios = useMemo(() => MUNICIPIOS_BR, []);
   const modalidades = useMemo(
     () => valoresUnicos(licitacoesDoSegmento, (l) => l.modalidade),
     [licitacoesDoSegmento],
@@ -317,10 +334,18 @@ export default function App() {
                 </header>
 
                 {mostrarMapa && (
-                  <MapaLicitacoes
-                    licitacoes={filtradas}
-                    onFiltrarMunicipio={confirmarMunicipioNoMapa}
-                  />
+                  <Suspense
+                    fallback={
+                      <div className="mapa__moldura mapa__moldura--carregando" role="status">
+                        Carregando mapa…
+                      </div>
+                    }
+                  >
+                    <MapaLicitacoes
+                      licitacoes={filtradas}
+                      onFiltrarMunicipio={confirmarMunicipioNoMapa}
+                    />
+                  </Suspense>
                 )}
 
                 {grupos.map((grupo) => (
