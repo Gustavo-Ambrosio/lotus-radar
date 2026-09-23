@@ -24,10 +24,10 @@ jobs:
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Configurar Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
           cache: npm
@@ -37,7 +37,7 @@ jobs:
 
       - name: Cache do PNCP
         if: github.event_name != 'push'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .cache/pncp
           key: pncp-${{ github.run_id }}
@@ -58,7 +58,8 @@ jobs:
             echo "Sem mudanças no snapshot."
           else
             git commit -m "dados: atualiza snapshot [skip ci]"
-            git push
+            git pull --rebase origin main || true
+            git push origin HEAD:main
           fi
 
       - name: Build
