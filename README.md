@@ -138,6 +138,7 @@ Se usar domínio próprio, ajuste `base` em `vite.config.ts` para `'/'` (ou defi
 ## Limites conhecidos
 
 - A cobertura depende de o órgão publicar no PNCP. Alguns municípios pequenos usam sistemas próprios e podem não aparecer.
+- **Editais de fomento culturais** (Aldir Blanc/PNAB, MinC, fundos estaduais e municipais, Transferegov) geralmente **não** passam pelo PNCP, que centraliza contratações. O governo não oferece um endpoint público estruturado desses editais (MinC publica só página HTML sem prazo parseável de forma confiável), então eles ficam de fora da cobertura automática. **Sugestão para evolução**: acompanhar o cofinanciamento via crawling do gov.br/Minc ou cobrar API pública do Mapa da Cultura.
 - Editais de **fomento (PNAB, Ministério da Cultura, fundos de cultura)** que não passam pelo PNCP ficam de fora: o Mapa da Cultura/CultBR (que os centraliza em todo o país) não expõe API pública estruturada e a página de editais do gov.br não tem prazo detectável de forma confiável em texto (as datas são baixadas em PDF). Próxima evolução natural é um coletor dedicado quando houver endpoint estruturado.
 - A classificação considera somente o **objeto**. Usar também a *informação complementar* foi testado, mas gerou falsos positivos em massa (ex.: "meio de cultura" em compras de laboratório, "creche" virando tecnologia) e foi mantida a regra conservadora atual.
 - O coletor tem limites de páginas e de tempo; quando corta, o snapshot é marcado como **parcial**.
