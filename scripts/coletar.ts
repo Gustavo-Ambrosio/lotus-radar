@@ -27,9 +27,9 @@ function escopoDeUfs(): string[] {
 }
 
 const TAMANHO_PAGINA = 50;
-const MAX_PAGINAS = 120;
+const MAX_PAGINAS_POR_ESTADO = 400;
 const TIMEOUT_REQUISICAO_MS = 30_000;
-const ORCAMENTO_TOTAL_MS = 55 * 60_000;
+const ORCAMENTO_TOTAL_MS = 150 * 60_000;
 const INTERVALO_ENTRE_REQUISICOES_MS = 250;
 const DIAS_JANELA = Number(process.env.DIAS_JANELA ?? 180);
 const USER_AGENT =
@@ -346,48 +346,80 @@ async function lerCacheCompleto(): Promise<ItemPncp[] | null> {
   }
 }
 
-async function coletarPaginas(
-  uf: string,
-  modalidade?: number,
-): Promise<{ itens: ItemPncp[]; truncado: boolean; falhou: boolean }> {
+interface Consulta {
+  uf: string;
+  modalidade?: number;
+}
+
+interface EstadoConsulta {
+  consulta: Consulta;
+  pagina: number;
+  terminado: boolean;
+  falhou: boolean;
+}
+
+async function coletarEmRodizio(
+  consultas: Consulta[],
+): Promise<{ itens: ItemPncp[]; respostas: number; falhou: boolean; parcial: boolean }> {
+  const estados = consultas.map<EstadoConsulta>((consulta) => ({
+    consulta,
+    pagina: 1,
+    terminado: false,
+    falhou: false,
+  }));
   const itens: ItemPncp[] = [];
-  let pagina = 1;
-  let totalPaginas = 1;
+  let respostas = 0;
+  let parcial = false;
 
-  while (pagina <= totalPaginas) {
-    if (pagina > MAX_PAGINAS || estourouOrcamento()) {
-      console.warn(`[pncp] corte de segurança na página ${pagina} (uf=${uf})`);
-      return { itens, truncado: true, falhou: false };
-    }
+  while (!estourouOrcamento()) {
+    let algumaAvancou = false;
+    for (const estado of estados) {
+      if (estado.terminado || estourouOrcamento()) continue;
 
-    const dados = await obterResposta(urlProposta(uf, pagina, modalidade));
-    if (!dados) {
-      if (MODO_OFFLINE) {
-        const completo = await lerCacheCompleto();
-        if (completo) {
-          itens.push(...completo);
-          console.log(`[pncp] offline: ${completo.length} itens carregados do cache completo`);
-          break;
-        }
+      const c = estado.consulta;
+      const dados = await obterResposta(urlProposta(c.uf, estado.pagina, c.modalidade));
+      respostas += 1;
+      if (!dados) {
+        estado.terminado = true;
+        estado.falhou = true;
+        console.warn(
+          `[pncp] falha ao ler uf=${c.uf}${c.modalidade ? ` modalidade=${c.modalidade}` : ''} página ${estado.pagina} (sem cache)`,
+        );
+        await dormir(INTERVALO_ENTRE_REQUISICOES_MS);
+        continue;
       }
-      return { itens, truncado: true, falhou: true };
+
+      const lote = Array.isArray(dados.data) ? dados.data : [];
+      itens.push(...lote);
+
+      const totalPaginas = Number(dados.totalPaginas || 1);
+      const restantes = Number(dados.paginasRestantes ?? 0);
+      console.log(
+        `[pncp] uf=${c.uf}${c.modalidade ? ` modalidade=${c.modalidade}` : ''} pagina=${estado.pagina}/${totalPaginas} +${lote.length} (restam ${restantes})`,
+      );
+
+      if (lote.length === 0 || restantes <= 0) {
+        estado.terminado = true;
+      } else if (estado.pagina >= MAX_PAGINAS_POR_ESTADO) {
+        estado.terminado = true;
+        parcial = true;
+        console.warn(`[pncp] corte de segurança: uf=${c.uf} parou na página ${estado.pagina}`);
+      } else {
+        estado.pagina += 1;
+        algumaAvancou = true;
+      }
+      await dormir(INTERVALO_ENTRE_REQUISICOES_MS);
     }
-
-    const lote = Array.isArray(dados.data) ? dados.data : [];
-    itens.push(...lote);
-
-    totalPaginas = Number(dados.totalPaginas || 1);
-    const restantes = Number(dados.paginasRestantes ?? 0);
-    console.log(
-      `[pncp] uf=${uf} modalidade=${modalidade ?? 'todas'} pagina=${pagina}/${totalPaginas} +${lote.length} (restam ${restantes})`,
-    );
-
-    if (lote.length === 0 || restantes <= 0) break;
-    pagina += 1;
-    await dormir(INTERVALO_ENTRE_REQUISICOES_MS);
+    if (!algumaAvancou) break;
   }
 
-  return { itens, truncado: false, falhou: false };
+  if (estourouOrcamento() && estados.some((e) => !e.terminado)) {
+    parcial = true;
+    console.warn('[pncp] orçamento esgotado com estados ainda em andamento; coleta parcial.');
+  }
+
+  const falhou = estados.some((e) => e.falhou);
+  return { itens, respostas, falhou, parcial };
 }
 
 async function lerSnapshotAtual(): Promise<Snapshot | null> {
@@ -406,36 +438,38 @@ async function principal(): Promise<void> {
   );
 
   let itens: ItemPncp[] = [];
-  let truncado = false;
+  let parcial = false;
   let falhouAlgum = false;
   let respostas = 0;
 
-  for (const uf of escopo) {
-    if (estourouOrcamento()) {
-      truncado = true;
-      console.warn('[pncp] orçamento esgotado; interrompendo varredura de estados.');
-      break;
+  if (MODO_OFFLINE) {
+    const completo = await lerCacheCompleto();
+    if (completo) {
+      itens.push(...completo);
+      console.log(`[pncp] offline: ${completo.length} itens carregados do cache completo`);
+    } else {
+      console.warn('[pncp] offline: cache vazio');
     }
-    const parcial = await coletarPaginas(uf);
-    respostas += 1;
-    itens.push(...parcial.itens);
-    truncado = truncado || parcial.truncado;
-    falhouAlgum = falhouAlgum || parcial.falhou;
-    await dormir(INTERVALO_ENTRE_REQUISICOES_MS);
+  } else {
+    const varredura = await coletarEmRodizio(escopo.map<Consulta>((uf) => ({ uf })));
+    itens = varredura.itens;
+    respostas = varredura.respostas;
+    falhouAlgum = varredura.falhou;
+    parcial = varredura.parcial;
   }
 
-  if (itens.length === 0) {
+  if (itens.length === 0 && !MODO_OFFLINE) {
     console.warn('[pncp] consulta por estado voltou vazia; varrendo modalidades em âmbito nacional');
-    for (const codigo of Object.keys(MODALIDADES).map(Number)) {
-      if (estourouOrcamento()) {
-        truncado = true;
-        break;
-      }
-      const parcial = await coletarPaginas('BR', codigo);
-      itens.push(...parcial.itens);
-      truncado = truncado || parcial.truncado;
-      await dormir(INTERVALO_ENTRE_REQUISICOES_MS);
-    }
+    const varredura = await coletarEmRodizio(
+      Object.keys(MODALIDADES).map<Consulta>((codigo) => ({
+        uf: 'BR',
+        modalidade: Number(codigo),
+      })),
+    );
+    itens = varredura.itens;
+    respostas += varredura.respostas;
+    falhouAlgum = falhouAlgum || varredura.falhou;
+    parcial = parcial || varredura.parcial;
   }
 
   const agora = Date.now();
@@ -458,7 +492,7 @@ async function principal(): Promise<void> {
   });
 
   if (itens.length > 0) {
-    console.log(`[pncp] ${itens.length} registros brutos (${respostas} estados consultados)`);
+    console.log(`[pncp] ${itens.length} registros brutos (${respostas} requisições de página)`);
   }
   console.log(`[pncp] ${licitacoes.length} licitações abertas (cultura/tecnologia) | SIC: ${sic.length}`);
 
@@ -483,7 +517,7 @@ async function principal(): Promise<void> {
     estados: escopo,
     fontes,
     total: licitacoes.length,
-    truncado: truncado || falhouAlgum,
+    truncado: parcial || falhouAlgum,
     observacao:
       'Somente licitações, editais e avisos abertos (cultura e tecnologia) em todo o Brasil — municípios, estados, Distrito Federal e órgãos federais. Os encerrados são removidos a cada coleta. A cobertura depende de o órgão publicar no PNCP; a classificação é inferida por palavras-chave do objeto.',
     licitacoes,
