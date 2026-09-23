@@ -219,11 +219,18 @@ export function PainelFiltros({
         <div className="chips">
           {categorias.map((categoria) => {
             const ativo = filtros.categorias.includes(categoria.id);
+            const classe = [
+              'chip',
+              ativo ? 'chip--ativo' : '',
+              categoria.total === 0 ? 'chip--zero' : '',
+            ]
+              .filter(Boolean)
+              .join(' ');
             return (
               <button
                 type="button"
                 key={categoria.id}
-                className={ativo ? 'chip chip--ativo' : 'chip'}
+                className={classe}
                 onClick={() => alternarCategoria(categoria.id)}
                 aria-pressed={ativo}
               >

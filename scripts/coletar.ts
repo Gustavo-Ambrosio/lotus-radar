@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { classificar } from '../src/lib/categorias';
 import { classificarTecnologia } from '../src/lib/segmentos/tecnologia';
 import { urlSegura } from '../src/lib/seguranca';
+import { estaEncerrada } from '../src/lib/vigencia';
 import type { Esfera, Licitacao, Segmento, Snapshot } from '../src/lib/tipos';
 
 const BASE_PNCP = 'https://pncp.gov.br/api/consulta/v1';
@@ -140,7 +141,7 @@ function normalizar(item: ItemPncp, agora: number): Licitacao | null {
 
   const encerramento = comOffset(item.dataEncerramentoProposta);
   if (!encerramento) return null;
-  if (new Date(encerramento).getTime() < agora) return null;
+  if (estaEncerrada(encerramento, item.situacaoCompraNome, agora)) return null;
 
   const classificacao = classificar(objeto);
   const classificacaoTecnologia = classificarTecnologia(objeto);
@@ -442,7 +443,7 @@ async function principal(): Promise<void> {
     total: licitacoes.length,
     truncado,
     observacao:
-      'Licitações de cultura e tecnologia abertas no Paraná. A cobertura depende de o órgão publicar no PNCP. A classificação é inferida por palavras-chave do objeto.',
+      'Somente licitações e editais abertos (cultura e tecnologia) do Paraná — os encerrados são removidos a cada coleta. A cobertura depende de o órgão publicar no PNCP. A classificação é inferida por palavras-chave do objeto.',
     licitacoes,
   };
 

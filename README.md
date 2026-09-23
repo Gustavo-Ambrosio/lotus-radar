@@ -18,6 +18,8 @@ A arquitetura é escalável: basta criar um classificador por segmento em `src/l
 
 A API do PNCP **não envia cabeçalhos CORS**, então o navegador não pode chamá-la direto. Ela também é lenta, limita requisições (às vezes respondendo `200` com HTML em vez de JSON) e cai com frequência. Por isso os dados são coletados fora do navegador, por um job agendado, e servidos como arquivo estático — o site abre rápido e continua no ar mesmo se o PNCP estiver fora.
 
+O snapshot contém **somente oportunidades abertas**: a cada coleta, e também no reprocessamento offline, as licitações com prazo de propostas já encerrado (ou anuladas, revogadas, desertas, concluídas etc.) são removidas (`src/lib/vigencia.ts`). Assim o número de editais não acumula — ele reflete apenas o que está "live" hoje.
+
 ## Arquitetura
 
 ```
@@ -29,6 +31,7 @@ src/lib/seguranca.ts      Sanitização de URLs externas (http/https)
 src/lib/tipos.ts          Tipos do snapshot e da licitação
 src/lib/filtros.ts        Regras de filtro/ordenação (funções puras)
 src/lib/formato.ts        Formatação de moeda, data e prazo
+src/lib/vigencia.ts       Regra de "live": remove encerradas por prazo ou situação
 src/componentes/          KPIs, filtros e cartões
 src/App.tsx               Dashboard
 public/dados/licitacoes.json   Snapshot publicado
@@ -39,9 +42,11 @@ public/dados/licitacoes.json   Snapshot publicado
 
 A categoria é inferida por palavras-chave do objeto do edital (uma licitação pode ter várias tags):
 
-**Cultura:** Música · Música eletrônica (psytrance, darkpsy, trance, rave, DJ) · Artes cênicas (teatro, dança, circo) · Audiovisual e cinema · Artes visuais (inclui fotografia) · Experimental e arte digital · Literatura e livro · Patrimônio e memória · Cultura popular e tradicional · Eventos e festivais · Eventos multiculturais · Fomento, editais e prêmios · Equipamentos e espaços culturais · Formação e oficinas · Gestão e produção cultural · Cultura (geral).
+**Cultura:** Música · Música eletrônica (psytrance, darkpsy, trance, rave, DJ) · Artes cênicas (teatro, dança, circo) · Audiovisual e cinema (inclui trilha sonora/produção audiovisual) · Artes visuais (inclui fotografia) · Experimental e arte digital · Eventos literários (festival do livro, sarau) · Publicações literárias · Literatura e livro · Patrimônio e memória · Cultura popular e tradicional · Produção cultural · Evento artístico · Eventos e festivais · Eventos multiculturais · Premiações e prêmios · Fomento e editais · Equipamentos e espaços culturais · Formação e oficinas · Gestão cultural · Cultura (geral).
 
-**Tecnologia:** Desenvolvimento de software · Infraestrutura e redes · Qualidade de software · Testes de software · Segurança e firewall · Licenças de software · Tecnologia (geral).
+**Tecnologia:** Desenvolvimento de software · Infraestrutura e redes (servidores, rede de dados, switches/roteadores, Linux/Windows, monitoramento NOC, Zabbix/Grafana) · Qualidade de software · Testes de software · Segurança e firewall (firewall NGFW, VPN, SD-WAN, antivírus/EDR/XDR, gestão de vulnerabilidades) · Licenças de software · Tecnologia (geral, inclui suporte técnico, help desk, service desk, central de serviços, outsourcing e serviços continuados de TI).
+
+> Todos os **chips de filtro** do segmento ficam visíveis — mesmo sem oportunidades no momento (mostram `0`). A classificação é automática e aproximada; não substitui a leitura do edital.
 
 > A classificação é automática e aproximada; não substitui a leitura do edital.
 

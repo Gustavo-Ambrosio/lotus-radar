@@ -85,4 +85,40 @@ describe('classificar', () => {
   it('não trata placas eletrônicas como cultura', () => {
     expect(ehCultura('Manutenção de placas eletrônicas de sinalização de trânsito')).toBe(false);
   });
+
+  it('detecta eventos literários', () => {
+    const resultado = classificar('Realização de festival literário e feira do livro municipal');
+    expect(resultado.categorias).toContain('eventos-literarios');
+    expect(resultado.principal).toBe('eventos-literarios');
+  });
+
+  it('detecta publicações literárias', () => {
+    const resultado = classificar('Publicação de livro de contos e poesias');
+    expect(resultado.categorias).toContain('publicacoes-literarias');
+    expect(resultado.principal).toBe('publicacoes-literarias');
+  });
+
+  it('detecta premiações', () => {
+    const resultado = classificar('Prêmio municipal de cultura de projetos artísticos');
+    expect(resultado.categorias).toContain('premiacoes');
+    expect(resultado.principal).toBe('premiacoes');
+  });
+
+  it('detecta produção cultural', () => {
+    const resultado = classificar('Produção cultural de evento para o município');
+    expect(resultado.categorias).toContain('producao-cultural');
+    expect(resultado.principal).toBe('producao-cultural');
+  });
+
+  it('detecta evento artístico', () => {
+    const resultado = classificar('Contratação para realização de evento artístico de rua');
+    expect(resultado.categorias).toContain('eventos-artisticos');
+    expect(resultado.principal).toBe('eventos-artisticos');
+  });
+
+  it('detecta audiovisual com trilha sonora e música', () => {
+    const resultado = classificar('Produção de vídeo com trilha sonora e música original');
+    expect(resultado.categorias).toContain('audiovisual');
+    expect(resultado.categorias).toContain('musica');
+  });
 });

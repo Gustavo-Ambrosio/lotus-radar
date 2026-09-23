@@ -72,4 +72,63 @@ describe('classificarTecnologia', () => {
   it('ignora acento e caixa', () => {
     expect(ehTecnologia('DESENVOLVIMENTO DE SISTEMA INFORMATIZADO')).toBe(true);
   });
+
+  it('detecta suporte técnico e help desk', () => {
+    const resultado = classificarTecnologia(
+      'Contratação de help desk e service desk para atendimento ao usuário',
+    );
+    expect(resultado.categorias).toContain('ti-geral');
+    expect(resultado.principal).toBe('ti-geral');
+  });
+
+  it('detecta outsourcing e serviços continuados de TI', () => {
+    expect(classificarTecnologia('Outsourcing de TI com serviços continuados de suporte').categorias).toContain(
+      'ti-geral',
+    );
+  });
+
+  it('detecta suporte técnico em informática', () => {
+    expect(classificarTecnologia('Prestação de serviços técnicos de informática e suporte em TI').categorias).toContain(
+      'ti-geral',
+    );
+  });
+
+  it('detecta administração e manutenção de servidores com Linux', () => {
+    const resultado = classificarTecnologia(
+      'Administração e manutenção de servidores com Linux e alta disponibilidade',
+    );
+    expect(resultado.categorias).toContain('infraestrutura');
+  });
+
+  it('detecta monitoramento de rede com Zabbix e Grafana', () => {
+    const resultado = classificarTecnologia('Monitoramento de rede e servidores com Zabbix e Grafana (NOC)');
+    expect(resultado.categorias).toContain('infraestrutura');
+    expect(resultado.principal).toBe('infraestrutura');
+  });
+
+  it('detecta switches, roteadores e rede de dados', () => {
+    expect(
+      classificarTecnologia('Fornecimento de switches, roteadores e gerenciamento de rede de dados').categorias,
+    ).toContain('infraestrutura');
+  });
+
+  it('detecta firewall NGFW, SD-WAN, VPN e EDR', () => {
+    const resultado = classificarTecnologia(
+      'Implementação de firewall NGFW, SD-WAN, VPN e antivírus corporativo com EDR e XDR',
+    );
+    expect(resultado.categorias).toContain('seguranca');
+    expect(resultado.principal).toBe('seguranca');
+  });
+
+  it('detecta gestão de vulnerabilidades e serviços gerenciados de segurança', () => {
+    expect(
+      classificarTecnologia(
+        'Serviços gerenciados de segurança com gestão de vulnerabilidades e proteção de servidores',
+      ).categorias,
+    ).toContain('seguranca');
+  });
+
+  it('não trata central de atendimento ao usuário do SUS como tecnologia', () => {
+    expect(ehTecnologia('Central de atendimento ao usuário do SUS e agendamento de consultas')).toBe(false);
+  });
 });

@@ -1,42 +1,11 @@
 {
-  "geradoEm": "2026-09-22T23:51:06.563Z",
+  "geradoEm": "2026-09-23T10:37:16.751Z",
   "fonte": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)",
   "uf": "PR",
-  "total": 212,
+  "total": 222,
   "truncado": false,
-  "observacao": "Licitações de cultura e tecnologia abertas no Paraná. A cobertura depende de o órgão publicar no PNCP. A classificação é inferida por palavras-chave do objeto.",
+  "observacao": "Somente licitações e editais abertos (cultura e tecnologia) do Paraná — os encerrados são removidos a cada coleta. A cobertura depende de o órgão publicar no PNCP. A classificação é inferida por palavras-chave do objeto.",
   "licitacoes": [
-    {
-      "id": "95422986000102-1-000240/2026",
-      "orgao": "MUNICIPIO DE FAZENDA RIO GRANDE",
-      "cnpj": "95422986000102",
-      "esfera": "Municipal",
-      "uf": "PR",
-      "municipio": "Fazenda Rio Grande",
-      "codigoIbge": "4107652",
-      "objeto": "Credenciamento de pessoas jurídicas, preferencialmente na modalidade Microempreendedor Individual – MEI, para atuação eventual e autônoma como pareceristas na análise, avaliação e emissão de pareceres técnicos dos projetos culturais inscritos nos editais da PNAB e da PNCV, no âmbito do Município de Fazenda Rio Grande/PR.",
-      "informacaoComplementar": null,
-      "modalidade": "Credenciamento",
-      "numeroCompra": "CRE 2",
-      "numeroControlePncp": "95422986000102-1-000240/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 240,
-      "valorEstimado": 22666,
-      "dataPublicacao": "2026-09-11T08:34:52-03:00",
-      "dataAberturaProposta": "2026-09-10T08:00:00-03:00",
-      "dataEncerramentoProposta": "2026-09-22T23:59:00-03:00",
-      "link": "https://pncp.gov.br/app/editais/95422986000102/2026/240",
-      "linkPncp": "https://pncp.gov.br/app/editais/95422986000102/2026/240",
-      "linkSistemaOrigem": null,
-      "categorias": [
-        "cultura-geral"
-      ],
-      "categoriaPrincipal": "cultura-geral",
-      "segmentos": [
-        "cultura"
-      ],
-      "situacao": "Divulgada no PNCP"
-    },
     {
       "id": "75388850000108-1-000076/2026",
       "orgao": "MUNICIPIO DE LEOPOLIS",
@@ -91,11 +60,44 @@
       "linkPncp": "https://pncp.gov.br/app/editais/68576800000199/2026/30",
       "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=92634905000222026",
       "categorias": [
-        "software"
+        "software",
+        "ti-geral"
       ],
       "categoriaPrincipal": "software",
       "segmentos": [
         "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
+      "id": "75798355000177-1-000079/2026",
+      "orgao": "MUNICIPIO DE INDIANOPOLIS",
+      "cnpj": "75798355000177",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Indianópolis",
+      "codigoIbge": "4110409",
+      "objeto": "Aquisição de objetos eletrônicos e utensílios para premiação dos estudantes e Professores participantes do Projeto MPT na Escola - Combate ao Trabalho Infantil, tais como: Smartphones; Relógios de pulso; Garrafas Térmicas e Bolsas Escolares.",
+      "informacaoComplementar": null,
+      "modalidade": "Dispensa",
+      "numeroCompra": "17",
+      "numeroControlePncp": "75798355000177-1-000079/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 79,
+      "valorEstimado": 11620.3,
+      "dataPublicacao": "2026-09-17T14:39:17-03:00",
+      "dataAberturaProposta": "2026-09-18T17:00:00-03:00",
+      "dataEncerramentoProposta": "2026-09-23T08:00:00-03:00",
+      "link": "https://bnccompras.com/Process/ProcessView?param1=[gkz]qspZ6zc39_cTBaFBpuS2cawNFEjmYNWol2f9Ov8SYQCeFvbLMw50i6Fm/FNdjn/IXCuG1HNOwMryUGF0yaYXQ_lf_m83S6KwNtI1Y/PU47o=",
+      "linkPncp": "https://pncp.gov.br/app/editais/75798355000177/2026/79",
+      "linkSistemaOrigem": "https://bnccompras.com/Process/ProcessView?param1=[gkz]qspZ6zc39_cTBaFBpuS2cawNFEjmYNWol2f9Ov8SYQCeFvbLMw50i6Fm/FNdjn/IXCuG1HNOwMryUGF0yaYXQ_lf_m83S6KwNtI1Y/PU47o=",
+      "categorias": [
+        "premiacoes",
+        "fomento"
+      ],
+      "categoriaPrincipal": "premiacoes",
+      "segmentos": [
+        "cultura"
       ],
       "situacao": "Divulgada no PNCP"
     },
@@ -188,7 +190,8 @@
       "categorias": [
         "software",
         "infraestrutura",
-        "licencas"
+        "licencas",
+        "ti-geral"
       ],
       "categoriaPrincipal": "software",
       "segmentos": [
@@ -219,11 +222,43 @@
       "linkPncp": "https://pncp.gov.br/app/editais/77003424000134/2026/307",
       "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=98779105001062026",
       "categorias": [
+        "eventos-festivais",
         "eventos-festivais"
       ],
       "categoriaPrincipal": "eventos-festivais",
       "segmentos": [
         "cultura"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
+      "id": "75498576000120-1-000159/2026",
+      "orgao": "MUNICIPIO DE SAO CARLOS DO IVAI",
+      "cnpj": "75498576000120",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "São Carlos do Ivaí",
+      "codigoIbge": "4124608",
+      "objeto": "Contratação de empresa especializada para fornecimento, implantação, instalação, configuração, manutenção e suporte técnico de solução integrada de videomonitoramento urbano com recursos de inteligência artificial, conectividade e central de monitoramento, em regime de locação.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "61",
+      "numeroControlePncp": "75498576000120-1-000159/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 159,
+      "valorEstimado": 74792.76,
+      "dataPublicacao": "2026-09-08T15:20:36-03:00",
+      "dataAberturaProposta": "2026-09-09T08:30:00-03:00",
+      "dataEncerramentoProposta": "2026-09-23T08:30:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/75498576000120/2026/159",
+      "linkPncp": "https://pncp.gov.br/app/editais/75498576000120/2026/159",
+      "linkSistemaOrigem": null,
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
+      "segmentos": [
+        "tecnologia"
       ],
       "situacao": "Divulgada no PNCP"
     },
@@ -469,9 +504,10 @@
       "linkPncp": "https://pncp.gov.br/app/editais/75801738000157/2026/31",
       "linkSistemaOrigem": null,
       "categorias": [
+        "seguranca",
         "ti-geral"
       ],
-      "categoriaPrincipal": "ti-geral",
+      "categoriaPrincipal": "seguranca",
       "segmentos": [
         "tecnologia"
       ],
@@ -688,7 +724,8 @@
       "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=92811805001092026",
       "categorias": [
         "software",
-        "infraestrutura"
+        "infraestrutura",
+        "ti-geral"
       ],
       "categoriaPrincipal": "software",
       "segmentos": [
@@ -1262,38 +1299,6 @@
       "situacao": "Divulgada no PNCP"
     },
     {
-      "id": "00476612000155-1-000172/2026",
-      "orgao": "CONSORCIO PUBLICO INTERMUNICIPAL DE SAUDE DO NORTE PIONEIRO",
-      "cnpj": "00476612000155",
-      "esfera": "Não informada",
-      "uf": "PR",
-      "municipio": "Jacarezinho",
-      "codigoIbge": "4111803",
-      "objeto": "Registro de Preços de empresa especializada para o fornecimento de licença de uso de sistema informatizado de Gestão Educacional e Plataforma Educacional, compreendendo a disponibilização da solução tecnológica, os serviços de instalação, implantação, treinamento, manutenção e suporte técnico continuado, a serem executados por equipe qualificada na área educacional, destinados ao atendimento das demandas administrativas, operacionais e pedagógicas da Secretaria Municipal de Educação, em atendimento as necessidades dos 22 municípios consorciados ao CISNORPI.",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "36",
-      "numeroControlePncp": "00476612000155-1-000172/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 172,
-      "valorEstimado": 5725964,
-      "dataPublicacao": "2026-09-08T11:38:10-03:00",
-      "dataAberturaProposta": "2026-09-09T09:00:00-03:00",
-      "dataEncerramentoProposta": "2026-09-24T08:30:00-03:00",
-      "link": "https://pncp.gov.br/app/editais/00476612000155/2026/172",
-      "linkPncp": "https://pncp.gov.br/app/editais/00476612000155/2026/172",
-      "linkSistemaOrigem": null,
-      "categorias": [
-        "software",
-        "licencas"
-      ],
-      "categoriaPrincipal": "software",
-      "segmentos": [
-        "tecnologia"
-      ],
-      "situacao": "Suspensa"
-    },
-    {
       "id": "75793786000140-1-000170/2026",
       "orgao": "MUNICIPIO DE TERRA BOA",
       "cnpj": "75793786000140",
@@ -1512,6 +1517,37 @@
       "situacao": "Divulgada no PNCP"
     },
     {
+      "id": "53466700000132-1-000003/2026",
+      "orgao": "AGENCIA DE INTELIGENCIA E FOMENTO DE CASCAVEL",
+      "cnpj": "53466700000132",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Cascavel",
+      "codigoIbge": "4104808",
+      "objeto": "Aquisição de 02 (duas) estações de trabalho de alto desempenho, incluindo sistema operacional, monitores e demais componentes necessários ao pleno funcionamento, destinados à Agência de Inteligência e Fomento de Cascavel, em atendimento à Emenda Impositiva 653/2025.",
+      "informacaoComplementar": "Em caso de divergência entre as informações constantes nesse sistema e os documentos da contratação, prevalecerão as disposições do Edital e seus anexos.",
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "2",
+      "numeroControlePncp": "53466700000132-1-000003/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 3,
+      "valorEstimado": 20255.36,
+      "dataPublicacao": "2026-09-09T09:47:18-03:00",
+      "dataAberturaProposta": "2026-09-10T09:00:00-03:00",
+      "dataEncerramentoProposta": "2026-09-24T09:00:00-03:00",
+      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=93192305000022026",
+      "linkPncp": "https://pncp.gov.br/app/editais/53466700000132/2026/3",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=93192305000022026",
+      "categorias": [
+        "infraestrutura"
+      ],
+      "categoriaPrincipal": "infraestrutura",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
       "id": "76978881000181-1-000126/2026",
       "orgao": "MUNICIPIO DE TERRA RICA",
       "cnpj": "76978881000181",
@@ -1629,7 +1665,8 @@
       "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=92641505000582026",
       "categorias": [
         "software",
-        "infraestrutura"
+        "infraestrutura",
+        "ti-geral"
       ],
       "categoriaPrincipal": "software",
       "segmentos": [
@@ -1757,7 +1794,8 @@
       "categorias": [
         "software",
         "infraestrutura",
-        "licencas"
+        "licencas",
+        "ti-geral"
       ],
       "categoriaPrincipal": "software",
       "segmentos": [
@@ -1853,6 +1891,7 @@
       "linkPncp": "https://pncp.gov.br/app/editais/76995380000103/2026/110",
       "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=92647805000142026",
       "categorias": [
+        "eventos-festivais",
         "eventos-festivais"
       ],
       "categoriaPrincipal": "eventos-festivais",
@@ -1978,7 +2017,9 @@
       "linkSistemaOrigem": null,
       "categorias": [
         "software",
-        "licencas"
+        "seguranca",
+        "licencas",
+        "ti-geral"
       ],
       "categoriaPrincipal": "software",
       "segmentos": [
@@ -2135,7 +2176,8 @@
       "linkPncp": "https://pncp.gov.br/app/editais/77821841000194/2026/181",
       "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=92641505000642026",
       "categorias": [
-        "infraestrutura"
+        "infraestrutura",
+        "ti-geral"
       ],
       "categoriaPrincipal": "infraestrutura",
       "segmentos": [
@@ -2166,7 +2208,8 @@
       "linkPncp": "https://pncp.gov.br/app/editais/76898196000145/2026/9",
       "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=92763405000042026",
       "categorias": [
-        "infraestrutura"
+        "infraestrutura",
+        "ti-geral"
       ],
       "categoriaPrincipal": "infraestrutura",
       "segmentos": [
@@ -2261,9 +2304,41 @@
       "categorias": [
         "artes-cenicas",
         "eventos-festivais",
+        "eventos-festivais",
         "cultura-geral"
       ],
       "categoriaPrincipal": "artes-cenicas",
+      "segmentos": [
+        "cultura"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
+      "id": "75636530000120-1-000123/2026",
+      "orgao": "MUNICIPIO DE VERE",
+      "cnpj": "75636530000120",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Verê",
+      "codigoIbge": "4128609",
+      "objeto": "Aquisição de materiais esportivos, uniformes, agasalhos e artigos de premiação visando atender as demandas do Departamento de Esporte",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "0000052",
+      "numeroControlePncp": "75636530000120-1-000123/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 123,
+      "valorEstimado": 300499.64,
+      "dataPublicacao": "2026-09-10T14:26:05-03:00",
+      "dataAberturaProposta": "2026-09-11T08:00:00-03:00",
+      "dataEncerramentoProposta": "2026-09-28T07:00:00-03:00",
+      "link": "https://bllcompras.com/Process/ProcessView?param1=[gkz]XdWa7tr1tfvv7F/GDPeklTEop3If/eimxSb13UqW4f7raVFX0BG1gqZNVcjPwK/Wj5rU/tAuA2QJsUXDRRE7Ydf0r3mXb5vicj_r5fNxPNw=",
+      "linkPncp": "https://pncp.gov.br/app/editais/75636530000120/2026/123",
+      "linkSistemaOrigem": "https://bllcompras.com/Process/ProcessView?param1=[gkz]XdWa7tr1tfvv7F/GDPeklTEop3If/eimxSb13UqW4f7raVFX0BG1gqZNVcjPwK/Wj5rU/tAuA2QJsUXDRRE7Ydf0r3mXb5vicj_r5fNxPNw=",
+      "categorias": [
+        "premiacoes"
+      ],
+      "categoriaPrincipal": "premiacoes",
       "segmentos": [
         "cultura"
       ],
@@ -2390,6 +2465,37 @@
       "categoriaPrincipal": "artes-visuais",
       "segmentos": [
         "cultura"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
+      "id": "15718459000100-1-000074/2026",
+      "orgao": "CONSORCIO INTERMUNICIPAL DA REDE DE URGENCIAS E EMERGENCIAS DO NOROESTE DO PARANA - CIUENP",
+      "cnpj": "15718459000100",
+      "esfera": "Não informada",
+      "uf": "PR",
+      "municipio": "Umuarama",
+      "codigoIbge": "4128104",
+      "objeto": "Contratação de serviços continuados de telecomunicações para provimento de acesso à internet corporativa em fibra óptica, compreendendo Link Dedicado e Banda Larga com IP Fixo estático, inclusos os serviços de instalação, configuração, ativação\ntécnica, fornecimento de equipamentos (ONU/Roteadores) em regime de comodato, suporte e manutenção, visando atender às necessidades do Consórcio Intermunicipal da Rede de Urgências e Emergências do Noroeste do Paraná – CIUENP",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "30",
+      "numeroControlePncp": "15718459000100-1-000074/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 74,
+      "valorEstimado": 281413.2,
+      "dataPublicacao": "2026-09-10T14:04:53-03:00",
+      "dataAberturaProposta": "2026-09-10T15:00:00-03:00",
+      "dataEncerramentoProposta": "2026-09-28T08:30:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/15718459000100/2026/74",
+      "linkPncp": "https://pncp.gov.br/app/editais/15718459000100/2026/74",
+      "linkSistemaOrigem": null,
+      "categorias": [
+        "infraestrutura"
+      ],
+      "categoriaPrincipal": "infraestrutura",
+      "segmentos": [
+        "tecnologia"
       ],
       "situacao": "Divulgada no PNCP"
     },
@@ -2801,6 +2907,37 @@
       "situacao": "Divulgada no PNCP"
     },
     {
+      "id": "81478059000191-1-000084/2026",
+      "orgao": "MUNICIPIO DE ALTONIA",
+      "cnpj": "81478059000191",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Altônia",
+      "codigoIbge": "4100509",
+      "objeto": "O presente processo tem por objeto a Contratação de empresa especializada para prestação de serviços continuados com dedicação exclusiva de mão de obra, compreendendo a disponibilização de cuidadores sociais, auxiliares de cuidador e auxiliares de serviços gerais, em regime de escala 12x36 horas, visando assegurar a continuidade, regularidade e qualidade do Serviço de Acolhimento Institucional para Crianças e Adolescentes do Município de Altônia-PR.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "39",
+      "numeroControlePncp": "81478059000191-1-000084/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 84,
+      "valorEstimado": 696622.08,
+      "dataPublicacao": "2026-09-15T17:10:43-03:00",
+      "dataAberturaProposta": "2026-09-15T17:30:00-03:00",
+      "dataEncerramentoProposta": "2026-09-29T08:30:00-03:00",
+      "link": "https://bnccompras.com/Process/ProcessView?param1=[gkz]EePkbhHIRM1ir0Hxbb3DkmKHnP0N/40d2Z1MTvQ77kmUTPs3kij6fF7RptjdC8DjD538pEk5RgvW4v7mXmz8cVv1twKr7RA89Mqru2V8Mls=",
+      "linkPncp": "https://pncp.gov.br/app/editais/81478059000191/2026/84",
+      "linkSistemaOrigem": "https://bnccompras.com/Process/ProcessView?param1=[gkz]EePkbhHIRM1ir0Hxbb3DkmKHnP0N/40d2Z1MTvQ77kmUTPs3kij6fF7RptjdC8DjD538pEk5RgvW4v7mXmz8cVv1twKr7RA89Mqru2V8Mls=",
+      "categorias": [
+        "seguranca"
+      ],
+      "categoriaPrincipal": "seguranca",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
       "id": "76282656000106-1-000628/2026",
       "orgao": "MUNICIPIO DE MARINGA",
       "cnpj": "76282656000106",
@@ -2885,6 +3022,7 @@
       "linkPncp": "https://pncp.gov.br/app/editais/76208495000100/2026/164",
       "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=98756105000372026",
       "categorias": [
+        "eventos-festivais",
         "eventos-festivais"
       ],
       "categoriaPrincipal": "eventos-festivais",
@@ -2919,6 +3057,37 @@
         "cultura-geral"
       ],
       "categoriaPrincipal": "cultura-geral",
+      "segmentos": [
+        "cultura"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
+      "id": "76105600000186-1-000271/2026",
+      "orgao": "MUNICIPIO DE CAMPINA GRANDE DO SUL",
+      "cnpj": "76105600000186",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Campina Grande do Sul",
+      "codigoIbge": "4104006",
+      "objeto": "AQUISIÇÃO DE ELETRÔNICO PARA PREMIAÇÃO MEDIANTE SORTEIO DA CAMPANHA DENOMINADA \"IPTU PREMIADO 2026\" PARA ATENDER AS NECESSIDADES DA SECRETARIA MUNICIPAL DE ADMINISTRAÇÃO, DE CAMPINA GRANDE DO SUL - PARANÁ, DE ACORDO COM O DECRETO MUNICIPAL N° 2645/2026 DE 30 DE MARÇO DE 2026.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "85",
+      "numeroControlePncp": "76105600000186-1-000271/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 271,
+      "valorEstimado": 5245.01,
+      "dataPublicacao": "2026-09-15T09:43:10-03:00",
+      "dataAberturaProposta": "2026-09-16T08:30:00-03:00",
+      "dataEncerramentoProposta": "2026-09-29T08:59:00-03:00",
+      "link": "https://comprasbr.com.br/pregao-eletronico-detalhe/?idlicitacao=48319",
+      "linkPncp": "https://pncp.gov.br/app/editais/76105600000186/2026/271",
+      "linkSistemaOrigem": "https://comprasbr.com.br/pregao-eletronico-detalhe/?idlicitacao=48319",
+      "categorias": [
+        "premiacoes"
+      ],
+      "categoriaPrincipal": "premiacoes",
       "segmentos": [
         "cultura"
       ],
@@ -3133,7 +3302,8 @@
       "linkPncp": "https://pncp.gov.br/app/editais/76208487000164/2026/289",
       "linkSistemaOrigem": null,
       "categorias": [
-        "infraestrutura"
+        "infraestrutura",
+        "seguranca"
       ],
       "categoriaPrincipal": "infraestrutura",
       "segmentos": [
@@ -3330,38 +3500,6 @@
         "cultura"
       ],
       "situacao": "Divulgada no PNCP"
-    },
-    {
-      "id": "95594800000194-1-000076/2026",
-      "orgao": "MUNICIPIO DE ANAHY",
-      "cnpj": "95594800000194",
-      "esfera": "Municipal",
-      "uf": "PR",
-      "municipio": "Anahy",
-      "codigoIbge": "4101051",
-      "objeto": "Contratação de empresa para prestação de serviços terceirizados e continuados de instrutores especializados (oficineiros) para a ministração de oficinas socioeducativas, artísticas, culturais, esportivas e recreativas. O serviço destina-se ao atendimento direto dos públicos prioritários e das famílias em situação de vulnerabilidade e risco social referenciados na rede de proteção social do Departamento Municipal de Assistência Social do Município de Anahy/PR.",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "PCE 29",
-      "numeroControlePncp": "95594800000194-1-000076/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 76,
-      "valorEstimado": null,
-      "dataPublicacao": "2026-08-31T15:10:38-03:00",
-      "dataAberturaProposta": "2026-09-16T09:00:00-03:00",
-      "dataEncerramentoProposta": "2026-09-30T08:00:00-03:00",
-      "link": "https://pncp.gov.br/app/editais/95594800000194/2026/76",
-      "linkPncp": "https://pncp.gov.br/app/editais/95594800000194/2026/76",
-      "linkSistemaOrigem": null,
-      "categorias": [
-        "formacao",
-        "cultura-geral"
-      ],
-      "categoriaPrincipal": "formacao",
-      "segmentos": [
-        "cultura"
-      ],
-      "situacao": "Revogada"
     },
     {
       "id": "78101847000150-1-000175/2026",
@@ -3731,9 +3869,10 @@
       "linkPncp": "https://pncp.gov.br/app/editais/75449579000173/2026/92",
       "linkSistemaOrigem": "https://bnccompras.com/Process/ProcessView?param1=[gkz]jp_idCBKI6duos79ZjcK98qoKVSOOJWhV5uaLd0oi9qX5kuQIwrqDIfoJy060Y6zLI84pyH1Sy_3XqJYCsC6A6ZCmxdsprZiB0DlkP5hz70=",
       "categorias": [
+        "seguranca",
         "ti-geral"
       ],
-      "categoriaPrincipal": "ti-geral",
+      "categoriaPrincipal": "seguranca",
       "segmentos": [
         "tecnologia"
       ],
@@ -4088,6 +4227,37 @@
       "situacao": "Divulgada no PNCP"
     },
     {
+      "id": "76968627000100-1-000269/2026",
+      "orgao": "MUNICIPIO DE SANTO ANTONIO DA PLATINA",
+      "cnpj": "76968627000100",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Santo Antônio da Platina",
+      "codigoIbge": "4124103",
+      "objeto": "Contratação de empresa especializada para fornecimento de links dedicados de internet, interligação por fibra óptica, gerenciamento de acesso, hotspot, equipamentos, manutenção e suporte técnico pelo período de 12 meses.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "PCE 87",
+      "numeroControlePncp": "76968627000100-1-000269/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 269,
+      "valorEstimado": 888504.72,
+      "dataPublicacao": "2026-09-16T14:33:51-03:00",
+      "dataAberturaProposta": "2026-09-17T00:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-01T08:00:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/76968627000100/2026/269",
+      "linkPncp": "https://pncp.gov.br/app/editais/76968627000100/2026/269",
+      "linkSistemaOrigem": null,
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
       "id": "76339688000109-1-000105/2026",
       "orgao": "MUNICIPIO DE CRUZ MACHADO",
       "cnpj": "76339688000109",
@@ -4274,6 +4444,37 @@
       "situacao": "Divulgada no PNCP"
     },
     {
+      "id": "78121985000109-1-000109/2026",
+      "orgao": "MUNICIPIO DE BOA VISTA DA APARECIDA",
+      "cnpj": "78121985000109",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Boa Vista da Aparecida",
+      "codigoIbge": "4103057",
+      "objeto": "CONTRATAÇÃO DE EMPRESA ESPECIALIZADA PARA A PRESTAÇÃO CONTINUADA DE SERVIÇOS DE RASTREAMENTO, MONITORAMENTO E GESTÃO DA FROTA MUNICIPAL, POR MEIO DE PLATAFORMA TECNOLÓGICA INTEGRADA, COM FORNECIMENTO DE EQUIPAMENTOS EM REGIME DE COMODATO, INSTALAÇÃO, CONFIGURAÇÃO, IDENTIFICAÇÃO DE MOTORISTAS, TREINAMENTO, SUPORTE TÉCNICO, MANUTENÇÃO E SUBSTITUIÇÃO DOS EQUIPAMENTOS.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "32",
+      "numeroControlePncp": "78121985000109-1-000109/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 109,
+      "valorEstimado": 55078.8,
+      "dataPublicacao": "2026-09-15T09:18:34-03:00",
+      "dataAberturaProposta": "2026-09-15T07:30:00-03:00",
+      "dataEncerramentoProposta": "2026-10-01T08:59:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/78121985000109/2026/109",
+      "linkPncp": "https://pncp.gov.br/app/editais/78121985000109/2026/109",
+      "linkSistemaOrigem": null,
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
       "id": "80888688000127-1-000056/2026",
       "orgao": "MUNICIPIO DE LUIZIANA",
       "cnpj": "80888688000127",
@@ -4328,6 +4529,37 @@
       "link": "https://comprasbr.com.br/pregao-eletronico-detalhe/?idlicitacao=48266",
       "linkPncp": "https://pncp.gov.br/app/editais/76238443000187/2026/100",
       "linkSistemaOrigem": "https://comprasbr.com.br/pregao-eletronico-detalhe/?idlicitacao=48266",
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
+      "id": "01309021000156-1-000010/2026",
+      "orgao": "SAO MANOEL DO PARANA CAMARA MUNICIPAL",
+      "cnpj": "01309021000156",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "São Manoel do Paraná",
+      "codigoIbge": "4125555",
+      "objeto": "Contratação de empresa especializada para prestação continuada de Serviço Móvel Pessoal – SMP, mediante disponibilização de 04 (quatro) linhas/chips de telefonia móvel, com ligações nacionais ilimitadas para telefones fixos e móveis, SMS, franquia mínima total de 30 GB de dados móveis mensais para o conjunto das linhas, admitida a disponibilização de forma compartilhada ou individual equivalente, fornecimento e ativação dos chips, suporte técnico e possibilidade de portabilidade dos números atualmente utilizados, pelo período de 12 meses.",
+      "informacaoComplementar": "Inexistente",
+      "modalidade": "Dispensa",
+      "numeroCompra": "4",
+      "numeroControlePncp": "01309021000156-1-000010/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 10,
+      "valorEstimado": 3307.2,
+      "dataPublicacao": "2026-09-17T14:19:34-03:00",
+      "dataAberturaProposta": "2026-09-17T09:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-01T09:00:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/01309021000156/2026/10",
+      "linkPncp": "https://pncp.gov.br/app/editais/01309021000156/2026/10",
+      "linkSistemaOrigem": null,
       "categorias": [
         "ti-geral"
       ],
@@ -4422,6 +4654,7 @@
       "linkPncp": "https://pncp.gov.br/app/editais/80869886000143/2026/60",
       "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=98847705000102026",
       "categorias": [
+        "eventos-festivais",
         "eventos-festivais"
       ],
       "categoriaPrincipal": "eventos-festivais",
@@ -4484,7 +4717,8 @@
       "linkPncp": "https://pncp.gov.br/app/editais/76170257000153/2026/149",
       "linkSistemaOrigem": null,
       "categorias": [
-        "infraestrutura"
+        "infraestrutura",
+        "ti-geral"
       ],
       "categoriaPrincipal": "infraestrutura",
       "segmentos": [
@@ -4617,6 +4851,37 @@
       "situacao": "Divulgada no PNCP"
     },
     {
+      "id": "78121985000109-1-000108/2026",
+      "orgao": "MUNICIPIO DE BOA VISTA DA APARECIDA",
+      "cnpj": "78121985000109",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Boa Vista da Aparecida",
+      "codigoIbge": "4103057",
+      "objeto": "CONTRATAÇÃO DE EMPRESA ESPECIALIZADA PARA A PRESTAÇÃO CONTINUADA DE SERVIÇOS DE RASTREAMENTO, MONITORAMENTO E GESTÃO DA FROTA MUNICIPAL, POR MEIO DE PLATAFORMA TECNOLÓGICA INTEGRADA, COM FORNECIMENTO DE EQUIPAMENTOS EM REGIME DE COMODATO, INSTALAÇÃO, CONFIGURAÇÃO, IDENTIFICAÇÃO DE MOTORISTAS, TREINAMENTO, SUPORTE TÉCNICO, MANUTENÇÃO E SUBSTITUIÇÃO DOS EQUIPAMENTOS.",
+      "informacaoComplementar": "1.1.\tEm caso de discordância existente entre as especificações dos objetos descritos no site Compras Governamentais e as especificações constantes deste Edital, prevalecerão as especificações do Edital.",
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "16",
+      "numeroControlePncp": "78121985000109-1-000108/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 108,
+      "valorEstimado": 55078.8,
+      "dataPublicacao": "2026-09-15T09:08:45-03:00",
+      "dataAberturaProposta": "2026-09-16T08:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-01T09:00:00-03:00",
+      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=45657805000162026",
+      "linkPncp": "https://pncp.gov.br/app/editais/78121985000109/2026/108",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=45657805000162026",
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
       "id": "75731000000160-1-000124/2026",
       "orgao": "MUNICIPIO DE FLORAI",
       "cnpj": "75731000000160",
@@ -4702,7 +4967,8 @@
       "linkSistemaOrigem": null,
       "categorias": [
         "eventos-festivais",
-        "fomento"
+        "fomento",
+        "eventos-festivais"
       ],
       "categoriaPrincipal": "eventos-festivais",
       "segmentos": [
@@ -4769,6 +5035,69 @@
       "categoriaPrincipal": "musica",
       "segmentos": [
         "cultura"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
+      "id": "76105618000188-1-000370/2026",
+      "orgao": "MUNICIPIO DE CAMPO LARGO",
+      "cnpj": "76105618000188",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Campo Largo",
+      "codigoIbge": "4104204",
+      "objeto": "Serviços de manutenção e suporte técnico de sistema “PACS” (Picture Archiving and Communication System) e na confecção e emissão de laudos de Raio-X à distância, confeccionados por médicos radiologistas",
+      "informacaoComplementar": "NÃO SE TRATA DE REGISTRO DE PREÇOS , CONTRATAÇÃO DIRETA. SISTEMA FIXOU COMO REGISTRO SEM A POSSIBILIDADE DE ALTERAÇÃO",
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "13",
+      "numeroControlePncp": "76105618000188-1-000370/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 370,
+      "valorEstimado": 183857.76,
+      "dataPublicacao": "2026-06-30T09:29:06-03:00",
+      "dataAberturaProposta": "2026-09-18T08:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-02T08:00:00-03:00",
+      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=98748105000132026",
+      "linkPncp": "https://pncp.gov.br/app/editais/76105618000188/2026/370",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=98748105000132026",
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
+      "id": "00944673000108-1-000062/2026",
+      "orgao": "CONSORCIO INTERMUNICIPAL DE SAUDE DO OESTE DO PARANA",
+      "cnpj": "00944673000108",
+      "esfera": "Não informada",
+      "uf": "PR",
+      "municipio": "Cascavel",
+      "codigoIbge": "4104808",
+      "objeto": "Contratação de empresa para serviços especializados em infraestrutura de redes e suporte técnico, destinado à realização de manutenções preventivas e corretivas, configuração de equipamentos de rede, monitoramento da conectividade e atendimento às demandas relacionadas aos recursos tecnológicos da unidade visando o atendimento às necessidades do CISOP.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "27",
+      "numeroControlePncp": "00944673000108-1-000062/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 62,
+      "valorEstimado": 40832.4,
+      "dataPublicacao": "2026-09-18T08:46:33-03:00",
+      "dataAberturaProposta": "2026-09-21T00:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-02T08:00:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/00944673000108/2026/62",
+      "linkPncp": "https://pncp.gov.br/app/editais/00944673000108/2026/62",
+      "linkSistemaOrigem": null,
+      "categorias": [
+        "infraestrutura",
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "infraestrutura",
+      "segmentos": [
+        "tecnologia"
       ],
       "situacao": "Divulgada no PNCP"
     },
@@ -4987,6 +5316,7 @@
         "musica",
         "artes-cenicas",
         "eventos-festivais",
+        "eventos-festivais",
         "cultura-geral"
       ],
       "categoriaPrincipal": "musica",
@@ -5020,6 +5350,7 @@
       "categorias": [
         "musica",
         "artes-cenicas",
+        "eventos-festivais",
         "eventos-festivais",
         "cultura-geral"
       ],
@@ -5083,7 +5414,8 @@
       "linkPncp": "https://pncp.gov.br/app/editais/75731018000162/2026/90",
       "linkSistemaOrigem": "https://bnccompras.com/Process/ProcessView?param1=[gkz]SKsDpFt4hXgVpKN/sahju1jiwZBzfg7A4/qdX_3LfIZKmGGfaXk2OL/q9VZOiInH6F_u60FSsei8F2j/FUCG6cFQN_bHp/iTaK2Gyhoifag=",
       "categorias": [
-        "software"
+        "software",
+        "ti-geral"
       ],
       "categoriaPrincipal": "software",
       "segmentos": [
@@ -5145,9 +5477,41 @@
       "linkPncp": "https://pncp.gov.br/app/editais/76279975000162/2026/74",
       "linkSistemaOrigem": "https://licitanet.com.br/sessao/199916",
       "categorias": [
-        "software"
+        "software",
+        "ti-geral"
       ],
       "categoriaPrincipal": "software",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
+      "id": "95594776000193-1-000121/2026",
+      "orgao": "MUNICIPIO DE SANTA LUCIA",
+      "cnpj": "95594776000193",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Santa Lúcia",
+      "codigoIbge": "4123824",
+      "objeto": "Contratação de empresa especializada para prestação continuada de serviços de acesso à internet, para atendimento das Secretarias, Departamentos e demais unidades públicas do Município de Santa Lúcia/PR, compreendendo instalação, ativação, disponibilização dos equipamentos necessários em regime de comodato, configuração, manutenção preventiva e corretiva, suporte técnico, monitoramento e demais serviços indispensáveis à plena disponibilidade da solução.",
+      "informacaoComplementar": "CONFORME MINUTA DO CONTRATO.",
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "46",
+      "numeroControlePncp": "95594776000193-1-000121/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 121,
+      "valorEstimado": 80881.08,
+      "dataPublicacao": "2026-09-17T15:49:51-03:00",
+      "dataAberturaProposta": "2026-09-17T17:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-05T08:30:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/95594776000193/2026/121",
+      "linkPncp": "https://pncp.gov.br/app/editais/95594776000193/2026/121",
+      "linkSistemaOrigem": null,
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
       "segmentos": [
         "tecnologia"
       ],
@@ -5271,7 +5635,8 @@
       "linkPncp": "https://pncp.gov.br/app/editais/95583597000150/2026/105",
       "linkSistemaOrigem": "https://bllcompras.com/Process/ProcessView?param1=[gkz]WQJgXwK6TiojQ3fLMwhkLPUwax6BTWaHofQx5vugm2Hsxry3AL0QKGuJbkqbXDrUxk0kIP7P7a1A8jZ_EIih8OxLPhBTguF3yojvWK8FN_E=",
       "categorias": [
-        "infraestrutura"
+        "infraestrutura",
+        "ti-geral"
       ],
       "categoriaPrincipal": "infraestrutura",
       "segmentos": [
@@ -5428,6 +5793,7 @@
       "linkSistemaOrigem": null,
       "categorias": [
         "musica",
+        "eventos-festivais",
         "eventos-festivais"
       ],
       "categoriaPrincipal": "musica",
@@ -5528,9 +5894,41 @@
       "categorias": [
         "software",
         "infraestrutura",
-        "licencas"
+        "licencas",
+        "ti-geral"
       ],
       "categoriaPrincipal": "software",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
+      "id": "81392656000107-1-000111/2026",
+      "orgao": "MUNICIPIO DE GODOY MOREIRA",
+      "cnpj": "81392656000107",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Godoy Moreira",
+      "codigoIbge": "4108551",
+      "objeto": "CONTRATAÇÃO DE EMPRESA ESPECIALIZADA PARA AQUISIÇÃO DE RELÓGIO PONTO, PEÇAS, ACESSÓRIOS, INSUMOS E COMPONENTES DESTINADOS À MANUTENÇÃO DE RELÓGIOS ELETRÔNICOS DE PONTO (REP), BEM COMO A PRESTAÇÃO DE SERVIÇOS TÉCNICOS ESPECIALIZADOS DE MANUTENÇÃO PREVENTIVA E CORRETIVA, DIAGNÓSTICO, CONFIGURAÇÃO, ATUALIZAÇÃO, REPARO, LIMPEZA TÉCNICA, SUBSTITUIÇÃO DE COMPONENTES, DESBLOQUEIO DE EQUIPAMENTOS, RESTAURAÇÃO DE FUNCIONAMENTO, TESTES OPERACIONAIS E SUPORTE TÉCNICO.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "46",
+      "numeroControlePncp": "81392656000107-1-000111/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 111,
+      "valorEstimado": 31865.38,
+      "dataPublicacao": "2026-09-16T14:21:01-03:00",
+      "dataAberturaProposta": "2026-09-21T08:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-06T08:45:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/81392656000107/2026/111",
+      "linkPncp": "https://pncp.gov.br/app/editais/81392656000107/2026/111",
+      "linkSistemaOrigem": null,
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
       "segmentos": [
         "tecnologia"
       ],
@@ -5816,6 +6214,37 @@
       "situacao": "Divulgada no PNCP"
     },
     {
+      "id": "76178029000120-1-000074/2026",
+      "orgao": "MUNICIPIO DE INACIO MARTINS",
+      "cnpj": "76178029000120",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Inácio Martins",
+      "codigoIbge": "4110201",
+      "objeto": "REGISTRO DE PREÇOS PARA AQUISIÇÃO DE TROFÉUS E MEDALHAS PERSONALIZADAS, DESTINADOS A PREMIAÇÕES EM EVENTOS DIVERSOS DO MUNICÍPIO.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "027",
+      "numeroControlePncp": "76178029000120-1-000074/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 74,
+      "valorEstimado": 76490.2,
+      "dataPublicacao": "2026-09-15T13:57:06-03:00",
+      "dataAberturaProposta": "2026-09-15T17:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-08T08:30:00-03:00",
+      "link": "https://bllcompras.com/Process/ProcessView?param1=[gkz]TIU5H09saMeuipYxq4Pzn6LWtbyYtA0KFbkBxI68KxdjX81O1E3Yna8Joae3kljxbkHlRkyA_RBxqQIobd_Hxo_KxxRsZutXqLVkclH3duA=",
+      "linkPncp": "https://pncp.gov.br/app/editais/76178029000120/2026/74",
+      "linkSistemaOrigem": "https://bllcompras.com/Process/ProcessView?param1=[gkz]TIU5H09saMeuipYxq4Pzn6LWtbyYtA0KFbkBxI68KxdjX81O1E3Yna8Joae3kljxbkHlRkyA_RBxqQIobd_Hxo_KxxRsZutXqLVkclH3duA=",
+      "categorias": [
+        "premiacoes"
+      ],
+      "categoriaPrincipal": "premiacoes",
+      "segmentos": [
+        "cultura"
+      ],
+      "situacao": "Divulgada no PNCP"
+    },
+    {
       "id": "75587204000170-1-000238/2026",
       "orgao": "MUNICIPIO DE TERRA ROXA",
       "cnpj": "75587204000170",
@@ -5941,40 +6370,6 @@
       "situacao": "Divulgada no PNCP"
     },
     {
-      "id": "75368928000122-1-000334/2025",
-      "orgao": "MUNICIPIO DE MAMBORE",
-      "cnpj": "75368928000122",
-      "esfera": "Municipal",
-      "uf": "PR",
-      "municipio": "Mamborê",
-      "codigoIbge": "4114005",
-      "objeto": "CHAMAMENTO PÚBLICO PARA CREDENCIAMENTO DE EMPRESA ESPECIALIZADA NA PRESTAÇÃO DE SERVIÇOS DE INSTRUTORES PARA OFICINAS E CURSOS NAS ÁREAS DE CULTURA E ESPORTES, DESTINADOS A ATENDER AS DEMANDAS DA SECRETARIA MUNICIPAL DE CULTURA, ESPORTES E TURISMO, CONTEMPLANDO A POPULAÇÃO DO MUNICÍPIO DE MAMBORÊ E SEUS PATRIMÔNIOS.",
-      "informacaoComplementar": null,
-      "modalidade": "Credenciamento",
-      "numeroCompra": "PRI 64",
-      "numeroControlePncp": "75368928000122-1-000334/2025",
-      "anoCompra": 2025,
-      "sequencialCompra": 334,
-      "valorEstimado": null,
-      "dataPublicacao": "2025-10-08T14:52:05-03:00",
-      "dataAberturaProposta": "2025-10-13T17:00:00-03:00",
-      "dataEncerramentoProposta": "2026-10-13T17:00:00-03:00",
-      "link": "https://pncp.gov.br/app/editais/75368928000122/2025/334",
-      "linkPncp": "https://pncp.gov.br/app/editais/75368928000122/2025/334",
-      "linkSistemaOrigem": null,
-      "categorias": [
-        "patrimonio",
-        "fomento",
-        "formacao",
-        "cultura-geral"
-      ],
-      "categoriaPrincipal": "patrimonio",
-      "segmentos": [
-        "cultura"
-      ],
-      "situacao": "Anulada"
-    },
-    {
       "id": "76205715000142-1-000166/2026",
       "orgao": "MUNICIPIO DE SANTA IZABEL DO OESTE",
       "cnpj": "76205715000142",
@@ -5997,6 +6392,7 @@
       "linkPncp": "https://pncp.gov.br/app/editais/76205715000142/2026/166",
       "linkSistemaOrigem": null,
       "categorias": [
+        "eventos-festivais",
         "eventos-festivais"
       ],
       "categoriaPrincipal": "eventos-festivais",
@@ -6028,6 +6424,7 @@
       "linkPncp": "https://pncp.gov.br/app/editais/76205715000142/2026/167",
       "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=98785105000272026",
       "categorias": [
+        "eventos-festivais",
         "eventos-festivais"
       ],
       "categoriaPrincipal": "eventos-festivais",
@@ -6124,6 +6521,7 @@
       "categorias": [
         "musica",
         "eventos-festivais",
+        "eventos-festivais",
         "cultura-geral"
       ],
       "categoriaPrincipal": "musica",
@@ -6131,37 +6529,6 @@
         "cultura"
       ],
       "situacao": "Divulgada no PNCP"
-    },
-    {
-      "id": "37115391000108-1-000007/2026",
-      "orgao": "CONSELHO REGIONAL DE PSICOLOGIA OITAVA REGIAO",
-      "cnpj": "37115391000108",
-      "esfera": "Federal",
-      "uf": "PR",
-      "municipio": "Curitiba",
-      "codigoIbge": "4106902",
-      "objeto": "Contratação de empresa especializada na prestação de serviços continuados de comunicação institucional, assessoria de imprensa, produção jornalística, produção audiovisual, gerenciamento de conteúdo digital, monitoramento de mídia e apoio à comunicação externa do Conselho Regional de Psicologia 8ª Região – CRP-PR.",
-      "informacaoComplementar": null,
-      "modalidade": "Concorrência - Eletrônica",
-      "numeroCompra": "CON002",
-      "numeroControlePncp": "37115391000108-1-000007/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 7,
-      "valorEstimado": 266866,
-      "dataPublicacao": "2026-08-27T09:11:04-03:00",
-      "dataAberturaProposta": "2026-08-28T08:00:00-03:00",
-      "dataEncerramentoProposta": "2026-10-20T08:00:00-03:00",
-      "link": "https://bllcompras.com/Process/ProcessView?param1=[gkz]btyVkEZFqPDYi6d3_8gP7ijsI7JyQyQ7qZKwJGfaBxhCw9yqB8GbScDnH_/Z6vEeWPtMtfEy7iOOkgz/kPj4yTGK58oW1yWamyVXYXJfg9k=",
-      "linkPncp": "https://pncp.gov.br/app/editais/37115391000108/2026/7",
-      "linkSistemaOrigem": "https://bllcompras.com/Process/ProcessView?param1=[gkz]btyVkEZFqPDYi6d3_8gP7ijsI7JyQyQ7qZKwJGfaBxhCw9yqB8GbScDnH_/Z6vEeWPtMtfEy7iOOkgz/kPj4yTGK58oW1yWamyVXYXJfg9k=",
-      "categorias": [
-        "audiovisual"
-      ],
-      "categoriaPrincipal": "audiovisual",
-      "segmentos": [
-        "cultura"
-      ],
-      "situacao": "Suspensa"
     },
     {
       "id": "76208826000102-1-000171/2026",
@@ -6344,6 +6711,7 @@
       "linkPncp": "https://pncp.gov.br/app/editais/78956513000168/2025/206",
       "linkSistemaOrigem": null,
       "categorias": [
+        "eventos-festivais",
         "eventos-festivais"
       ],
       "categoriaPrincipal": "eventos-festivais",
@@ -6413,37 +6781,6 @@
         "cultura"
       ],
       "situacao": "Divulgada no PNCP"
-    },
-    {
-      "id": "76208867000107-1-000334/2026",
-      "orgao": "MUNICIPIO DE CASCAVEL",
-      "cnpj": "76208867000107",
-      "esfera": "Municipal",
-      "uf": "PR",
-      "municipio": "Cascavel",
-      "codigoIbge": "4104808",
-      "objeto": "Registro de preços para a aquisições de fármacos, insumos veterinários e materiais destinados à conservação e restauração de acervo visando atender às demandas da Divisão de Vida Silvestre e Bem-Estar Animal (DVSBEA).",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "15",
-      "numeroControlePncp": "76208867000107-1-000334/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 334,
-      "valorEstimado": null,
-      "dataPublicacao": "2026-07-17T13:51:40-03:00",
-      "dataAberturaProposta": "2026-08-12T09:00:00-03:00",
-      "dataEncerramentoProposta": "2026-12-29T09:00:00-03:00",
-      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=98749305000152026",
-      "linkPncp": "https://pncp.gov.br/app/editais/76208867000107/2026/334",
-      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=98749305000152026",
-      "categorias": [
-        "patrimonio"
-      ],
-      "categoriaPrincipal": "patrimonio",
-      "segmentos": [
-        "cultura"
-      ],
-      "situacao": "Revogada"
     },
     {
       "id": "75368928000122-1-000398/2025",

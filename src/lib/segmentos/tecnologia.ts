@@ -25,10 +25,15 @@ export const CATEGORIAS_TECNOLOGIA: Categoria[] = [
       'infraestrutura de telecomunicacoes', 'infraestrutura de dados', 'servidor',
       'datacenter', 'centro de dados', 'cabeamento estruturado', 'rede de computador',
       'redes de computador', 'rede local', 'rede wan', 'rede wireless', 'gerencia de rede',
-      'gerenciamento de rede', 'armazenamento de dados', 'storage', 'computacao em nuvem',
-      'nuvem', 'cloud', 'backup', 'virtualizac', 'roteador', 'switch ', 'access point',
-      'ponto de acesso de rede', 'no-break', 'cftv', 'video monitoramento',
-      'circuito fechado de televisao', 'disco rigido', 'sala-cofre',
+      'gerenciamento de rede', 'manutencao de rede', 'rede de dados', 'rede de voz e dados',
+      'monitoramento de rede', 'monitoramento de servidor', 'monitoramento de ativos de ti',
+      'administracao de servidor', 'manutencao de servidor', 'operacao de infraestrutura',
+      'armazenamento de dados', 'storage', 'computacao em nuvem',
+      'nuvem', 'cloud', 'backup', 'virtualizac', 'roteador', 'roteadores', 'switch ',
+      'switches', 'access point', 'ponto de acesso de rede', 'no-break', 'cftv',
+      'video monitoramento', 'circuito fechado de televisao', 'disco rigido', 'sala-cofre',
+      'windows server', 'linux', 'sistema operacional', 'alta disponibilidade',
+      'noc ', 'zabbix', 'grafana', 'infraestrutura tolerante a falhas',
     ],
   },
   {
@@ -58,10 +63,15 @@ export const CATEGORIAS_TECNOLOGIA: Categoria[] = [
     label: 'Segurança e firewall',
     cor: '#dc2626',
     palavras: [
-      'firewall', 'seguranca da informacao', 'seguranca de rede', 'seguranca cibernetic',
-      'antivirus', 'protecao de dados', 'protecao de endpoints', 'teste de intrusao',
-      'pentest', 'controlador de trafego', 'controle de trafego', 'utm', 'vpn',
-      'gestao de identidade', 'autenticacao de acesso', 'resposta a incidentes',
+      'firewall', 'firewall ngfw', 'ngfw', 'implementacao de firewall', 'seguranca da informacao',
+      'seguranca de rede', 'seguranca cibernetic', 'seguranca de perimetro',
+      'antivirus', 'antivirus corporativo', 'antivirus corporativa', 'edr ', 'xdr ',
+      'protecao de dados', 'protecao de endpoints', 'protecao de servidor',
+      'protecao de servidores', 'teste de intrusao', 'pentest', 'controlador de trafego',
+      'controle de trafego', 'utm', 'vpn', 'sd-wan', 'gestao de identidade',
+      'autenticacao de acesso', 'resposta a incidentes', 'gestao de vulnerabilidades',
+      'servicos gerenciados de seguranca', 'servico gerenciado de seguranca',
+      'monitoramento de seguranca', 'soc ', 'csirt',
     ],
   },
   {
@@ -81,7 +91,11 @@ export const CATEGORIAS_TECNOLOGIA: Categoria[] = [
     cor: '#6b7280',
     palavras: [
       'tecnologia da informacao', 'informatica', 'servicos de ti', 'servicos de tecnologia',
-      'tic ', 'transformacao digital', 'governanca de ti', 'suporte de ti', 'suporte tecnico de informatica',
+      'tic ', 'transformacao digital', 'governanca de ti', 'suporte de ti',
+      'suporte tecnico de informatica', 'suporte tecnico em ti', 'suporte tecnico',
+      'servicos tecnicos de informatica', 'servico de informatica', 'servicos de informatica',
+      'servicos em informatica', 'help desk', 'service desk', 'central de servicos',
+      'atendimento ao usuario', 'outsourcing de ti', 'servicos continuados de ti',
       'equipamento de informatica', 'materiais de informatica', 'consultoria em ti',
       'pecas de computador', 'computadores', 'monitor de computador', 'notebook',
       'impressora', 'material de ti',
@@ -102,6 +116,15 @@ const ANCORAS = [
   'informatica', 'tecnologia da informacao', 'desenvolvim de software', 'desenvolvim de sistema',
   'gerencia de rede', 'cftv', 'video monitoramento', 'pentest', 'vpn', 'computador',
   'computadores', 'notebook', 'impressora',
+  'suporte tecnico', 'help desk', 'service desk', 'central de servicos',
+  'outsourcing', 'servicos continuados', 'atendimento ao usuario',
+  'administracao de servidor', 'manutencao de servidor', 'manutencao de rede',
+  'monitoramento de rede', 'monitoramento de servidor', 'monitoramento de ativos de ti',
+  'rede de dados', 'rede de voz e dados', 'switches', 'roteador', 'roteadores',
+  'windows server', 'sistema operacional', 'alta disponibilidade', 'operacao de infraestrutura',
+  'firewall ngfw', 'ngfw', 'sd-wan', 'edr ', 'xdr ', 'seguranca de perimetro',
+  'gestao de vulnerabilidades', 'servicos gerenciados de seguranca',
+  'protecao de servidor', 'protecao de servidores', 'zabbix', 'grafana',
 ];
 
 /** Veto: se aparecer, o objeto não é considerado tecnologia. */
@@ -122,6 +145,8 @@ const EXCLUSOES = [
   'destinados aos servidores', 'uniformes', 'epis destinados', 'agentes comunitarios',
   'agente de controle de endemias', 'instituicao financeira ou cooperativa',
   'folha de pagamento dos servidores',
+  'usuario do sus', 'atendimento ao usuario do sus', 'agendamento de consultas',
+  'unidade basica de saude',
 ];
 
 function compilar(palavra: string): RegExp {

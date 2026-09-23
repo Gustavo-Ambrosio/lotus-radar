@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { classificar } from '../src/lib/categorias';
 import { classificarTecnologia } from '../src/lib/segmentos/tecnologia';
 import { urlSegura } from '../src/lib/seguranca';
+import { estaEncerrada } from '../src/lib/vigencia';
 import type { Licitacao, Segmento, Snapshot } from '../src/lib/tipos';
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
@@ -29,6 +30,10 @@ function derivarNumeros(id: string): {
 }
 
 function reprocessar(licitacao: Licitacao): Licitacao | null {
+  if (estaEncerrada(licitacao.dataEncerramentoProposta, licitacao.situacao)) {
+    return null;
+  }
+
   const classificacao = classificar(licitacao.objeto);
   const classificacaoTecnologia = classificarTecnologia(licitacao.objeto);
 
@@ -82,7 +87,7 @@ async function principal(): Promise<void> {
   const atualizado: Snapshot = {
     ...snapshot,
     total: reprocessadas.length,
-    observacao: `${snapshot.observacao} Categorias reprocessadas offline em ${new Date().toISOString()}.`,
+    observacao: `${snapshot.observacao} Reprocessado em ${new Date().toISOString()} (apenas oportunidades abertas).`,
     licitacoes: reprocessadas,
   };
 

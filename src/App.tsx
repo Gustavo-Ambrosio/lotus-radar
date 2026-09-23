@@ -83,15 +83,12 @@ export default function App() {
 
   const categoriasDisponiveis = useMemo(() => {
     const base = categoriasDoSegmento(segmento);
-    return base
-      .map((c) => ({
-        id: c.id,
-        label: c.label,
-        cor: c.cor,
-        total: licitacoesDoSegmento.filter((l) => l.categorias.includes(c.id)).length,
-      }))
-      .filter((c) => c.total > 0)
-      .sort((a, b) => b.total - a.total);
+    return base.map((c) => ({
+      id: c.id,
+      label: c.label,
+      cor: c.cor,
+      total: licitacoesDoSegmento.filter((l) => l.categorias.includes(c.id)).length,
+    }));
   }, [segmento, licitacoesDoSegmento]);
 
   const filtradas = useMemo(

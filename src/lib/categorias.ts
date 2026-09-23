@@ -47,9 +47,12 @@ export const CATEGORIAS: Categoria[] = [
     cor: '#0ea5e9',
     palavras: [
       'audiovisual', 'cinem', 'film', 'documentari', 'curta metrag', 'longa metrag',
-      'producao de video', 'equipamento audiovisual', 'streaming', 'animac', 'cinegraf',
+      'producao de video', 'producao audiovisual', 'producao cultural de audiovisual',
+      'producao de conteudo audiovisual', 'produtora audiovisual',
+      'equipamento audiovisual', 'streaming', 'animac', 'cinegraf',
       'sala de cinema', 'festival de cinema', 'mostra de cinema', 'cineclub',
       'producao cinematografic', 'videoclipe', 'clipe musical', 'cinemadeatro',
+      'trilha sonora', 'musica e audiovisual', 'audiovisual e musica', 'jornalistico audiovisual',
     ],
   },
   {
@@ -75,13 +78,36 @@ export const CATEGORIAS: Categoria[] = [
     ],
   },
   {
+    id: 'eventos-literarios',
+    label: 'Eventos literários',
+    cor: '#4ade80',
+    palavras: [
+      'evento literari', 'festival literari', 'semana literaria', 'semana do livro',
+      'feira literaria', 'feira do livro', 'bienal do livro', 'salao do livro',
+      'sarau', 'sarau literari', 'encontro de escritor', 'encontro literari',
+      'mesa redonda literaria', 'clube do livro', 'clube de leitura',
+      'contacao de histor', 'hora do conto',
+    ],
+  },
+  {
+    id: 'publicacoes-literarias',
+    label: 'Publicações literárias',
+    cor: '#86efac',
+    palavras: [
+      'publicacao literari', 'publicacao de livro', 'publicacao de obra', 'publicacao de text',
+      'publicacao poetica', 'publicacao e distribuic', 'publicar obra', 'edicao de livro',
+      'edicao de obra', 'edicao literari', 'lancamento de livro', 'lancamento de obra',
+      'selo editoria', 'editora de livro', 'coedicao', 'publicacao de revist literari',
+    ],
+  },
+  {
     id: 'literatura',
     label: 'Literatura e livro',
     cor: '#16a34a',
     palavras: [
       'literat', 'livro', 'poesi', 'escritor', 'editora', 'quadrinh',
-      'historias em quadrinho', 'contacao de histor', 'feira do livro', 'sarau',
-      'bibliotec', 'hq ', 'graphic novel', 'clube de leitura',
+      'historias em quadrinho', 'bibliotec', 'hq ', 'graphic novel', 'romanc',
+      'contista', 'coletanea', 'antologia', 'cronica',
     ],
   },
   {
@@ -124,13 +150,54 @@ export const CATEGORIAS: Categoria[] = [
     ],
   },
   {
+    id: 'premiacoes',
+    label: 'Premiações e prêmios',
+    cor: '#f59e0b',
+    palavras: [
+      'premiac', 'premio literari', 'premio de music', 'premio de cinem', 'premio de teatr',
+      'premio de danca', 'premio de arte', 'premio municipal de cultur', 'premio de cultur',
+      'premio de incentivo', 'concurso de premia', 'premio nacional de', 'premio estadual de',
+      'premio de literatura', 'certame', 'concessao de premio', 'condecorac',
+    ],
+  },
+  {
     id: 'fomento',
-    label: 'Fomento, editais e prêmios',
+    label: 'Fomento e editais',
     cor: '#2563eb',
     palavras: [
       'foment', 'edital de foment', 'lei paulo gustavo', 'aldir blanc', 'incentivo cultur',
-      'premio', 'premiac', 'subvenc', 'chamamento public', 'selecao public', 'bolsa',
+      'subvenc', 'chamamento public', 'selecao public', 'bolsa',
       'auxilio cultur', 'credito cultur', 'mecenat', 'concurso cultur',
+    ],
+  },
+  {
+    id: 'producao-cultural',
+    label: 'Produção cultural',
+    cor: '#94a3b8',
+    palavras: [
+      'producao cultur', 'producao artistica', 'producao de evento cultur',
+      'producao de espeta', 'producao de shows', 'producao de show', 'producao de festiv',
+      'realizac de evento cultur', 'produtor de evento cultur', 'produtora cultural',
+      'montagem de evento cultur',
+    ],
+  },
+  {
+    id: 'eventos-artisticos',
+    label: 'Evento artístico',
+    cor: '#fb7185',
+    palavras: [
+      'evento artistic', 'evento de arte', 'festival artistic', 'mostra artistica',
+      'programacao artistica', 'semana artistica', 'espetac artistic', 'eventos artisticos',
+    ],
+  },
+  {
+    id: 'eventos-festivais',
+    label: 'Eventos e festivais',
+    cor: '#ea580c',
+    palavras: [
+      'festiv', 'carnav', 'evento cultur', 'aniversario do municipio',
+      'semana cultur', 'mostra cultur', 'programacao cultur', 'feira cultur',
+      'festa junina', 'arraia', 'festival gastronomico cultural',
     ],
   },
   {
@@ -155,11 +222,11 @@ export const CATEGORIAS: Categoria[] = [
   },
   {
     id: 'gestao',
-    label: 'Gestão e produção cultural',
+    label: 'Gestão cultural',
     cor: '#475569',
     palavras: [
       'gestao cultur', 'consultoria cultur', 'plano de cultura', 'plano municipal de cultura',
-      'produtor cultur', 'producao cultur', 'curador', 'assessoria cultur',
+      'produtor cultur', 'curador', 'assessoria cultur',
       'sistema municipal de cultura', 'conselho de cultura', 'diagnostico cultur',
     ],
   },
@@ -169,7 +236,7 @@ export const CATEGORIAS: Categoria[] = [
     cor: '#6b7280',
     palavras: [
       'cultur', 'artist', 'manifestacao cultur', 'projeto cultur', 'linguagem artistic',
-      'apresentacao artistic', 'agente cultur', 'fazedor cultur', 'incentivador cultur',
+      'agente cultur', 'fazedor cultur', 'incentivador cultur',
     ],
   },
 ];
@@ -185,10 +252,26 @@ const ANCORAS = [
   'festiv', 'folclor', 'artesanat', 'capoeir', 'fandang', 'carnav',
   'quadrinh', 'sarau', 'oficina cultur', 'edital de foment',
   'lei paulo gustavo', 'aldir blanc', 'premio cultur', 'mostra cultur',
-  'apresentacao artistic', 'manifestacao cultur', 'projeto cultur',
+  'manifestacao cultur', 'projeto cultur',
   'psytrance', 'darkpsy', 'trance', 'dj ', 'rave ', 'eletronic dance', 'electronic dance',
   'eletronic music', 'multicultural', 'intercultural', 'pluricultural',
   'videoarte', 'video arte', 'arte sonora', 'arte digital', 'artes digitais', 'tecnoarte',
+  'evento literari', 'festival literari', 'semana literaria', 'semana do livro',
+  'feira do livro', 'feira literaria', 'bienal do livro', 'salao do livro',
+  'encontro de escritor', 'encontro literari', 'clube do livro', 'clube de leitura',
+  'contacao de histor', 'hora do conto',
+  'publicacao literari', 'publicacao de livro', 'publicacao de obra', 'publicacao de text',
+  'edicao de livro', 'edicao de obra', 'edicao literari', 'lancamento de livro',
+  'lancamento de obra', 'selo editoria',
+  'premiac', 'premio literari', 'premio de music', 'premio de cinem', 'premio de teatr',
+  'premio de danca', 'premio de arte', 'premio municipal de cultur', 'premio de cultur',
+  'premio de incentivo', 'concurso de premia', 'premio nacional de cultur', 'certame',
+  'producao cultur', 'producao artistica', 'producao de evento cultur', 'producao de espeta',
+  'producao de show', 'produtora cultural', 'realizac de evento cultur',
+  'evento artistic', 'evento de arte', 'festival artistic', 'mostra artistica',
+  'programacao artistica', 'semana artistica',
+  'trilha sonora', 'producao audiovisual', 'producao de conteudo audiovisual',
+  'musica e audiovisual', 'audiovisual e musica',
 ];
 
 /** Veto: se aparecer (substring), o objeto não é considerado cultura. */

@@ -515,6 +515,14 @@ strong {
   color: var(--primario-forte);
 }
 
+.chip--zero {
+  opacity: 0.55;
+}
+
+.chip--zero .chip__ponto {
+  filter: grayscale(0.6);
+}
+
 .chip__ponto {
   width: 10px;
   height: 10px;
