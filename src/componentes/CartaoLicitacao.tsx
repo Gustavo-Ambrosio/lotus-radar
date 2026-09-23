@@ -1,23 +1,31 @@
+import { useState } from 'react';
 import { corCategoria, principalDoSegmento, rotuloCategoria, rotuloSegmento } from '../lib/segmentos';
 import {
   diasRestantes,
   formatarData,
   formatarMoeda,
   formatarPeriodo,
+  horasRestantes,
   nivelPrazo,
   rotuloPrazo,
+  foiPublicadoRecentemente,
 } from '../lib/formato';
+import { destacar } from '../lib/destaque';
 import { urlSegura } from '../lib/seguranca';
 import type { Licitacao, Segmento } from '../lib/tipos';
 
 interface Props {
   licitacao: Licitacao;
   segmento: Segmento;
+  busca?: string;
 }
 
-export function CartaoLicitacao({ licitacao, segmento }: Props) {
+export function CartaoLicitacao({ licitacao, segmento, busca = '' }: Props) {
+  const [expandido, setExpandido] = useState(false);
   const dias = diasRestantes(licitacao.dataEncerramentoProposta);
+  const horas = horasRestantes(licitacao.dataEncerramentoProposta);
   const nivel = nivelPrazo(dias);
+  const recente = foiPublicadoRecentemente(licitacao.dataPublicacao, 72);
   const identificacao =
     licitacao.numeroControlePncp || licitacao.numeroCompra || `ID ${licitacao.id}`;
 
@@ -28,8 +36,11 @@ export function CartaoLicitacao({ licitacao, segmento }: Props) {
   const linkPncp = urlSegura(licitacao.linkPncp || licitacao.link);
   const linkOrigem = urlSegura(licitacao.linkSistemaOrigem);
 
+  const trechosObjeto = destacar(licitacao.objeto, busca);
+  const encerraEmBreve = horas !== null && horas >= 0 && horas <= 24;
+
   return (
-    <article className="cartao">
+    <article className={`cartao cartao--${nivel}`}>
       <header className="cartao__topo">
         <div className="cartao__selos">
           <span
@@ -42,6 +53,9 @@ export function CartaoLicitacao({ licitacao, segmento }: Props) {
           >
             {principal ? rotuloCategoria(principal) : rotuloSegmento(segmento)}
           </span>
+          {recente && dias !== null && dias >= 0 && (
+            <span className="badge badge--novo">Novo</span>
+          )}
           <span className="badge">{licitacao.esfera}</span>
           <span className="badge">{licitacao.modalidade}</span>
           {outrosSegmentos.map((s) => (
@@ -50,10 +64,29 @@ export function CartaoLicitacao({ licitacao, segmento }: Props) {
             </span>
           ))}
         </div>
-        <span className={`prazo prazo--${nivel}`}>{rotuloPrazo(dias)}</span>
+        <div className="cartao__prazo">
+          <span className={`prazo prazo--${nivel}`}>{rotuloPrazo(dias)}</span>
+          {encerraEmBreve && dias !== null && dias <= 0 && (
+            <span className="prazo prazo--urgente prazo--24h">Encerra em {Math.max(horas, 1)}h</span>
+          )}
+        </div>
       </header>
 
-      <h3 className="cartao__objeto">{licitacao.objeto}</h3>
+      <h3 className={`cartao__objeto ${expandido ? 'cartao__objeto--expandido' : ''}`}>
+        {trechosObjeto.map((trecho, i) =>
+          trecho.marca ? (
+            <mark key={i} className="busca-destaque">
+              {trecho.texto}
+            </mark>
+          ) : (
+            <span key={i}>{trecho.texto}</span>
+          ),
+        )}
+      </h3>
+
+      {expandido && licitacao.informacaoComplementar && (
+        <p className="cartao__resumo">{licitacao.informacaoComplementar}</p>
+      )}
 
       <p className="inscricao">
         <span className="inscricao__rotulo">Período de inscrição</span>
@@ -91,11 +124,15 @@ export function CartaoLicitacao({ licitacao, segmento }: Props) {
         </div>
       </dl>
 
-      {licitacao.informacaoComplementar && (
-        <details className="cartao__complemento">
-          <summary>Informações complementares</summary>
-          <p>{licitacao.informacaoComplementar}</p>
-        </details>
+      {licitacao.informacaoComplementar && !expandido && (
+        <button type="button" className="cartao__expandir" onClick={() => setExpandido(true)}>
+          Ver detalhes
+        </button>
+      )}
+      {licitacao.informacaoComplementar && expandido && (
+        <button type="button" className="cartao__expandir" onClick={() => setExpandido(false)}>
+          Ocultar detalhes
+        </button>
       )}
 
       <footer className="cartao__rodape">

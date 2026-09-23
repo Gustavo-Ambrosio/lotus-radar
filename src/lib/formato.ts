@@ -54,6 +54,21 @@ export function diasRestantes(iso: string | null): number | null {
   return Math.ceil(diferenca / 86_400_000);
 }
 
+export function horasRestantes(iso: string | null): number | null {
+  if (!iso) return null;
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return null;
+  return Math.ceil((d.getTime() - Date.now()) / 3_600_000);
+}
+
+export function foiPublicadoRecentemente(iso: string | null, janelaHoras = 168): boolean {
+  if (!iso) return false;
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return false;
+  const ms = d.getTime();
+  return ms <= Date.now() && Date.now() - ms <= janelaHoras * 3_600_000;
+}
+
 export function rotuloPrazo(dias: number | null): string {
   if (dias === null) return 'Prazo não informado';
   if (dias < 0) return 'Encerrado';

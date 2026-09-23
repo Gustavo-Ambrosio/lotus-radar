@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && tsx scripts/gerar-feeds.ts",
     "preview": "vite preview",
     "coletar": "tsx scripts/coletar.ts",
     "processar": "tsx scripts/coletar.ts --offline",
@@ -15,10 +15,12 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "leaflet": "^1.9.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.9.22",
     "@types/node": "^22.10.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",

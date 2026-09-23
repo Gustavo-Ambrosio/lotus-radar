@@ -1,11 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { categoriasDoSegmento } from './lib/segmentos';
 import { aplicarFiltros, FILTROS_INICIAIS, valoresUnicos, type Filtros } from './lib/filtros';
 import { formatarDataHora } from './lib/formato';
+import { agruparPorDia } from './lib/agrupar';
+import { filtrosDaUrl, montarQuery, segmentoDaUrl } from './lib/url';
+import { baixarArquivo, licitacoesParaCsv } from './lib/exportar';
 import type { Segmento, Snapshot } from './lib/tipos';
 import { Kpis } from './componentes/Kpis';
 import { PainelFiltros } from './componentes/Filtros';
 import { CartaoLicitacao } from './componentes/CartaoLicitacao';
+import { MapaLicitacoes } from './componentes/MapaLicitacoes';
 
 const SEGMENTOS: { id: Segmento; rotulo: string; emBreve: boolean }[] = [
   { id: 'cultura', rotulo: 'Cultural', emBreve: false },
@@ -29,8 +33,11 @@ export default function App() {
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
-  const [segmento, setSegmento] = useState<Segmento>('cultura');
-  const [filtros, setFiltros] = useState<Filtros>(FILTROS_INICIAIS);
+  const [segmento, setSegmento] = useState<Segmento>(() => segmentoDaUrl(new URLSearchParams(window.location.search)));
+  const [filtros, setFiltros] = useState<Filtros>(() => filtrosDaUrl(new URLSearchParams(window.location.search)));
+  const [mostrarMapa, setMostrarMapa] = useState(false);
+  const [linkCopiado, setLinkCopiado] = useState(false);
+  const primeiroRender = useRef(true);
 
   useEffect(() => {
     let ativo = true;
@@ -60,6 +67,26 @@ export default function App() {
     return () => {
       ativo = false;
     };
+  }, []);
+
+  useEffect(() => {
+    if (primeiroRender.current) {
+      primeiroRender.current = false;
+      return;
+    }
+    const parans = montarQuery(segmento, filtros);
+    const caminho = parans ? `${window.location.pathname}${parans}` : window.location.pathname;
+    window.history.replaceState(null, '', caminho);
+  }, [segmento, filtros]);
+
+  useEffect(() => {
+    const aoNavagar = () => {
+      const parans = new URLSearchParams(window.location.search);
+      setSegmento(segmentoDaUrl(parans));
+      setFiltros(filtrosDaUrl(parans));
+    };
+    window.addEventListener('popstate', aoNavagar);
+    return () => window.removeEventListener('popstate', aoNavagar);
   }, []);
 
   const licitacoes = snapshot?.licitacoes ?? [];
@@ -96,10 +123,40 @@ export default function App() {
     [licitacoesDoSegmento, filtros],
   );
 
+  const grupos = useMemo(() => agruparPorDia(filtradas), [filtradas]);
+
   function trocarSegmento(novo: Segmento) {
     if (novo === segmento) return;
     setSegmento(novo);
     setFiltros((atual) => ({ ...atual, categorias: [] }));
+  }
+
+  function confirmarMunicipioNoMapa(municipio: string) {
+    setFiltros((atual) => ({ ...atual, municipio }));
+  }
+
+  async function copiarLink() {
+    const parans = montarQuery(segmento, filtros);
+    const destino = `${window.location.origin}${window.location.pathname}${parans}`;
+    try {
+      await navigator.clipboard.writeText(destino);
+      setLinkCopiado(true);
+      window.setTimeout(() => setLinkCopiado(false), 1800);
+    } catch {
+      setLinkCopiado(false);
+    }
+  }
+
+  function exportarCsv() {
+    baixarArquivo(`lotus-radar-${segmento}.csv`, licitacoesParaCsv(filtradas), 'text/csv;charset=utf-8');
+  }
+
+  function exportarJson() {
+    baixarArquivo(
+      `lotus-radar-${segmento}.json`,
+      JSON.stringify({ geradoEm: snapshot?.geradoEm ?? null, segmento, total: filtradas.length, licitacoes: filtradas }, null, 2),
+      'application/json;charset=utf-8',
+    );
   }
 
   return (
@@ -201,16 +258,59 @@ export default function App() {
             ) : (
               <section className="lista" aria-label="Oportunidades abertas">
                 <header className="lista__cabecalho">
-                  <h2>Oportunidades abertas</h2>
-                  <span className="lista__contador">
-                    {filtradas.length.toLocaleString('pt-BR')} {filtradas.length === 1 ? 'edital' : 'editais'}
-                  </span>
+                  <div className="lista__titulos">
+                    <h2>Oportunidades abertas</h2>
+                    <span className="lista__contador">
+                      {filtradas.length.toLocaleString('pt-BR')}{' '}
+                      {filtradas.length === 1 ? 'edital' : 'editais'}
+                    </span>
+                  </div>
+                  <div className="lista__acoes">
+                    <button
+                      type="button"
+                      className={`mapa__botao-abrir${mostrarMapa ? ' mapa__botao-abrir--ativo' : ''}`}
+                      onClick={() => setMostrarMapa((v) => !v)}
+                      aria-expanded={mostrarMapa}
+                    >
+                      {mostrarMapa ? 'Ocultar mapa' : 'Ver mapa'}
+                    </button>
+                    <button type="button" className="ferramenta" onClick={() => void copiarLink()}>
+                      {linkCopiado ? 'Link copiado ✓' : 'Copiar link'}
+                    </button>
+                    <button type="button" className="ferramenta" onClick={exportarCsv}>
+                      CSV
+                    </button>
+                    <button type="button" className="ferramenta" onClick={exportarJson}>
+                      JSON
+                    </button>
+                  </div>
                 </header>
-                <div className="lista__grade">
-                  {filtradas.map((licitacao) => (
-                    <CartaoLicitacao key={licitacao.id} licitacao={licitacao} segmento={segmento} />
-                  ))}
-                </div>
+
+                {mostrarMapa && (
+                  <MapaLicitacoes
+                    licitacoes={filtradas}
+                    onFiltrarMunicipio={confirmarMunicipioNoMapa}
+                  />
+                )}
+
+                {grupos.map((grupo) => (
+                  <section key={grupo.chave} className="grupo" aria-label={grupo.rotulo}>
+                    <h3 className="grupo__titulo">
+                      {grupo.rotulo}
+                      <span className="grupo__contador">{grupo.itens.length}</span>
+                    </h3>
+                    <div className="lista__grade">
+                      {grupo.itens.map((licitacao) => (
+                        <CartaoLicitacao
+                          key={licitacao.id}
+                          licitacao={licitacao}
+                          segmento={segmento}
+                          busca={filtros.busca}
+                        />
+                      ))}
+                    </div>
+                  </section>
+                ))}
               </section>
             )}
           </>
@@ -222,8 +322,8 @@ export default function App() {
           <div className="rodape__bloco">
             <p className="rodape__titulo">Sobre</p>
             <p className="rodape__texto">
-              Projeto independente e gratuito, sem vínculo com órgãos públicos. A cobertura depende de o
-              órgão publicar no PNCP. {snapshot?.observacao ?? ''}
+              Projeto independente e gratuito, sem vínculo com órgãos públicos. A cobertura depende
+              de o órgão publicar no PNCP. {snapshot?.observacao ?? ''}
             </p>
           </div>
           <div className="rodape__bloco">
@@ -235,6 +335,14 @@ export default function App() {
               </a>
               . A classificação (cultural ou tecnológica) é inferida automaticamente pelo texto do
               objeto e pode não refletir a classificação oficial.
+            </p>
+          </div>
+        <div className="rodape__bloco">
+            <p className="rodape__titulo">Acompanhar</p>
+            <p className="rodape__texto">
+              <a href="./feed.rss" rel="noopener noreferrer">Assinar o feed RSS</a> ·{' '}
+              <a href="./calendario.ics" rel="noopener noreferrer">Adicionar ao calendário (iCal)</a>{' '}
+              — exporte também o recorte filtrado com os botões CSVe JSON acima da lista.
             </p>
           </div>
         </div>

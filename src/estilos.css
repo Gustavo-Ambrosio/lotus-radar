@@ -850,6 +850,209 @@ strong {
   line-height: 1;
 }
 
+/* ---------- Busca com destaque ---------- */
+
+.busca-destaque {
+  background: #fff173;
+  color: #1a1700;
+  border-radius: 3px;
+  padding: 0 1px;
+  box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.45);
+}
+
+/* ---------- Agrupamento por dia ---------- */
+
+.grupo {
+  margin-bottom: 26px;
+}
+
+.grupo__titulo {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 0.98rem;
+  font-weight: 720;
+  letter-spacing: -0.005em;
+  color: var(--tinta);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--linha);
+}
+
+.grupo__contador {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--tinta-fraca);
+  background: #eef0f7;
+  border: 1px solid var(--linha);
+  padding: 1px 8px;
+  border-radius: 999px;
+}
+
+/* ---------- Lista: cabeçalho e ferramentas ---------- */
+
+.lista__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.lista__titulos {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.lista__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.ferramenta,
+.mapa__botao-abrir {
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 650;
+  padding: 7px 13px;
+  border-radius: 10px;
+  border: 1px solid var(--linha);
+  background: #fff;
+  color: var(--tinta);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.ferramenta:hover {
+  border-color: var(--primario);
+  color: var(--primario-forte);
+}
+
+.mapa__botao-abrir {
+  border-color: rgba(109, 46, 241, 0.4);
+  background: var(--primario-claro);
+  color: var(--primario-forte);
+}
+
+.mapa__botao-abrir:hover,
+.mapa__botao-abrir--ativo {
+  background: var(--primario);
+  border-color: var(--primario);
+  color: #fff;
+}
+
+/* ---------- Cartão: criticidade visual ---------- */
+
+.cartao {
+  border-left: 3px solid #d7dbe8;
+}
+
+.cartao--proximo {
+  border-left-color: #f59e0b;
+}
+
+.cartao--urgente {
+  border-left-color: var(--destaque);
+}
+
+.cartao--encerrado {
+  border-left-color: #94a3b8;
+  opacity: 0.72;
+}
+
+.cartao__prazo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex: none;
+}
+
+.prazo--24h {
+  font-size: 0.72rem;
+}
+
+.badge--novo {
+  border-color: rgba(22, 163, 74, 0.35);
+  background: rgba(22, 163, 74, 0.1);
+  color: var(--sucesso);
+  font-weight: 700;
+}
+
+/* ---------- Cartão: objeto e detalhes ---------- */
+
+.cartao__objeto--expandido {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.cartao__resumo {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f9fafc;
+  border: 1px solid var(--linha);
+  font-size: 0.9rem;
+  color: var(--tinta-fraca);
+}
+
+.cartao__expandir {
+  align-self: flex-start;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 650;
+  padding: 5px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--linha);
+  background: #fff;
+  color: var(--primario);
+  cursor: pointer;
+}
+
+.cartao__expandir:hover {
+  border-color: var(--primario);
+}
+
+/* ---------- Mapa ---------- */
+
+.mapa__moldura {
+  margin-bottom: 24px;
+  padding: 12px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-card);
+  background: var(--superficie);
+  box-shadow: var(--sombra-lev);
+}
+
+.mapa__mapa {
+  height: 380px;
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.mapa__dica {
+  margin: 10px 2px 0;
+  font-size: 0.82rem;
+  color: var(--tinta-fraca);
+}
+
+.mapa__filtro {
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 650;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--primario);
+  background: var(--primario-claro);
+  color: var(--primario-forte);
+  cursor: pointer;
+}
+
 /* ---------- Rodapé ---------- */
 
 .rodape {
@@ -938,9 +1141,22 @@ strong {
 
   .filtros__titulo,
   .filtros__rodape,
-  .cartao__rodape {
+  .cartao__rodape,
+  .lista__cabecalho {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .lista__acoes {
+    justify-content: flex-start;
+  }
+
+  .cartao__prazo {
+    align-items: flex-start;
+  }
+
+  .mapa__mapa {
+    height: 280px;
   }
 
   .cartao__dados {

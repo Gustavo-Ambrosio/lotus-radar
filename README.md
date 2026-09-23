@@ -32,7 +32,14 @@ src/lib/tipos.ts          Tipos do snapshot e da licitação
 src/lib/filtros.ts        Regras de filtro/ordenação (funções puras)
 src/lib/formato.ts        Formatação de moeda, data e prazo
 src/lib/vigencia.ts       Regra de "live": remove encerradas por prazo ou situação
-src/componentes/          KPIs, filtros e cartões
+src/lib/url.ts            Sincronização de segmento/filtros com a URL
+src/lib/agrupar.ts        Agrupamento da lista por dia (Hoje/Ontem/data)
+src/lib/destaque.ts       Destaque dos termos da busca no cartão
+src/lib/exportar.ts       Exportação CSV/JSON do recorte filtrado
+src/lib/municipios-pr.ts  Coordenadas dos 399 municípios do PR (mapa)
+scripts/gerar-feeds.ts    Gera feed.rss e calendario.ics no build
+scripts/gerar-geo-pr.ts   Regenera municipios-pr.ts a partir de GeoJSON
+src/componentes/          KPIs, filtros, cartões e mapa (Leaflet)
 src/App.tsx               Dashboard
 public/dados/licitacoes.json   Snapshot publicado
 .github/workflows/pages.yml    Coleta diária + build + deploy no Pages
@@ -61,6 +68,14 @@ Além da busca por texto e dos chips de categoria, o painel permite combinar:
 - Ordenação por prazo, data de publicação, valor, município ou órgão.
 
 Os **filtros ativos** aparecem como chips removíveis, um a um, acima do botão "Limpar filtros".
+
+## Amostragem, mapa e compartilhamento
+
+- **URL compartilhável**: cada combinação de segmento + filtros fica salva na query string (`?seg=tecnologia&busca=rede&municipio=Curitiba`). Copie com o botão **"Copiar link"** acima da lista e compartilhe o recorte exato.
+- **Agrupamento por dia**: a lista é organizada em **Hoje / Ontem / data** conforme a data de publicação, com ordenação interna seguindo o filtro escolhido.
+- **Mapa do Paraná** (Leaflet): o botão **"Ver mapa"** mostra um ponto por município com tamanho proporcional ao número de oportunidades; cada ponto pode ser usado para **filtrar** por aquele município. As coordenadas vêm de `src/lib/municipios-pr.ts` (gerado por `scripts/gerar-geo-pr.ts` a partir do GeoJSON público de municípios).
+- **Cartões**: o termo da busca fica **destacado em amarelo**, selos indicam **"novo"** (publicado nas últimas 72h) e **"encerra em Xh"** (últimas 24h), o cartão indica a **criticidade** pela borda (vermelho = encerra em ≤ 3 dias, âmbar = ≤ 10 dias) e dá para **expandir** para ver as informações complementares sem sair da lista.
+- **Exportar e assinar**: acima da lista, os botões **CSV** e **JSON** exportam exatamente o recorte filtrado. O build também gera **`dist/feed.rss`** (últimos 50 em RSS) e **`dist/calendario.ics`** (todos encerrando em um calendário do iCal), acessíveis em `/feed.rss` e `/calendario.ics` e linkados no rodapé — dá para assinar e acompanhar em qualquer leitor de feeds ou agenda.
 
 ## Dados de cada licitação
 
@@ -123,7 +138,7 @@ Se usar domínio próprio, ajuste `base` em `vite.config.ts` para `'/'` (ou defi
 O site é estático e não guarda dados de usuários, mas trata conteúdo **externo** (objetos, links e informações complementares vindos do PNCP):
 
 - **URLs**: todo link exibido passa por `src/lib/seguranca.ts` (`urlSegura`) — aceita apenas `http`/`https`, sem credenciais embutidas e com tamanho limitado. A sanitização é aplicada na coleta (`scripts/coletar.ts`, `scripts/reprocessar.ts`) e de novo na renderização (`CartaoLicitacao.tsx`) como defesa em profundidade.
-- **CSP**: o build injeta uma Content-Security-Policy restritiva (`default-src 'self'`, sem scripts inline, `object-src 'none'`, `frame-ancestors 'none'`), via plugin em `vite.config.ts`.
+- **CSP**: o build injeta uma Content-Security-Policy restritiva (`default-src 'self'`, sem scripts inline, `object-src 'none'`, `frame-ancestors 'none'`), via plugin em `vite.config.ts`. O mapa permite apenas os tiles do OpenStreetMap (`img-src`/`connect-src` → `https://*.tile.openstreetmap.org`).
 - **Código/caracteres**: o conteúdo é renderizado com React (XSS mitigado por padrão); o coletor valida e limita tamanhos de todos os campos.
 - **Dependências**: `npm audit` acompanhado; as dependências de produção são só `react`/`react-dom`.
 
