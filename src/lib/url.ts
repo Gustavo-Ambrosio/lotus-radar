@@ -30,9 +30,11 @@ export function filtrosDaUrl(busca: URLSearchParams): Filtros {
   return {
     busca: busca.get('busca') ?? '',
     categorias,
+    uf: (busca.get('uf') ?? '').toUpperCase(),
     municipio: busca.get('municipio') ?? '',
     esfera: busca.get('esfera') ?? '',
     modalidade: busca.get('modalidade') ?? '',
+    distanciaMaxKm: parseNumero(busca.get('distancia')),
     prazoMaxDias: parseNumero(busca.get('prazoMaxDias')),
     publicadoDias: parseNumero(busca.get('publicadoDias')),
     valorMinimo: parseNumero(busca.get('valorMinimo')),
@@ -47,9 +49,11 @@ export function montarQuery(segmento: Segmento, filtros: Filtros): string {
   if (segmento !== 'cultura') params.set('seg', segmento);
   if (filtros.busca) params.set('busca', filtros.busca);
   if (filtros.categorias.length > 0) params.set('categorias', filtros.categorias.join(','));
+  if (filtros.uf) params.set('uf', filtros.uf);
   if (filtros.municipio) params.set('municipio', filtros.municipio);
   if (filtros.esfera) params.set('esfera', filtros.esfera);
   if (filtros.modalidade) params.set('modalidade', filtros.modalidade);
+  if (filtros.distanciaMaxKm !== null) params.set('distancia', String(filtros.distanciaMaxKm));
   if (filtros.prazoMaxDias !== null) params.set('prazoMaxDias', String(filtros.prazoMaxDias));
   if (filtros.publicadoDias !== null) params.set('publicadoDias', String(filtros.publicadoDias));
   if (filtros.valorMinimo !== null) params.set('valorMinimo', String(filtros.valorMinimo));
@@ -58,5 +62,5 @@ export function montarQuery(segmento: Segmento, filtros: Filtros): string {
   if (filtros.ordenacao !== FILTROS_INICIAIS.ordenacao) params.set('ordenacao', filtros.ordenacao);
 
   const texto = params.toString();
-  return texto ? `?${texto}` : window.location.pathname;
+  return texto ? `?${texto}` : '';
 }

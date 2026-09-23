@@ -29,6 +29,7 @@ function licitacao(parcial: Partial<Licitacao>): Licitacao {
     categoriaPrincipal: null,
     segmentos: ['cultura'],
     situacao: '',
+    origem: 'PNCP — teste',
     ...parcial,
   };
 }

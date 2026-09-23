@@ -1,13 +1,16 @@
 import type { Licitacao } from './tipos';
 import { diasRestantes } from './formato';
 import { normalizarTexto } from './texto';
+import { coordenadasDeLicitacao, distanciaKm, type Coordenadas } from './geo';
 
 export interface Filtros {
   busca: string;
   categorias: string[];
+  uf: string;
   municipio: string;
   esfera: string;
   modalidade: string;
+  distanciaMaxKm: number | null;
   prazoMaxDias: number | null;
   publicadoDias: number | null;
   valorMinimo: number | null;
@@ -19,9 +22,11 @@ export interface Filtros {
 export const FILTROS_INICIAIS: Filtros = {
   busca: '',
   categorias: [],
+  uf: '',
   municipio: '',
   esfera: '',
   modalidade: '',
+  distanciaMaxKm: null,
   prazoMaxDias: null,
   publicadoDias: null,
   valorMinimo: null,
@@ -30,7 +35,11 @@ export const FILTROS_INICIAIS: Filtros = {
   ordenacao: 'prazo',
 };
 
-export function aplicarFiltros(lista: Licitacao[], filtros: Filtros): Licitacao[] {
+export function aplicarFiltros(
+  lista: Licitacao[],
+  filtros: Filtros,
+  localizacao?: Coordenadas | null,
+): Licitacao[] {
   const busca = normalizarTexto(filtros.busca);
 
   const filtrada = lista.filter((item) => {
@@ -41,9 +50,15 @@ export function aplicarFiltros(lista: Licitacao[], filtros: Filtros): Licitacao[
     if (filtros.categorias.length > 0 && !filtros.categorias.some((c) => item.categorias.includes(c))) {
       return false;
     }
+    if (filtros.uf && item.uf !== filtros.uf) return false;
     if (filtros.municipio && item.municipio !== filtros.municipio) return false;
     if (filtros.esfera && item.esfera !== filtros.esfera) return false;
     if (filtros.modalidade && item.modalidade !== filtros.modalidade) return false;
+    if (filtros.distanciaMaxKm !== null && localizacao) {
+      const origem = coordenadasDeLicitacao(item.uf, item.municipio);
+      if (!origem) return false;
+      if (distanciaKm(localizacao, origem) > filtros.distanciaMaxKm) return false;
+    }
     if (filtros.prazoMaxDias !== null) {
       const dias = diasRestantes(item.dataEncerramentoProposta);
       if (dias === null || dias > filtros.prazoMaxDias) return false;

@@ -60,6 +60,7 @@ function reprocessar(licitacao: Licitacao): Licitacao | null {
 
   return {
     ...licitacao,
+    origem: licitacao.origem ?? 'PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)',
     numeroControlePncp: licitacao.numeroControlePncp ?? licitacao.id,
     numeroCompra: licitacao.numeroCompra ?? null,
     anoCompra: licitacao.anoCompra ?? derivado.anoCompra,

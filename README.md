@@ -1,8 +1,8 @@
-# Radar Cultural PR
+# Radar Cultural Brasil
 
-Radar de **licitações e editais de cultura do Paraná** — Governo do Estado e todos os municípios — com foco em oportunidades **com inscrição ainda aberta**, organizadas por **categoria**, prazo, órgão e município.
+Radar de **licitações e editais de cultura e tecnologia do Brasil inteiro** — Governo Federal, estados, Distrito Federal e municípios — com foco em oportunidades **com inscrição ainda aberta**, organizadas por **estado**, município, distância da sua localização, categoria, prazo, órgão e valor.
 
-- Fonte oficial: **PNCP** (Portal Nacional de Contratações Públicas), API `/api/consulta/v1/contratacoes/proposta`.
+- Fontes oficiais: **PNCP** (Portal Nacional de Contratações Públicas, API `/api/consulta/v1/contratacoes/proposta`) e **SIC Cultura** (Secretaria de Estado da Cultura do Paraná — editais de fomento/PNAB).
 - Site 100% estático (GitHub Pages). Um job do GitHub Actions coleta os dados, grava um snapshot JSON e publica o site.
 
 ## Segmentos (abas)
@@ -18,27 +18,31 @@ A arquitetura é escalável: basta criar um classificador por segmento em `src/l
 
 A API do PNCP **não envia cabeçalhos CORS**, então o navegador não pode chamá-la direto. Ela também é lenta, limita requisições (às vezes respondendo `200` com HTML em vez de JSON) e cai com frequência. Por isso os dados são coletados fora do navegador, por um job agendado, e servidos como arquivo estático — o site abre rápido e continua no ar mesmo se o PNCP estiver fora.
 
+O coletor varre os **27 estados** na busca de licitações (órgãos federais também publicam no PNCP, sempre associados a uma UF — a unidade do órgão). Para ver só um estado: `npm run coletar` com `UFS=PR,SP`
+
 O snapshot contém **somente oportunidades abertas**: a cada coleta, e também no reprocessamento offline, as licitações com prazo de propostas já encerrado (ou anuladas, revogadas, desertas, concluídas etc.) são removidas (`src/lib/vigencia.ts`). Assim o número de editais não acumula — ele reflete apenas o que está "live" hoje.
 
 ## Arquitetura
 
 ```
-scripts/coletar.ts        Coletor PNCP: retry/backoff, paginação, orçamento de tempo, snapshot
+scripts/coletar.ts        Coletor PNCP: 27 UFs (+orgãos federais), retry/backoff, paginação, orçamento, snapshot
+scripts/coletar-sic.ts    Coletor SIC Cultura (editais de fomento do PR), best-effort com cache
+scripts/gerar-geo-br.ts   Regenera municipios-br.ts (municípios + coordenadas) a partir do IBGE e GeoJSON
 src/lib/categorias.ts     Classificador de cultura por palavras-chave (compartilhado)
 src/lib/segmentos/tecnologia.ts  Classificador de tecnologia por palavras-chave
 src/lib/segmentos.ts      Registro unificado de segmentos/categorias (rótulo, cor, principal)
 src/lib/seguranca.ts      Sanitização de URLs externas (http/https)
 src/lib/tipos.ts          Tipos do snapshot e da licitação
-src/lib/filtros.ts        Regras de filtro/ordenação (funções puras)
+src/lib/filtros.ts        Regras de filtro/ordenação (funções puras, inclui distância)
 src/lib/formato.ts        Formatação de moeda, data e prazo
 src/lib/vigencia.ts       Regra de "live": remove encerradas por prazo ou situação
 src/lib/url.ts            Sincronização de segmento/filtros com a URL
 src/lib/agrupar.ts        Agrupamento da lista por dia (Hoje/Ontem/data)
 src/lib/destaque.ts       Destaque dos termos da busca no cartão
 src/lib/exportar.ts       Exportação CSV/JSON do recorte filtrado
-src/lib/municipios-pr.ts  Coordenadas dos 399 municípios do PR (mapa)
+src/lib/geo.ts            UFs, distância (haversine) e lookup de municípios no mapa/filtros
+src/lib/municipios-br.ts  Lista oficial IBGE: 5.570 municípios com coordenadas (mapa + filtros)
 scripts/gerar-feeds.ts    Gera feed.rss e calendario.ics no build
-scripts/gerar-geo-pr.ts   Regenera municipios-pr.ts a partir de GeoJSON
 src/componentes/          KPIs, filtros, cartões e mapa (Leaflet)
 src/App.tsx               Dashboard
 public/dados/licitacoes.json   Snapshot publicado
@@ -61,7 +65,9 @@ A categoria é inferida por palavras-chave do objeto do edital (uma licitação 
 
 Além da busca por texto e dos chips de categoria, o painel permite combinar:
 
-- Município, esfera (estadual/municipal) e modalidade;
+- Estado (27 UFs) e município — o dropdown de municípios usa a **lista oficial do IBGE** (5.570 municípios), filtrada pelo estado escolhido;
+- Distância da sua localização (**geolocalização do navegador**, opcional): até 50, 100, 150, 250, 500 ou 1000 km — o site calcula a distância até o centro de cada município;
+- Esfera (federal/estadual/municipal) e modalidade;
 - Prazo de encerramento (3, 7, 15 ou 30 dias);
 - Publicação (últimos 7, 15, 30 ou 60 dias);
 - Valor estimado (mínimo e máximo) e "só com valor informado";
@@ -71,9 +77,9 @@ Os **filtros ativos** aparecem como chips removíveis, um a um, acima do botão 
 
 ## Amostragem, mapa e compartilhamento
 
-- **URL compartilhável**: cada combinação de segmento + filtros fica salva na query string (`?seg=tecnologia&busca=rede&municipio=Curitiba`). Copie com o botão **"Copiar link"** acima da lista e compartilhe o recorte exato.
+- **URL compartilhável**: cada combinação de segmento + filtros fica salva na query string (`?seg=tecnologia&uf=PR&busca=rede&municipio=Curitiba&distancia=100`). Copie com o botão **"Copiar link"** acima da lista e compartilhe o recorte exato.
 - **Agrupamento por dia**: a lista é organizada em **Hoje / Ontem / data** conforme a data de publicação, com ordenação interna seguindo o filtro escolhido.
-- **Mapa do Paraná** (Leaflet): o botão **"Ver mapa"** mostra um ponto por município com tamanho proporcional ao número de oportunidades; cada ponto pode ser usado para **filtrar** por aquele município. As coordenadas vêm de `src/lib/municipios-pr.ts` (gerado por `scripts/gerar-geo-pr.ts` a partir do GeoJSON público de municípios).
+- **Mapa do Brasil** (Leaflet): o botão **"Ver mapa"** mostra um ponto por município com tamanho proporcional ao número de oportunidades; cada ponto pode ser usado para **filtrar** por aquele município. As coordenadas vêm de `src/lib/geo.ts` + `src/lib/municipios-br.ts` (gerados por `scripts/gerar-geo-br.ts` a partir da lista do IBGE e do GeoJSON público).
 - **Cartões**: o termo da busca fica **destacado em amarelo**, selos indicam **"novo"** (publicado nas últimas 72h) e **"encerra em Xh"** (últimas 24h), o cartão indica a **criticidade** pela borda (vermelho = encerra em ≤ 3 dias, âmbar = ≤ 10 dias) e dá para **expandir** para ver as informações complementares sem sair da lista.
 - **Exportar e assinar**: acima da lista, os botões **CSV** e **JSON** exportam exatamente o recorte filtrado. O build também gera **`dist/feed.rss`** (últimos 50 em RSS) e **`dist/calendario.ics`** (todos encerrando em um calendário do iCal), acessíveis em `/feed.rss` e `/calendario.ics` e linkados no rodapé — dá para assinar e acompanhar em qualquer leitor de feeds ou agenda.
 
@@ -88,6 +94,7 @@ Cada item do arquivo `public/dados/licitacoes.json` (que funciona como a sua API
 - `linkPncp` — página oficial do edital no PNCP;
 - `linkSistemaOrigem` — link do sistema do órgão (quando existe), útil para dar o lance/proposta;
 - `valorEstimado`, `modalidade`, `situacao`;
+- `origem` — qual fonte originou o item (PNCP ou SIC Cultura);
 - `segmentos` — em quais abas a licitação aparece (`cultura` e/ou `tecnologia`);
 - `categorias` e `categoriaPrincipal` — classificação por segmento.
 
@@ -95,7 +102,7 @@ Cada item do arquivo `public/dados/licitacoes.json` (que funciona como a sua API
 
 ```bash
 npm install
-npm run coletar     # baixa do PNCP e gera public/dados/licitacoes.json
+npm run coletar     # UFS=PR,SP limitam; padrão: 27 estados. Gera public/dados/licitacoes.json
 npm run dev         # abre o dashboard em http://localhost:5173
 ```
 
@@ -119,9 +126,9 @@ O PNCP é lento e limita requisições. Para não repetir chamadas, cada página
 ## Deploy (GitHub Pages)
 
 1. No repositório: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-2. Faça push para `main`. O workflow `Radar Cultural PR` roda a coleta, o build e publica.
+2. Faça push para `main`. O workflow `Radar Cultural Brasil` roda a coleta, o build e publica.
 3. A URL fica em `https://<usuario>.github.io/lotus-radar/`.
-4. A coleta roda automaticamente todo dia (`cron: 0 9 * * *`, 06h de Brasília) e também pode ser disparada à mão em **Actions → Radar Cultural PR → Run workflow**.
+4. A coleta roda automaticamente todo dia (`cron: 0 9 * * *`, 06h de Brasília) e também pode ser disparada à mão em **Actions → Radar Cultural Brasil → Run workflow**.
 
 > Observação: o GitHub Actions ignora commits cuja mensagem contenha o token `[skip ci]` (é o que o commit automático da coleta usa para não republicar a cada dia). A detecção vale para a mensagem como um todo — inclusive se o token só aparecer como citação. Para disparar um deploy via push, **não** inclua o token na mensagem.
 
@@ -132,6 +139,8 @@ Se usar domínio próprio, ajuste `base` em `vite.config.ts` para `'/'` (ou defi
 - A cobertura depende de o órgão publicar no PNCP. Alguns municípios pequenos usam sistemas próprios e podem não aparecer.
 - O coletor tem limites de páginas e de tempo; quando corta, o snapshot é marcado como **parcial**.
 - `valorTotalEstimado` ausente ou zero é tratado como **não informado** (nunca como R$ 0,00).
+- O coletor do SIC Cultura é **best-effort**: o portal divulga prazos em linguagem natural; só entram os editais com data de encerramento futura claramente detectável.
+- O filtro de distância usa **geolocalização do navegador** (nada é enviado a servidores) e compara com o centro do município — é uma aproximação.
 
 ## Segurança
 

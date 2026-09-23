@@ -7,14 +7,30 @@ import { classificarTecnologia } from '../src/lib/segmentos/tecnologia';
 import { urlSegura } from '../src/lib/seguranca';
 import { estaEncerrada } from '../src/lib/vigencia';
 import type { Esfera, Licitacao, Segmento, Snapshot } from '../src/lib/tipos';
+import { coletarSicLicitacoes } from './coletar-sic';
 
 const BASE_PNCP = 'https://pncp.gov.br/api/consulta/v1';
-const UF = 'PR';
+
+const TODAS_UFS = [
+  'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS',
+  'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC',
+  'SP', 'SE', 'TO',
+];
+
+const UFS_SELECIONADAS = (process.env.UFS ?? 'TODAS').toUpperCase().split(',').map((s) => s.trim());
+
+function escopoDeUfs(): string[] {
+  if (UFS_SELECIONADAS.length === 1 && (UFS_SELECIONADAS[0] === 'TODAS' || !UFS_SELECIONADAS[0])) {
+    return [...TODAS_UFS];
+  }
+  return UFS_SELECIONADAS.filter((uf) => TODAS_UFS.includes(uf));
+}
+
 const TAMANHO_PAGINA = 50;
-const MAX_PAGINAS = 220;
+const MAX_PAGINAS = 120;
 const TIMEOUT_REQUISICAO_MS = 30_000;
-const ORCAMENTO_TOTAL_MS = 15 * 60_000;
-const INTERVALO_ENTRE_REQUISICOES_MS = 450;
+const ORCAMENTO_TOTAL_MS = 55 * 60_000;
+const INTERVALO_ENTRE_REQUISICOES_MS = 250;
 const DIAS_JANELA = Number(process.env.DIAS_JANELA ?? 180);
 const USER_AGENT =
   'lotus-radar/0.1 (+https://github.com/Gustavo-Ambrosio/lotus-radar)';
@@ -170,7 +186,7 @@ function normalizar(item: ItemPncp, agora: number): Licitacao | null {
     orgao: String(item.orgaoEntidade?.razaoSocial || item.unidadeOrgao?.nomeUnidade || 'Órgão não informado').trim(),
     cnpj: String(item.orgaoEntidade?.cnpj || ''),
     esfera: mapearEsfera(item.orgaoEntidade?.esferaId),
-    uf: String(item.unidadeOrgao?.ufSigla || UF).toUpperCase(),
+    uf: String(item.unidadeOrgao?.ufSigla || 'BR').toUpperCase(),
     municipio: String(item.unidadeOrgao?.municipioNome || 'Não informado').trim(),
     codigoIbge: String(item.unidadeOrgao?.codigoIbge || ''),
     objeto,
@@ -196,6 +212,7 @@ function normalizar(item: ItemPncp, agora: number): Licitacao | null {
     categoriaPrincipal,
     segmentos,
     situacao: String(item.situacaoCompraNome || '').trim(),
+    origem: 'PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)',
   };
 }
 
@@ -292,13 +309,13 @@ async function obterResposta(url: string): Promise<RespostaPg | null> {
   return dados;
 }
 
-function urlProposta(pagina: number, modalidade?: number): string {
+function urlProposta(uf: string, pagina: number, modalidade?: number): string {
   const params = new URLSearchParams({
     dataFinal: dataFinal(),
     pagina: String(pagina),
     tamanhoPagina: String(TAMANHO_PAGINA),
-    uf: UF,
   });
+  if (uf && uf !== 'BR') params.set('uf', uf);
   if (modalidade) params.set('codigoModalidadeContratacao', String(modalidade));
   return `${BASE_PNCP}/contratacoes/proposta?${params.toString()}`;
 }
@@ -330,6 +347,7 @@ async function lerCacheCompleto(): Promise<ItemPncp[] | null> {
 }
 
 async function coletarPaginas(
+  uf: string,
   modalidade?: number,
 ): Promise<{ itens: ItemPncp[]; truncado: boolean; falhou: boolean }> {
   const itens: ItemPncp[] = [];
@@ -338,11 +356,11 @@ async function coletarPaginas(
 
   while (pagina <= totalPaginas) {
     if (pagina > MAX_PAGINAS || estourouOrcamento()) {
-      console.warn(`[pncp] corte de segurança na página ${pagina}`);
+      console.warn(`[pncp] corte de segurança na página ${pagina} (uf=${uf})`);
       return { itens, truncado: true, falhou: false };
     }
 
-    const dados = await obterResposta(urlProposta(pagina, modalidade));
+    const dados = await obterResposta(urlProposta(uf, pagina, modalidade));
     if (!dados) {
       if (MODO_OFFLINE) {
         const completo = await lerCacheCompleto();
@@ -361,7 +379,7 @@ async function coletarPaginas(
     totalPaginas = Number(dados.totalPaginas || 1);
     const restantes = Number(dados.paginasRestantes ?? 0);
     console.log(
-      `[pncp] modalidade=${modalidade ?? 'todas'} pagina=${pagina}/${totalPaginas} +${lote.length} (restam ${restantes})`,
+      `[pncp] uf=${uf} modalidade=${modalidade ?? 'todas'} pagina=${pagina}/${totalPaginas} +${lote.length} (restam ${restantes})`,
     );
 
     if (lote.length === 0 || restantes <= 0) break;
@@ -382,30 +400,38 @@ async function lerSnapshotAtual(): Promise<Snapshot | null> {
 }
 
 async function principal(): Promise<void> {
+  const escopo = escopoDeUfs();
   console.log(
-    `[pncp] UF=${UF} janela=${DIAS_JANELA}d dataFinal=${dataFinal()}${MODO_OFFLINE ? ' [offline/cache]' : ''}`,
+    `[pncp] escopo=${escopo.join(',')} (${escopo.length} estados) janela=${DIAS_JANELA}d dataFinal=${dataFinal()}${MODO_OFFLINE ? ' [offline/cache]' : ''}`,
   );
 
-  const direto = await coletarPaginas();
-  let itens = direto.itens;
-  let truncado = direto.truncado;
+  let itens: ItemPncp[] = [];
+  let truncado = false;
+  let falhouAlgum = false;
+  let respostas = 0;
 
-  if (direto.falhou && itens.length === 0) {
-    console.warn('[pncp] PNCP indisponível e cache vazio; mantendo snapshot anterior.');
-    return;
+  for (const uf of escopo) {
+    if (estourouOrcamento()) {
+      truncado = true;
+      console.warn('[pncp] orçamento esgotado; interrompendo varredura de estados.');
+      break;
+    }
+    const parcial = await coletarPaginas(uf);
+    respostas += 1;
+    itens.push(...parcial.itens);
+    truncado = truncado || parcial.truncado;
+    falhouAlgum = falhouAlgum || parcial.falhou;
+    await dormir(INTERVALO_ENTRE_REQUISICOES_MS);
   }
 
-  if (direto.falhou) {
-    console.warn(`[pncp] coleta interrompida; gravando parcial com ${itens.length} registros do cache.`);
-    truncado = true;
-  } else if (itens.length === 0) {
-    console.warn('[pncp] consulta sem modalidade voltou vazia; varrendo modalidades');
+  if (itens.length === 0) {
+    console.warn('[pncp] consulta por estado voltou vazia; varrendo modalidades em âmbito nacional');
     for (const codigo of Object.keys(MODALIDADES).map(Number)) {
       if (estourouOrcamento()) {
         truncado = true;
         break;
       }
-      const parcial = await coletarPaginas(codigo);
+      const parcial = await coletarPaginas('BR', codigo);
       itens.push(...parcial.itens);
       truncado = truncado || parcial.truncado;
       await dormir(INTERVALO_ENTRE_REQUISICOES_MS);
@@ -419,13 +445,27 @@ async function principal(): Promise<void> {
     if (normalizado) porId.set(normalizado.id, normalizado);
   }
 
+  const sic = await coletarSicLicitacoes(MODO_OFFLINE);
+  for (const item of sic) {
+    if (estaEncerrada(item.dataEncerramentoProposta, item.situacao, agora)) continue;
+    porId.set(item.id, item);
+  }
+
   const licitacoes = [...porId.values()].sort((a, b) => {
     const da = a.dataEncerramentoProposta ? new Date(a.dataEncerramentoProposta).getTime() : Infinity;
     const db = b.dataEncerramentoProposta ? new Date(b.dataEncerramentoProposta).getTime() : Infinity;
     return da - db;
   });
 
-  console.log(`[pncp] ${itens.length} registros brutos -> ${licitacoes.length} licitações abertas (cultura/tecnologia)`);
+  if (itens.length > 0) {
+    console.log(`[pncp] ${itens.length} registros brutos (${respostas} estados consultados)`);
+  }
+  console.log(`[pncp] ${licitacoes.length} licitações abertas (cultura/tecnologia) | SIC: ${sic.length}`);
+
+  const fontes = ['PNCP — Portal Nacional de Contratações Públicas (todos os estados e órgãos federais)'];
+  if (sic.length > 0) {
+    fontes.push('SIC.Cultura-PR — Secretaria de Estado da Cultura do Paraná (editais de fomento)');
+  }
 
   if (licitacoes.length === 0) {
     const atual = await lerSnapshotAtual();
@@ -438,12 +478,14 @@ async function principal(): Promise<void> {
 
   const snapshot: Snapshot = {
     geradoEm: new Date().toISOString(),
-    fonte: 'PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)',
-    uf: UF,
+    fonte: fontes.join('; '),
+    uf: 'BR',
+    estados: escopo,
+    fontes,
     total: licitacoes.length,
-    truncado,
+    truncado: truncado || falhouAlgum,
     observacao:
-      'Somente licitações e editais abertos (cultura e tecnologia) do Paraná — os encerrados são removidos a cada coleta. A cobertura depende de o órgão publicar no PNCP. A classificação é inferida por palavras-chave do objeto.',
+      'Somente licitações, editais e avisos abertos (cultura e tecnologia) em todo o Brasil — municípios, estados, Distrito Federal e órgãos federais. Os encerrados são removidos a cada coleta. A cobertura depende de o órgão publicar no PNCP; a classificação é inferida por palavras-chave do objeto.',
     licitacoes,
   };
 

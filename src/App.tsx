@@ -5,6 +5,8 @@ import { formatarDataHora } from './lib/formato';
 import { agruparPorDia } from './lib/agrupar';
 import { filtrosDaUrl, montarQuery, segmentoDaUrl } from './lib/url';
 import { baixarArquivo, licitacoesParaCsv } from './lib/exportar';
+import { UFS_ORDENADAS, type Coordenadas } from './lib/geo';
+import { MUNICIPIOS_BR } from './lib/municipios-br';
 import type { Segmento, Snapshot } from './lib/tipos';
 import { Kpis } from './componentes/Kpis';
 import { PainelFiltros } from './componentes/Filtros';
@@ -37,6 +39,9 @@ export default function App() {
   const [filtros, setFiltros] = useState<Filtros>(() => filtrosDaUrl(new URLSearchParams(window.location.search)));
   const [mostrarMapa, setMostrarMapa] = useState(false);
   const [linkCopiado, setLinkCopiado] = useState(false);
+  const [localizacao, setLocalizacao] = useState<Coordenadas | null>(null);
+  const [localizando, setLocalizando] = useState(false);
+  const [localizacaoErro, setLocalizacaoErro] = useState<string | null>(null);
   const primeiroRender = useRef(true);
 
   useEffect(() => {
@@ -95,10 +100,7 @@ export default function App() {
     [licitacoes, segmento],
   );
 
-  const municipios = useMemo(
-    () => valoresUnicos(licitacoesDoSegmento, (l) => l.municipio),
-    [licitacoesDoSegmento],
-  );
+  const municipios = useMemo(() => MUNICIPIOS_BR, []);
   const modalidades = useMemo(
     () => valoresUnicos(licitacoesDoSegmento, (l) => l.modalidade),
     [licitacoesDoSegmento],
@@ -119,11 +121,34 @@ export default function App() {
   }, [segmento, licitacoesDoSegmento]);
 
   const filtradas = useMemo(
-    () => aplicarFiltros(licitacoesDoSegmento, filtros),
-    [licitacoesDoSegmento, filtros],
+    () => aplicarFiltros(licitacoesDoSegmento, filtros, localizacao),
+    [licitacoesDoSegmento, filtros, localizacao],
   );
 
   const grupos = useMemo(() => agruparPorDia(filtradas), [filtradas]);
+
+  function solicitarLocalizacao() {
+    if (!('geolocation' in navigator)) {
+      setLocalizacaoErro('Geolocalização não é suportada neste navegador.');
+      return;
+    }
+    setLocalizando(true);
+    setLocalizacaoErro(null);
+    navigator.geolocation.getCurrentPosition(
+      (posicao) => {
+        setLocalizacao({
+          lat: posicao.coords.latitude,
+          lng: posicao.coords.longitude,
+        });
+        setLocalizando(false);
+      },
+      (falha) => {
+        setLocalizacaoErro(mensagemGeo(falha.code));
+        setLocalizando(false);
+      },
+      { enableHighAccuracy: false, timeout: 12_000, maximumAge: 5 * 60_000 },
+    );
+  }
 
   function trocarSegmento(novo: Segmento) {
     if (novo === segmento) return;
@@ -168,21 +193,21 @@ export default function App() {
               <LogoRadar />
             </span>
             <div className="marca__texto">
-              <h1 className="marca__nome">Radar Cultural Paraná</h1>
+              <h1 className="marca__nome">Radar Cultural Brasil</h1>
               <p className="marca__legenda">Oportunidades públicas em cultura e tecnologia</p>
             </div>
           </div>
 
           <p className="hero__resumo">
-            Acompanhe em um só lugar as <strong>licitações e editais abertos</strong> do Governo do
-            Paraná e de todos os municípios — em <strong>cultura</strong> e{' '}
-            <strong>tecnologia</strong>. Encontre por categoria, prazo, órgão, município ou valor e
-            inscreva-se direto na fonte oficial.
+            Acompanhe em um só lugar as <strong>licitações e editais abertos</strong> de todo o
+            Brasil — Governo Federal, estados e municípios — em <strong>cultura</strong> e{' '}
+            <strong>tecnologia</strong>. Encontre por categoria, estado, município, distância, prazo,
+            órgão ou valor e inscreva-se direto na fonte oficial.
           </p>
 
           <div className="hero__selos">
             <span className="selo">
-              <span className="selo__icone">✓</span> Fonte oficial: PNCP
+              <span className="selo__icone">✓</span> Fontes oficiais: PNCP e SIC Cultura
             </span>
             {snapshot ? (
               <span className="selo">
@@ -235,10 +260,15 @@ export default function App() {
             <PainelFiltros
               filtros={filtros}
               onChange={setFiltros}
+              ufs={UFS_ORDENADAS}
               municipios={municipios}
               modalidades={modalidades}
               esferas={esferas}
               categorias={categoriasDisponiveis}
+              localizacao={localizacao}
+              localizando={localizando}
+              localizacaoErro={localizacaoErro}
+              solicitarLocalizacao={solicitarLocalizacao}
               totalFiltrado={filtradas.length}
               totalGeral={licitacoesDoSegmento.length}
             />
@@ -332,6 +362,10 @@ export default function App() {
               Dados públicos do{' '}
               <a href="https://pncp.gov.br" target="_blank" rel="noopener noreferrer">
                 Portal Nacional de Contratações Públicas (PNCP)
+              </a>{' '}
+              e do{' '}
+              <a href="https://www.cultura.pr.gov.br/Pagina/Editais" target="_blank" rel="noopener noreferrer">
+                SIC Cultura (Secretaria de Cultura do Paraná)
               </a>
               . A classificação (cultural ou tecnológica) é inferida automaticamente pelo texto do
               objeto e pode não refletir a classificação oficial.
@@ -346,8 +380,21 @@ export default function App() {
             </p>
           </div>
         </div>
-        <p className="rodape__base">Radar Cultural Paraná · atualização diária automática</p>
+        <p className="rodape__base">Radar Cultural Brasil · atualização diária automática</p>
       </footer>
     </>
   );
+}
+
+function mensagemGeo(codigo: number): string {
+  switch (codigo) {
+    case 1:
+      return 'Permissão de localização negada. Ative no navegador para usar o filtro de distância.';
+    case 2:
+      return 'Não foi possível obter sua localização. Tente novamente.';
+    case 3:
+      return 'A obtenção da localização expirou. Tente novamente.';
+    default:
+      return 'Não foi possível obter sua localização.';
+  }
 }

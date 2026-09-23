@@ -28,12 +28,15 @@ export interface Licitacao {
   categoriaPrincipal: string | null;
   segmentos: Segmento[];
   situacao: string;
+  origem: string;
 }
 
 export interface Snapshot {
   geradoEm: string;
   fonte: string;
   uf: string;
+  estados: string[];
+  fontes: string[];
   total: number;
   truncado: boolean;
   observacao: string;

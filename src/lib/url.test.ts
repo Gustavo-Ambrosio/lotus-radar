@@ -24,6 +24,17 @@ describe('url', () => {
     expect(f.municipio).toBe('Curitiba');
   });
 
+  it('lê estado e distância', () => {
+    const f = filtrosDaUrl(deUrl('uf=sp&distancia=100'));
+    expect(f.uf).toBe('SP');
+    expect(f.distanciaMaxKm).toBe(100);
+  });
+
+  it('normaliza estado para maiúsculas', () => {
+    const f = filtrosDaUrl(deUrl('uf=ba'));
+    expect(f.uf).toBe('BA');
+  });
+
   it('lê prazo e valores numéricos', () => {
     const f = filtrosDaUrl(deUrl('prazoMaxDias=7&valorMinimo=1000&valorMaximo=50000&publicadoDias=15'));
     expect(f.prazoMaxDias).toBe(7);
@@ -41,9 +52,11 @@ describe('url', () => {
     const filtros: Filtros = {
       busca: 'museu',
       categorias: ['cultura-geral'],
+      uf: '',
       municipio: '',
       esfera: '',
       modalidade: '',
+      distanciaMaxKm: null,
       prazoMaxDias: null,
       publicadoDias: null,
       valorMinimo: null,
@@ -61,9 +74,11 @@ describe('url', () => {
     const filtros: Filtros = {
       busca: '',
       categorias: [],
+      uf: 'PR',
       municipio: 'Londrina',
       esfera: '',
       modalidade: '',
+      distanciaMaxKm: 100,
       prazoMaxDias: null,
       publicadoDias: null,
       valorMinimo: null,
@@ -74,6 +89,8 @@ describe('url', () => {
     const query = montarQuery('tecnologia', filtros);
     expect(query).toContain('seg=tecnologia');
     expect(query).toContain('municipio=Londrina');
+    expect(query).toContain('uf=PR');
+    expect(query).toContain('distancia=100');
     expect(query).toContain('somenteComValor=1');
     expect(query).toContain('ordenacao=recentes');
   });

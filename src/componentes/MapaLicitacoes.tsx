@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { MUNICIPIOS_PR } from '../lib/municipios-pr';
+import { coordenadasDeLicitacao } from '../lib/geo';
 import type { Licitacao } from '../lib/tipos';
 
 interface Props {
@@ -9,7 +9,8 @@ interface Props {
   onFiltrarMunicipio: (municipio: string) => void;
 }
 
-const COORDS = new Map(MUNICIPIOS_PR.map((m) => [m.nome, m]));
+const CENTRO_NACIONAL: L.LatLngTuple = [-14.2, -51.9];
+const ZOOM_INICIAL = 4;
 
 export function MapaLicitacoes({ licitacoes, onFiltrarMunicipio }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -19,12 +20,27 @@ export function MapaLicitacoes({ licitacoes, onFiltrarMunicipio }: Props) {
   aoFiltrarRef.current = onFiltrarMunicipio;
 
   const porMunicipio = useMemo(() => {
-    const contagem = new Map<string, number>();
+    const contagem = new Map<
+      string,
+      { municipio: string; uf: string; total: number; lat: number; lng: number }
+    >();
     for (const lic of licitacoes) {
       if (!lic.municipio) continue;
-      contagem.set(lic.municipio, (contagem.get(lic.municipio) ?? 0) + 1);
+      const chave = `${lic.uf}|${lic.municipio}`;
+      const atual = contagem.get(chave);
+      const coords = atual ? null : coordenadasDeLicitacao(lic.uf, lic.municipio);
+      contagem.set(chave, {
+        municipio: lic.municipio,
+        uf: lic.uf,
+        total: (atual?.total ?? 0) + 1,
+        lat: atual?.lat ?? coords?.lat ?? 0,
+        lng: atual?.lng ?? coords?.lng ?? 0,
+      });
     }
-    return [...contagem.entries()].sort((a, b) => b[1] - a[1]);
+    return [...contagem.entries()]
+      .filter(([, dados]) => dados.lat !== 0 && dados.lng !== 0)
+      .map(([chave, dados]) => ({ chave, ...dados }))
+      .sort((a, b) => b.total - a.total);
   }, [licitacoes]);
 
   useEffect(() => {
@@ -32,8 +48,8 @@ export function MapaLicitacoes({ licitacoes, onFiltrarMunicipio }: Props) {
     if (!el) return;
 
     const mapa = L.map(el, { zoomControl: true, attributionControl: true }).setView(
-      [-24.85, -51.8],
-      7,
+      CENTRO_NACIONAL,
+      ZOOM_INICIAL,
     );
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
@@ -62,15 +78,13 @@ export function MapaLicitacoes({ licitacoes, onFiltrarMunicipio }: Props) {
 
     marcadores.clearLayers();
     const pontos: L.LatLng[] = [];
-    const raioMaximo = porMunicipio[0]?.[1] ?? 1;
+    const raioMaximo = porMunicipio[0]?.total ?? 1;
 
-    for (const [municipio, total] of porMunicipio) {
-      const coord = COORDS.get(municipio);
-      if (!coord) continue;
-      const latlng: L.LatLngExpression = [coord.lat, coord.lng];
-      pontos.push(L.latLng(coord.lat, coord.lng));
+    for (const ponto of porMunicipio) {
+      const latlng: L.LatLngExpression = [ponto.lat, ponto.lng];
+      pontos.push(L.latLng(ponto.lat, ponto.lng));
 
-      const raio = 5 + Math.round((total / raioMaximo) * 9);
+      const raio = 5 + Math.round((ponto.total / raioMaximo) * 9);
       const marcador = L.circleMarker(latlng, {
         radius: raio,
         color: '#6d2ef1',
@@ -79,9 +93,10 @@ export function MapaLicitacoes({ licitacoes, onFiltrarMunicipio }: Props) {
         fillOpacity: 0.75,
       });
 
+      const rotulo = ponto.uf && ponto.uf !== 'BR' ? `${ponto.municipio} — ${ponto.uf}` : ponto.municipio;
       marcador.bindPopup(
-        `<strong>${municipio}</strong><br/>${total} ${
-          total === 1 ? 'oportunidade' : 'oportunidades'
+        `<strong>${rotulo}</strong><br/>${ponto.total} ${
+          ponto.total === 1 ? 'oportunidade' : 'oportunidades'
         }<br/><button class="mapa__filtro" type="button">Filtrar só aqui</button>`,
       );
       marcador.on('popupopen', () => {
@@ -91,7 +106,7 @@ export function MapaLicitacoes({ licitacoes, onFiltrarMunicipio }: Props) {
           ?.querySelector<HTMLButtonElement>('.mapa__filtro');
         const aoFiltrar = aoFiltrarRef.current;
         if (btn) {
-          btn.onclick = () => aoFiltrar(municipio);
+          btn.onclick = () => aoFiltrar(ponto.municipio);
         }
       });
 
@@ -99,14 +114,14 @@ export function MapaLicitacoes({ licitacoes, onFiltrarMunicipio }: Props) {
     }
 
     if (pontos.length > 0) {
-      mapa.fitBounds(L.latLngBounds(pontos).pad(0.3), { maxZoom: 9 });
+      mapa.fitBounds(L.latLngBounds(pontos).pad(0.3), { maxZoom: 12 });
     } else {
-      mapa.setView([-24.85, -51.8], 7);
+      mapa.setView(CENTRO_NACIONAL, ZOOM_INICIAL);
     }
   }, [porMunicipio]);
 
   return (
-    <div className="mapa__moldura" aria-label="Mapa das oportunidades por município do Paraná">
+    <div className="mapa__moldura" aria-label="Mapa das oportunidades por município do Brasil">
       <div ref={containerRef} className="mapa__mapa" />
       <p className="mapa__dica">
         Cada ponto representa um município; o tamanho indica o número de oportunidades. Clique em um

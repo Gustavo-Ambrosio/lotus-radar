@@ -50,9 +50,9 @@ function gerarRss(snapshot: Snapshot): string {
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
     '  <channel>',
-    `    <title>Radar Cultural Paraná — novas oportunidades</title>`,
+    `    <title>Radar Cultural Brasil — novas oportunidades</title>`,
     `    <link>${BASE_URL}/</link>`,
-    `    <description>Licitações e editais abertos em cultura e tecnologia no Paraná (atualização diária via PNCP).</description>`,
+    `    <description>Licitações e editais abertos em cultura e tecnologia em todo o Brasil (atualização diária via PNCP e SIC Cultura).</description>`,
     `    <atom:link href="${BASE_URL}/feed.rss" rel="self" type="application/rss+xml" />`,
     `    <language>pt-br</language>`,
     `    <lastBuildDate>${new Date(snapshot.geradoEm).toUTCString()}</lastBuildDate>`,
@@ -103,6 +103,7 @@ function gerarIcs(snapshot: Snapshot): string {
       const sentido = diaSeguinte(lic.dataEncerramentoProposta);
       const uid = lic.id.replace(/[^a-zA-Z0-9]/g, '-');
       const descricao = `${rotuloSegmento(lic.segmentos[0] ?? 'cultura')} · ${lic.esfera} · ${lic.modalidade} · Valor: ${formatarMoeda(lic.valorEstimado)}`;
+      const rotuloLocal = lic.uf && lic.uf !== 'BR' ? `${lic.municipio}, ${lic.uf}` : lic.municipio;
       return [
         'BEGIN:VEVENT',
         `UID:${uid}@lotus-radar`,
@@ -111,7 +112,7 @@ function gerarIcs(snapshot: Snapshot): string {
         `DTEND;VALUE=DATE:${sentido}`,
         quebrarLinhaIcs('SUMMARY', lic.objeto),
         quebrarLinhaIcs('DESCRIPTION', descricao),
-        quebrarLinhaIcs('LOCATION', `${lic.municipio}, PR`),
+        quebrarLinhaIcs('LOCATION', rotuloLocal),
         quebrarLinhaIcs('URL', lic.linkPncp || lic.link),
         'END:VEVENT',
       ].join('\r\n');

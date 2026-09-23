@@ -2,7 +2,7 @@
   "name": "lotus-radar",
   "version": "0.1.0",
   "private": true,
-  "description": "Radar de licitacoes de cultura do Parana (estado + municipios), com categorias e foco em editais abertos.",
+  "description": "Radar de licitacoes e editais de cultura e tecnologia do Brasil (federal, estados e municipios), com categorias e foco em editais abertos.",
   "type": "module",
   "scripts": {
     "dev": "vite",

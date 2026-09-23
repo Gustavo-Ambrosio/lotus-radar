@@ -19,6 +19,7 @@ export function Kpis({ licitacoes, truncado }: Props) {
   const valorTotal = comValor.reduce((soma, l) => soma + (l.valorEstimado ?? 0), 0);
 
   const municipios = new Set(licitacoes.map((l) => l.municipio)).size;
+  const estados = new Set(licitacoes.map((l) => l.uf)).size;
 
   const porCategoria = new Map<string | null, number>();
   for (const l of licitacoes) {
@@ -52,7 +53,9 @@ export function Kpis({ licitacoes, truncado }: Props) {
       <div className="kpi">
         <p className="kpi__rotulo">Municípios atendidos</p>
         <p className="kpi__valor">{municipios.toLocaleString('pt-BR')}</p>
-        <p className="kpi__nota">De 399 municípios do Paraná</p>
+        <p className="kpi__nota">
+          {estados} estados · 5.570 municípios no Brasil
+        </p>
       </div>
       <div className="kpi">
         <p className="kpi__rotulo">Categoria recorrente</p>

@@ -29,6 +29,7 @@ function licitacao(parte: Partial<Licitacao>): Licitacao {
     categoriaPrincipal: 'musica',
     segmentos: ['cultura'],
     situacao: 'Aberta',
+    origem: 'PNCP — teste',
     ...parte,
   };
 }
@@ -80,5 +81,32 @@ describe('aplicarFiltros', () => {
     });
     const filtros: Filtros = { ...FILTROS_INICIAIS, busca: 'shows', categorias: ['musica'] };
     expect(aplicarFiltros([sim, naoCategoria], filtros).map((l) => l.id)).toEqual(['a']);
+  });
+
+  it('filtra por estado', () => {
+    const pr = licitacao({ id: 'pr', uf: 'PR', municipio: 'Curitiba' });
+    const sp = licitacao({ id: 'sp', uf: 'SP', municipio: 'São Paulo' });
+    const filtros: Filtros = { ...FILTROS_INICIAIS, uf: 'SP' };
+    expect(aplicarFiltros([pr, sp], filtros).map((l) => l.id)).toEqual(['sp']);
+  });
+
+  it('filtra por distância da localização', () => {
+    const curitiba = licitacao({ id: 'cur', uf: 'PR', municipio: 'Curitiba' });
+    const londrina = licitacao({ id: 'lon', uf: 'PR', municipio: 'Londrina' });
+    const filtros: Filtros = { ...FILTROS_INICIAIS, distanciaMaxKm: 50 };
+    const resultado = aplicarFiltros([curitiba, londrina], filtros, {
+      lat: -25.4284,
+      lng: -49.2733,
+    }).map((l) => l.id);
+    expect(resultado).toContain('cur');
+    expect(resultado).not.toContain('lon');
+  });
+
+  it('ignora o filtro de distância sem localização informada', () => {
+    const curitiba = licitacao({ id: 'cur', uf: 'PR', municipio: 'Curitiba' });
+    const manaus = licitacao({ id: 'maa', uf: 'AM', municipio: 'Manaus' });
+    const filtros: Filtros = { ...FILTROS_INICIAIS, distanciaMaxKm: 50 };
+    const resultado = aplicarFiltros([curitiba, manaus], filtros, null).map((l) => l.id);
+    expect(resultado).toEqual(['cur', 'maa']);
   });
 });
