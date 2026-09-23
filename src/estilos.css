@@ -710,6 +710,10 @@ strong {
   white-space: normal;
 }
 
+.cartao__objeto-wrap {
+  position: relative;
+}
+
 .cartao__objeto {
   margin: 0;
   font-size: 1.06rem;
@@ -720,6 +724,38 @@ strong {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.cartao__tooltip {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0;
+  color: var(--tinta);
+  background: #fff;
+  border: 1px solid #cfd6e6;
+  border-radius: 12px;
+  box-shadow: var(--sombra);
+  pointer-events: none;
+}
+
+.cartao__tooltip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 18px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-left: 1px solid #cfd6e6;
+  border-top: 1px solid #cfd6e6;
+  transform: rotate(45deg);
 }
 
 .prazo {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { corCategoria, principalDoSegmento, rotuloCategoria, rotuloSegmento } from '../lib/segmentos';
 import {
   diasRestantes,
@@ -22,6 +22,8 @@ interface Props {
 
 export function CartaoLicitacao({ licitacao, segmento, busca = '' }: Props) {
   const [expandido, setExpandido] = useState(false);
+  const [popupObjeto, setPopupObjeto] = useState(false);
+  const objetoRef = useRef<HTMLHeadingElement | null>(null);
   const dias = diasRestantes(licitacao.dataEncerramentoProposta);
   const horas = horasRestantes(licitacao.dataEncerramentoProposta);
   const nivel = nivelPrazo(dias);
@@ -38,6 +40,16 @@ export function CartaoLicitacao({ licitacao, segmento, busca = '' }: Props) {
 
   const trechosObjeto = destacar(licitacao.objeto, busca);
   const encerraEmBreve = horas !== null && horas >= 0 && horas <= 24;
+  const objetoTruncadoId = `tooltip-objeto-${licitacao.id}`;
+
+  function aoEntrarNoObjeto() {
+    const el = objetoRef.current;
+    if (!el || expandido) {
+      setPopupObjeto(false);
+      return;
+    }
+    setPopupObjeto(el.scrollHeight > el.clientHeight + 1);
+  }
 
   return (
     <article className={`cartao cartao--${nivel}`}>
@@ -72,17 +84,32 @@ export function CartaoLicitacao({ licitacao, segmento, busca = '' }: Props) {
         </div>
       </header>
 
-      <h3 className={`cartao__objeto ${expandido ? 'cartao__objeto--expandido' : ''}`}>
-        {trechosObjeto.map((trecho, i) =>
-          trecho.marca ? (
-            <mark key={i} className="busca-destaque">
-              {trecho.texto}
-            </mark>
-          ) : (
-            <span key={i}>{trecho.texto}</span>
-          ),
+      <div
+        className="cartao__objeto-wrap"
+        onMouseEnter={aoEntrarNoObjeto}
+        onMouseLeave={() => setPopupObjeto(false)}
+      >
+        <h3
+          ref={objetoRef}
+          className={`cartao__objeto ${expandido ? 'cartao__objeto--expandido' : ''}`}
+          aria-describedby={popupObjeto ? objetoTruncadoId : undefined}
+        >
+          {trechosObjeto.map((trecho, i) =>
+            trecho.marca ? (
+              <mark key={i} className="busca-destaque">
+                {trecho.texto}
+              </mark>
+            ) : (
+              <span key={i}>{trecho.texto}</span>
+            ),
+          )}
+        </h3>
+        {popupObjeto && (
+          <div id={objetoTruncadoId} role="tooltip" className="cartao__tooltip">
+            {licitacao.objeto}
+          </div>
         )}
-      </h3>
+      </div>
 
       {expandido && licitacao.informacaoComplementar && (
         <p className="cartao__resumo">{licitacao.informacaoComplementar}</p>
