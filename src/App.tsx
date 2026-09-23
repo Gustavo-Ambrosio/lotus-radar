@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
-import { categoriasDoSegmento } from './lib/segmentos';
+import { categoriasDoSegmento, resolverSegmentoExclusivo } from './lib/segmentos';
 import { aplicarFiltros, FILTROS_INICIAIS, valoresUnicos, type Filtros } from './lib/filtros';
 import { formatarDataHora } from './lib/formato';
 import { agruparPorDia } from './lib/agrupar';
@@ -114,7 +114,7 @@ export default function App() {
 
   const licitacoes = snapshot?.licitacoes ?? [];
   const licitacoesDoSegmento = useMemo(
-    () => licitacoes.filter((l) => l.segmentos.includes(segmento)),
+    () => licitacoes.filter((l) => resolverSegmentoExclusivo(l) === segmento),
     [licitacoes, segmento],
   );
 
