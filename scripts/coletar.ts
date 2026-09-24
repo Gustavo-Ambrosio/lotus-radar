@@ -8,6 +8,7 @@ import { urlSegura } from '../src/lib/seguranca';
 import { estaEncerrada } from '../src/lib/vigencia';
 import type { Esfera, Licitacao, Segmento, Snapshot } from '../src/lib/tipos';
 import { coletarSicLicitacoes } from './coletar-sic';
+import { coletarMintcLicitacoes } from './coletar-mintc';
 
 const BASE_PNCP = 'https://pncp.gov.br/api/consulta/v1';
 
@@ -488,6 +489,12 @@ async function principal(): Promise<void> {
     porId.set(item.id, item);
   }
 
+  const mintc = await coletarMintcLicitacoes(MODO_OFFLINE);
+  for (const item of mintc) {
+    if (estaEncerrada(item.dataEncerramentoProposta, item.situacao, agora)) continue;
+    porId.set(item.id, item);
+  }
+
   const licitacoes = [...porId.values()].sort((a, b) => {
     const da = a.dataEncerramentoProposta ? new Date(a.dataEncerramentoProposta).getTime() : Infinity;
     const db = b.dataEncerramentoProposta ? new Date(b.dataEncerramentoProposta).getTime() : Infinity;
@@ -497,11 +504,14 @@ async function principal(): Promise<void> {
   if (itens.length > 0) {
     console.log(`[pncp] ${itens.length} registros brutos (${respostas} requisições de página)`);
   }
-  console.log(`[pncp] ${licitacoes.length} licitações abertas (cultura/tecnologia) | SIC: ${sic.length}`);
+  console.log(`[pncp] ${licitacoes.length} licitações abertas (cultura/tecnologia) | SIC: ${sic.length} | MinC: ${mintc.length}`);
 
   const fontes = ['PNCP — Portal Nacional de Contratações Públicas (todos os estados e órgãos federais)'];
   if (sic.length > 0) {
     fontes.push('SIC.Cultura-PR — Secretaria de Estado da Cultura do Paraná (editais de fomento)');
+  }
+  if (mintc.length > 0) {
+    fontes.push('MinC — Ministério da Cultura (gov.br, editais de fomento)');
   }
 
   if (licitacoes.length === 0) {

@@ -52,7 +52,7 @@ function gerarRss(snapshot: Snapshot): string {
     '  <channel>',
     `    <title>Radar Cultural Brasil — novas oportunidades</title>`,
     `    <link>${BASE_URL}/</link>`,
-    `    <description>Licitações e editais abertos em cultura e tecnologia em todo o Brasil (atualização diária via PNCP e SIC Cultura).</description>`,
+    `    <description>Licitações e editais abertos em cultura e tecnologia em todo o Brasil (atualização diária via PNCP, SIC Cultura e MinC).</description>`,
     `    <atom:link href="${BASE_URL}/feed.rss" rel="self" type="application/rss+xml" />`,
     `    <language>pt-br</language>`,
     `    <lastBuildDate>${new Date(snapshot.geradoEm).toUTCString()}</lastBuildDate>`,

@@ -224,7 +224,7 @@ export default function App() {
 
           <div className="hero__selos">
             <span className="selo">
-              <span className="selo__icone">✓</span> Fontes oficiais: PNCP e SIC Cultura
+              <span className="selo__icone">✓</span> Fontes oficiais: PNCP, SIC Cultura e MinC
             </span>
             {snapshot ? (
               <span className="selo">
@@ -387,10 +387,17 @@ export default function App() {
               Dados públicos do{' '}
               <a href="https://pncp.gov.br" target="_blank" rel="noopener noreferrer">
                 Portal Nacional de Contratações Públicas (PNCP)
-              </a>{' '}
-              e do{' '}
+              </a>, do{' '}
               <a href="https://www.cultura.pr.gov.br/Pagina/Editais" target="_blank" rel="noopener noreferrer">
                 SIC Cultura (Secretaria de Cultura do Paraná)
+              </a>{' '}
+              e dos{' '}
+              <a
+                href="https://www.gov.br/cultura/pt-br/assuntos/editais"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                editais de fomento do Ministério da Cultura (MinC)
               </a>
               . A classificação (cultural ou tecnológica) é inferida automaticamente pelo texto do
               objeto e pode não refletir a classificação oficial.

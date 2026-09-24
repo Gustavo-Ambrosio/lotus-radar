@@ -25,7 +25,7 @@ interface LinkEdital {
   url: string;
 }
 
-function limparHtml(html: string): string {
+export function limparHtml(html: string): string {
   return html
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
@@ -43,7 +43,7 @@ async function obterHtml(url: string): Promise<string> {
   return resposta.text();
 }
 
-function datasDaPagina(texto: string): Array<{ dia: number; mes: number; ano: number; contexto: string }> {
+export function datasDaPagina(texto: string): Array<{ dia: number; mes: number; ano: number; contexto: string }> {
   const candidatos: Array<{ dia: number; mes: number; ano: number; contexto: string }> = [];
 
   const numerica = /(\d{1,2})\/(\d{1,2})\/(\d{4})/g;
@@ -87,7 +87,7 @@ function contextoRelevante(contexto: string): boolean {
   return /inscri|prazo|at[eé]|prorrogad|encerr|proposta|envio|entrega|recebiment/.test(contexto.toLowerCase());
 }
 
-function encerramentoDaPagina(html: string): string | null {
+export function encerramentoDaPagina(html: string): string | null {
   const texto = limparHtml(html);
   const datas = datasDaPagina(texto);
   if (datas.length === 0) return null;
