@@ -191,16 +191,6 @@ export const CATEGORIAS: Categoria[] = [
     ],
   },
   {
-    id: 'eventos-festivais',
-    label: 'Eventos e festivais',
-    cor: '#ea580c',
-    palavras: [
-      'festiv', 'carnav', 'evento cultur', 'aniversario do municipio',
-      'semana cultur', 'mostra cultur', 'programacao cultur', 'feira cultur',
-      'festa junina', 'arraia', 'festival gastronomico cultural',
-    ],
-  },
-  {
     id: 'equipamentos',
     label: 'Equipamentos e espaços culturais',
     cor: '#0d9488',

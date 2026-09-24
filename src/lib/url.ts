@@ -1,4 +1,5 @@
 import { FILTROS_INICIAIS, type Filtros } from './filtros';
+import { categoriasDoSegmento } from './segmentos';
 import type { Segmento } from './tipos';
 
 function parseNumero(valor: string | null): number | null {
@@ -21,7 +22,9 @@ export function segmentoDaUrl(busca: URLSearchParams): Segmento {
 }
 
 export function filtrosDaUrl(busca: URLSearchParams): Filtros {
-  const categorias = (busca.get('categorias') ?? '').split(',').filter(Boolean);
+  const segmento = segmentoDaUrl(busca);
+  const permitidas = new Set(categoriasDoSegmento(segmento).map((c) => c.id));
+  const categorias = (busca.get('categorias') ?? '').split(',').filter((id) => permitidas.has(id));
   const ordenacaoRaw = busca.get('ordenacao');
   const ordenacao = ORDENACOES.includes(ordenacaoRaw as Filtros['ordenacao'])
     ? (ordenacaoRaw as Filtros['ordenacao'])

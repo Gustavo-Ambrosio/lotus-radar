@@ -94,4 +94,19 @@ describe('url', () => {
     expect(query).toContain('somenteComValor=1');
     expect(query).toContain('ordenacao=recentes');
   });
+
+  it('descarta categorias de outro segmento vindas da URL', () => {
+    const f = filtrosDaUrl(deUrl('seg=tecnologia&categorias=eventos-festivais,software,licencas'));
+    expect(f.categorias).toEqual(['software', 'licencas']);
+  });
+
+  it('mantém categorias do segmento na URL', () => {
+    const f = filtrosDaUrl(deUrl('seg=cultura&categorias=musica,eventos-festivais'));
+    expect(f.categorias).toEqual(['musica', 'eventos-festivais']);
+  });
+
+  it('descarta categorias desconhecidas', () => {
+    const f = filtrosDaUrl(deUrl('seg=cultura&categorias=nao-existe,musica'));
+    expect(f.categorias).toEqual(['musica']);
+  });
 });

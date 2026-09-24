@@ -272,7 +272,7 @@ export default function App() {
 
         {snapshot && (
           <>
-            <Kpis licitacoes={licitacoesDoSegmento} truncado={snapshot.truncado} />
+            <Kpis licitacoes={licitacoesDoSegmento} truncado={snapshot.truncado} segmento={segmento} />
 
             <PainelFiltros
               filtros={filtros}

@@ -1,5 +1,28 @@
 import { describe, expect, it } from 'vitest';
-import { classificar, ehCultura, rotuloCategoria } from './categorias';
+import { CATEGORIAS, classificar, ehCultura, rotuloCategoria } from './categorias';
+import { CATEGORIAS_TECNOLOGIA } from './segmentos/tecnologia';
+import { categoriasDoSegmento } from './segmentos';
+
+describe('categorias', () => {
+  it('não repete ids de categorias entre cultura e tecnologia', () => {
+    const idsCultura = new Set(CATEGORIAS.map((c) => c.id));
+    const idsTecnologia = new Set(CATEGORIAS_TECNOLOGIA.map((c) => c.id));
+    expect(idsCultura.size).toBe(CATEGORIAS.length);
+    expect(idsTecnologia.size).toBe(CATEGORIAS_TECNOLOGIA.length);
+    for (const id of idsTecnologia) {
+      expect(idsCultura.has(id)).toBe(false);
+    }
+  });
+
+  it('categoriasDoSegmento devolve exatamente o catálogo de cada aba', () => {
+    expect(categoriasDoSegmento('cultura').map((c) => c.id)).toEqual(
+      CATEGORIAS.map((c) => c.id),
+    );
+    expect(categoriasDoSegmento('tecnologia').map((c) => c.id)).toEqual(
+      CATEGORIAS_TECNOLOGIA.map((c) => c.id),
+    );
+  });
+});
 
 describe('classificar', () => {
   it('detecta música', () => {

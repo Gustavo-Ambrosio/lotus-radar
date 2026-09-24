@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { corCategoria, principalDoSegmento, rotuloCategoria, rotuloSegmento } from '../lib/segmentos';
+import { corCategoria, categoriasDoSegmento, principalDoSegmento, rotuloCategoria, rotuloSegmento } from '../lib/segmentos';
 import {
   diasRestantes,
   formatarData,
@@ -31,7 +31,12 @@ export function CartaoLicitacao({ licitacao, segmento, busca = '' }: Props) {
   const identificacao =
     licitacao.numeroControlePncp || licitacao.numeroCompra || `ID ${licitacao.id}`;
 
-  const principal = principalDoSegmento(licitacao, segmento) ?? licitacao.categoriaPrincipal;
+  const categoriasDoSegmentoIds = categoriasDoSegmento(segmento).map((c) => c.id);
+  const principal =
+    principalDoSegmento(licitacao, segmento) ??
+    (licitacao.categoriaPrincipal && categoriasDoSegmentoIds.includes(licitacao.categoriaPrincipal)
+      ? licitacao.categoriaPrincipal
+      : null);
   const cor = corCategoria(principal ?? '');
   const outrosSegmentos = licitacao.segmentos.filter((s) => s !== segmento);
 
@@ -166,6 +171,7 @@ export function CartaoLicitacao({ licitacao, segmento, busca = '' }: Props) {
         <div className="cartao__rotulos">
           {licitacao.categorias
             .filter((c) => c !== principal)
+            .filter((c) => categoriasDoSegmentoIds.includes(c))
             .slice(0, 4)
             .map((c) => (
               <span key={c} className="badge badge--fino">

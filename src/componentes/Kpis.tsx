@@ -1,13 +1,14 @@
-import { corCategoria, rotuloCategoria } from '../lib/segmentos';
-import type { Licitacao } from '../lib/tipos';
+import { corCategoria, principalDoSegmento, rotuloCategoria } from '../lib/segmentos';
+import type { Licitacao, Segmento } from '../lib/tipos';
 import { formatarMoeda, diasRestantes } from '../lib/formato';
 
 interface Props {
   licitacoes: Licitacao[];
   truncado: boolean;
+  segmento: Segmento;
 }
 
-export function Kpis({ licitacoes, truncado }: Props) {
+export function Kpis({ licitacoes, truncado, segmento }: Props) {
   const total = licitacoes.length;
 
   const urgentes = licitacoes.filter((l) => {
@@ -23,8 +24,9 @@ export function Kpis({ licitacoes, truncado }: Props) {
 
   const porCategoria = new Map<string | null, number>();
   for (const l of licitacoes) {
-    if (l.categoriaPrincipal) {
-      porCategoria.set(l.categoriaPrincipal, (porCategoria.get(l.categoriaPrincipal) ?? 0) + 1);
+    const categoria = principalDoSegmento(l, segmento) ?? l.categoriaPrincipal;
+    if (categoria) {
+      porCategoria.set(categoria, (porCategoria.get(categoria) ?? 0) + 1);
     } else {
       porCategoria.set(null, (porCategoria.get(null) ?? 0) + 1);
     }
