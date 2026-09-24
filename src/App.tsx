@@ -224,7 +224,7 @@ export default function App() {
 
           <div className="hero__selos">
             <span className="selo">
-              <span className="selo__icone">✓</span> Fontes oficiais: PNCP, SIC Cultura e MinC
+              <span className="selo__icone">✓</span> Fontes oficiais: PNCP, SIC Cultura, MinC e PNAB
             </span>
             {snapshot ? (
               <span className="selo">
@@ -398,6 +398,10 @@ export default function App() {
                 rel="noopener noreferrer"
               >
                 editais de fomento do Ministério da Cultura (MinC)
+              </a>{' '}
+              e da{' '}
+              <a href="https://mapa.cultura.gov.br" target="_blank" rel="noopener noreferrer">
+                Política Nacional Aldir Blanc (Mapa da Cultura/SNIIC)
               </a>
               . A classificação (cultural ou tecnológica) é inferida automaticamente pelo texto do
               objeto e pode não refletir a classificação oficial.

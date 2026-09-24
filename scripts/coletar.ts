@@ -9,6 +9,7 @@ import { estaEncerrada } from '../src/lib/vigencia';
 import type { Esfera, Licitacao, Segmento, Snapshot } from '../src/lib/tipos';
 import { coletarSicLicitacoes } from './coletar-sic';
 import { coletarMintcLicitacoes } from './coletar-mintc';
+import { coletarPnabLicitacoes } from './coletar-pnab';
 
 const BASE_PNCP = 'https://pncp.gov.br/api/consulta/v1';
 
@@ -495,6 +496,12 @@ async function principal(): Promise<void> {
     porId.set(item.id, item);
   }
 
+  const pnab = await coletarPnabLicitacoes(MODO_OFFLINE);
+  for (const item of pnab) {
+    if (estaEncerrada(item.dataEncerramentoProposta, item.situacao, agora)) continue;
+    porId.set(item.id, item);
+  }
+
   const licitacoes = [...porId.values()].sort((a, b) => {
     const da = a.dataEncerramentoProposta ? new Date(a.dataEncerramentoProposta).getTime() : Infinity;
     const db = b.dataEncerramentoProposta ? new Date(b.dataEncerramentoProposta).getTime() : Infinity;
@@ -504,7 +511,7 @@ async function principal(): Promise<void> {
   if (itens.length > 0) {
     console.log(`[pncp] ${itens.length} registros brutos (${respostas} requisições de página)`);
   }
-  console.log(`[pncp] ${licitacoes.length} licitações abertas (cultura/tecnologia) | SIC: ${sic.length} | MinC: ${mintc.length}`);
+  console.log(`[pncp] ${licitacoes.length} licitações abertas (cultura/tecnologia) | SIC: ${sic.length} | MinC: ${mintc.length} | PNAB: ${pnab.length}`);
 
   const fontes = ['PNCP — Portal Nacional de Contratações Públicas (todos os estados e órgãos federais)'];
   if (sic.length > 0) {
@@ -512,6 +519,9 @@ async function principal(): Promise<void> {
   }
   if (mintc.length > 0) {
     fontes.push('MinC — Ministério da Cultura (gov.br, editais de fomento)');
+  }
+  if (pnab.length > 0) {
+    fontes.push('PNAB — Política Nacional Aldir Blanc (Mapa da Cultura/SNIIC)');
   }
 
   if (licitacoes.length === 0) {

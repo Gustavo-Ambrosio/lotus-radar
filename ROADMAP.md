@@ -32,7 +32,10 @@ tecnologia a fontes federais além do que o coletor atual alcança.
 • (Dev) Exclusividade de segmento por precedência (leitura direta de cultura
   vence; senão âncora forte de tecnologia; senão primeiro segmento) — feito.
 • (Dev) Botão “Limpar filtros” sempre visível nas 2 abas — feito.
-• (Fonte) Coletor HTML monitorado Min•C → cultura federal.
-• (Fonte) PNAB via Transferegov / Mapa da Cultura.
+• (Fonte) Coletor HTML monitorado Min•C → cultura federal — feito
+  (scripts/coletar-mintc.ts, com testes em scripts/coletar-mintc.test.ts).
+• (Fonte) PNAB via Transferegov / Mapa da Cultura — feito
+  (scripts/coletar-pnab.ts consome a API pública de oportunidades do Mapa da
+  Cultura/SNIIC em mapa.cultura.gov.br, com testes em scripts/coletar-pnab.test.ts).
 
 Fecho: todo esse plano também virou GH issue (gh issue create).
