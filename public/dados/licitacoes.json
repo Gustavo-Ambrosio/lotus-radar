@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-09-26T14:25:19.644Z",
+  "geradoEm": "2026-09-27T15:17:23.951Z",
   "fonte": "PNCP — Portal Nacional de Contratações Públicas (todos os estados e órgãos federais); MinC — Ministério da Cultura (gov.br, editais de fomento)",
   "uf": "BR",
   "estados": [
@@ -35,7 +35,7 @@
     "PNCP — Portal Nacional de Contratações Públicas (todos os estados e órgãos federais)",
     "MinC — Ministério da Cultura (gov.br, editais de fomento)"
   ],
-  "total": 2975,
+  "total": 2976,
   "truncado": false,
   "observacao": "Somente licitações, editais e avisos abertos (cultura e tecnologia) em todo o Brasil — municípios, estados, Distrito Federal e órgãos federais. Os encerrados são removidos a cada coleta. A cobertura depende de o órgão publicar no PNCP; a classificação é inferida por palavras-chave do objeto.",
   "licitacoes": [
@@ -3019,38 +3019,6 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
-      "id": "95952230000167-1-000128/2026",
-      "orgao": "MUNICIPIO DE BRACO DO TROMBUDO",
-      "cnpj": "95952230000167",
-      "esfera": "Municipal",
-      "uf": "SC",
-      "municipio": "Braço do Trombudo",
-      "codigoIbge": "4202859",
-      "objeto": "Aquisição e instalação de playgrounds e correlatos para atendimento da Secretaria Municipal de Educação, da Secretaria Municipal de Cultura, Turismo e Lazer e Departamento de Meio Ambiente do Município de Braço do Trombudo/SC.",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "PE 108",
-      "numeroControlePncp": "95952230000167-1-000128/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 128,
-      "valorEstimado": 2653232.34,
-      "dataPublicacao": "2026-09-14T08:42:01-03:00",
-      "dataAberturaProposta": "2026-09-14T08:00:00-03:00",
-      "dataEncerramentoProposta": "2026-09-28T08:30:00-03:00",
-      "link": "https://pncp.gov.br/app/editais/95952230000167/2026/128",
-      "linkPncp": "https://pncp.gov.br/app/editais/95952230000167/2026/128",
-      "linkSistemaOrigem": null,
-      "categorias": [
-        "cultura-geral"
-      ],
-      "categoriaPrincipal": "cultura-geral",
-      "segmentos": [
-        "cultura"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
       "id": "00394502000144-1-012142/2026",
       "orgao": "COMANDO DA MARINHA",
       "cnpj": "00394502000144",
@@ -3078,6 +3046,38 @@
       "categoriaPrincipal": "ti-geral",
       "segmentos": [
         "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
+      "id": "95952230000167-1-000128/2026",
+      "orgao": "MUNICIPIO DE BRACO DO TROMBUDO",
+      "cnpj": "95952230000167",
+      "esfera": "Municipal",
+      "uf": "SC",
+      "municipio": "Braço do Trombudo",
+      "codigoIbge": "4202859",
+      "objeto": "Aquisição e instalação de playgrounds e correlatos para atendimento da Secretaria Municipal de Educação, da Secretaria Municipal de Cultura, Turismo e Lazer e Departamento de Meio Ambiente do Município de Braço do Trombudo/SC.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "PE 108",
+      "numeroControlePncp": "95952230000167-1-000128/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 128,
+      "valorEstimado": 2653232.34,
+      "dataPublicacao": "2026-09-14T08:42:01-03:00",
+      "dataAberturaProposta": "2026-09-14T08:00:00-03:00",
+      "dataEncerramentoProposta": "2026-09-28T08:30:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/95952230000167/2026/128",
+      "linkPncp": "https://pncp.gov.br/app/editais/95952230000167/2026/128",
+      "linkSistemaOrigem": null,
+      "categorias": [
+        "cultura-geral"
+      ],
+      "categoriaPrincipal": "cultura-geral",
+      "segmentos": [
+        "cultura"
       ],
       "situacao": "Divulgada no PNCP",
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
@@ -4731,38 +4731,6 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
-      "id": "17757258000130-1-000040/2026",
-      "orgao": "CAMARA MUNICIPAL DE PIRAQUARA",
-      "cnpj": "17757258000130",
-      "esfera": "Municipal",
-      "uf": "PR",
-      "municipio": "Piraquara",
-      "codigoIbge": "4119509",
-      "objeto": "Aquisição de equipamentos e softwares visando à modernização dos processos realizados e à padronização dos equipamentos utilizados nos diferentes setores da Câmara Municipal de Piraquara.",
-      "informacaoComplementar": "Em casos de divergência entre as descrições do objeto previstas no Edital e aquelas contidas no sistema Comprasnet, sempre prevalecerão as especificações do Edital.",
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "10",
-      "numeroControlePncp": "17757258000130-1-000040/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 40,
-      "valorEstimado": 110237.22,
-      "dataPublicacao": "2026-09-09T09:26:41-03:00",
-      "dataAberturaProposta": "2026-09-10T08:58:00-03:00",
-      "dataEncerramentoProposta": "2026-09-28T09:00:00-03:00",
-      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=92759905000102026",
-      "linkPncp": "https://pncp.gov.br/app/editais/17757258000130/2026/40",
-      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=92759905000102026",
-      "categorias": [
-        "software"
-      ],
-      "categoriaPrincipal": "software",
-      "segmentos": [
-        "tecnologia"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
       "id": "43052497000102-1-000445/2026",
       "orgao": "DEPARTAMENTO DE ESTRADAS DE RODAGEM",
       "cnpj": "43052497000102",
@@ -4790,6 +4758,38 @@
       "categoriaPrincipal": "patrimonio",
       "segmentos": [
         "cultura"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
+      "id": "17757258000130-1-000040/2026",
+      "orgao": "CAMARA MUNICIPAL DE PIRAQUARA",
+      "cnpj": "17757258000130",
+      "esfera": "Municipal",
+      "uf": "PR",
+      "municipio": "Piraquara",
+      "codigoIbge": "4119509",
+      "objeto": "Aquisição de equipamentos e softwares visando à modernização dos processos realizados e à padronização dos equipamentos utilizados nos diferentes setores da Câmara Municipal de Piraquara.",
+      "informacaoComplementar": "Em casos de divergência entre as descrições do objeto previstas no Edital e aquelas contidas no sistema Comprasnet, sempre prevalecerão as especificações do Edital.",
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "10",
+      "numeroControlePncp": "17757258000130-1-000040/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 40,
+      "valorEstimado": 110237.22,
+      "dataPublicacao": "2026-09-09T09:26:41-03:00",
+      "dataAberturaProposta": "2026-09-10T08:58:00-03:00",
+      "dataEncerramentoProposta": "2026-09-28T09:00:00-03:00",
+      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=92759905000102026",
+      "linkPncp": "https://pncp.gov.br/app/editais/17757258000130/2026/40",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=92759905000102026",
+      "categorias": [
+        "software"
+      ],
+      "categoriaPrincipal": "software",
+      "segmentos": [
+        "tecnologia"
       ],
       "situacao": "Divulgada no PNCP",
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
@@ -5953,6 +5953,38 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
+      "id": "55251185000107-1-000050/2026",
+      "orgao": "MUNICIPIO DE PRESIDENTE BERNARDES",
+      "cnpj": "55251185000107",
+      "esfera": "Municipal",
+      "uf": "SP",
+      "municipio": "Presidente Bernardes",
+      "codigoIbge": "3541208",
+      "objeto": "CONTRATACAO DE EMPRESA PARA O FORNECIMENTO DE TECIDOS DE DIFERENTES NATUREZAS  COMPOSICOES E ACABAMENTOS  DESTINADOS AO SUPORTE LOGISTICO E DECORATIVO DE EVENTOS MUNICIPAIS PROMOVIDOS PELA DIVISAO DE CULTURA DO MUNICIPIO",
+      "informacaoComplementar": "",
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "28 | Processo 1948",
+      "numeroControlePncp": "55251185000107-1-000050/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 50,
+      "valorEstimado": 255962.02,
+      "dataPublicacao": "2026-09-15T11:09:39-03:00",
+      "dataAberturaProposta": "2026-09-28T09:00:00-03:00",
+      "dataEncerramentoProposta": "2026-09-28T09:01:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/55251185000107/2026/50",
+      "linkPncp": "https://pncp.gov.br/app/editais/55251185000107/2026/50",
+      "linkSistemaOrigem": null,
+      "categorias": [
+        "cultura-geral"
+      ],
+      "categoriaPrincipal": "cultura-geral",
+      "segmentos": [
+        "cultura"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
       "id": "18668376000134-1-000118/2026",
       "orgao": "MUNICIPIO DE MONTE BELO",
       "cnpj": "18668376000134",
@@ -5979,38 +6011,6 @@
         "cultura-geral"
       ],
       "categoriaPrincipal": "formacao",
-      "segmentos": [
-        "cultura"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
-      "id": "55251185000107-1-000050/2026",
-      "orgao": "MUNICIPIO DE PRESIDENTE BERNARDES",
-      "cnpj": "55251185000107",
-      "esfera": "Municipal",
-      "uf": "SP",
-      "municipio": "Presidente Bernardes",
-      "codigoIbge": "3541208",
-      "objeto": "CONTRATACAO DE EMPRESA PARA O FORNECIMENTO DE TECIDOS DE DIFERENTES NATUREZAS  COMPOSICOES E ACABAMENTOS  DESTINADOS AO SUPORTE LOGISTICO E DECORATIVO DE EVENTOS MUNICIPAIS PROMOVIDOS PELA DIVISAO DE CULTURA DO MUNICIPIO",
-      "informacaoComplementar": "",
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "28 | Processo 1948",
-      "numeroControlePncp": "55251185000107-1-000050/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 50,
-      "valorEstimado": 255962.02,
-      "dataPublicacao": "2026-09-15T11:09:39-03:00",
-      "dataAberturaProposta": "2026-09-28T09:00:00-03:00",
-      "dataEncerramentoProposta": "2026-09-28T09:01:00-03:00",
-      "link": "https://pncp.gov.br/app/editais/55251185000107/2026/50",
-      "linkPncp": "https://pncp.gov.br/app/editais/55251185000107/2026/50",
-      "linkSistemaOrigem": null,
-      "categorias": [
-        "cultura-geral"
-      ],
-      "categoriaPrincipal": "cultura-geral",
       "segmentos": [
         "cultura"
       ],
@@ -19452,6 +19452,38 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
+      "id": "48031918000124-1-002456/2026",
+      "orgao": "UNIVERSIDADE ESTADUAL PAULISTA JULIO DE MESQUITA FILHO",
+      "cnpj": "48031918000124",
+      "esfera": "Estadual",
+      "uf": "SP",
+      "municipio": "Araçatuba",
+      "codigoIbge": "3502804",
+      "objeto": "Aquisição de equipamentos fotográficos",
+      "informacaoComplementar": null,
+      "modalidade": "Dispensa",
+      "numeroCompra": "42",
+      "numeroControlePncp": "48031918000124-1-002456/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 2456,
+      "valorEstimado": 472.5,
+      "dataPublicacao": "2026-09-16T12:27:11-03:00",
+      "dataAberturaProposta": "2026-09-16T13:21:00-03:00",
+      "dataEncerramentoProposta": "2026-09-30T08:00:00-03:00",
+      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=10230206000422026",
+      "linkPncp": "https://pncp.gov.br/app/editais/48031918000124/2026/2456",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=10230206000422026",
+      "categorias": [
+        "artes-visuais"
+      ],
+      "categoriaPrincipal": "artes-visuais",
+      "segmentos": [
+        "cultura"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
       "id": "13806237000106-1-000211/2026",
       "orgao": "MUNICIPIO DE POJUCA",
       "cnpj": "13806237000106",
@@ -19480,38 +19512,6 @@
       "categoriaPrincipal": "software",
       "segmentos": [
         "tecnologia"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
-      "id": "48031918000124-1-002456/2026",
-      "orgao": "UNIVERSIDADE ESTADUAL PAULISTA JULIO DE MESQUITA FILHO",
-      "cnpj": "48031918000124",
-      "esfera": "Estadual",
-      "uf": "SP",
-      "municipio": "Araçatuba",
-      "codigoIbge": "3502804",
-      "objeto": "Aquisição de equipamentos fotográficos",
-      "informacaoComplementar": null,
-      "modalidade": "Dispensa",
-      "numeroCompra": "42",
-      "numeroControlePncp": "48031918000124-1-002456/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 2456,
-      "valorEstimado": 472.5,
-      "dataPublicacao": "2026-09-16T12:27:11-03:00",
-      "dataAberturaProposta": "2026-09-16T13:21:00-03:00",
-      "dataEncerramentoProposta": "2026-09-30T08:00:00-03:00",
-      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=10230206000422026",
-      "linkPncp": "https://pncp.gov.br/app/editais/48031918000124/2026/2456",
-      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=10230206000422026",
-      "categorias": [
-        "artes-visuais"
-      ],
-      "categoriaPrincipal": "artes-visuais",
-      "segmentos": [
-        "cultura"
       ],
       "situacao": "Divulgada no PNCP",
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
@@ -27261,6 +27261,38 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
+      "id": "07954480000179-1-024994/2026",
+      "orgao": "ESTADO DO CEARA",
+      "cnpj": "07954480000179",
+      "esfera": "Estadual",
+      "uf": "CE",
+      "municipio": "Sobral",
+      "codigoIbge": "2312908",
+      "objeto": "FERRAMENTAS E SUPRIMENTOS DE INFORMÁTICA",
+      "informacaoComplementar": "Atender as ações do MAPP 800 que é a MANUTENÇÃO - SEDUC / CREDE 06 destinado a atender as necessidades de manutenção de equipamentos de informatica para o bom funcionamento da Coordenadoria Regional de Desenvolvimento da Educação - CREDE 06 ¿ Sobral  e escolas através do aporte de Recursos Financeiros da Portaria nº 1100/2026.",
+      "modalidade": "Dispensa",
+      "numeroCompra": "202633293",
+      "numeroControlePncp": "07954480000179-1-024994/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 24994,
+      "valorEstimado": 15241.33,
+      "dataPublicacao": "2026-09-27T09:13:34-03:00",
+      "dataAberturaProposta": "2026-09-28T07:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-01T07:10:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/07954480000179/2026/24994",
+      "linkPncp": "https://pncp.gov.br/app/editais/07954480000179/2026/24994",
+      "linkSistemaOrigem": null,
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
       "id": "75772525000144-1-000120/2026",
       "orgao": "MUNICIPIO DE IGUARACU",
       "cnpj": "75772525000144",
@@ -28236,38 +28268,6 @@
         "cultura-geral"
       ],
       "categoriaPrincipal": "formacao",
-      "segmentos": [
-        "cultura"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
-      "id": "01594009000130-1-000068/2026",
-      "orgao": "MUNICIPIO DE BOM JESUS DO OESTE",
-      "cnpj": "01594009000130",
-      "esfera": "Municipal",
-      "uf": "SC",
-      "municipio": "Bom Jesus do Oeste",
-      "codigoIbge": "4202578",
-      "objeto": "EVENTUAL E PARCELADA AQUISIÇÃO DE MATERIAIS E ESTRUTURAS DECORATIVAS PARA ORNAMENTAÇÃO DE ESPAÇOS PUBLICOS PARA FESTIVIDADES DE NATAL.",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "PCE 20",
-      "numeroControlePncp": "01594009000130-1-000068/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 68,
-      "valorEstimado": 418675,
-      "dataPublicacao": "2026-09-16T14:26:21-03:00",
-      "dataAberturaProposta": "2026-09-18T08:00:00-03:00",
-      "dataEncerramentoProposta": "2026-10-01T08:00:00-03:00",
-      "link": "https://pncp.gov.br/app/editais/01594009000130/2026/68",
-      "linkPncp": "https://pncp.gov.br/app/editais/01594009000130/2026/68",
-      "linkSistemaOrigem": null,
-      "categorias": [
-        "eventos-festivais"
-      ],
-      "categoriaPrincipal": "eventos-festivais",
       "segmentos": [
         "cultura"
       ],
@@ -32845,6 +32845,38 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
+      "id": "46374500000194-1-007683/2026",
+      "orgao": "SECRETARIA DE ESTADO DA SAUDE",
+      "cnpj": "46374500000194",
+      "esfera": "Estadual",
+      "uf": "SP",
+      "municipio": "São Paulo",
+      "codigoIbge": "3550308",
+      "objeto": "Contratação de empresa especializada para prestação de Serviços de Gerenciamento do Abastecimento de Combustíveis em Veículos e outros serviços prestados por postos credenciados, mediante sistema informatizado e integrado, com utilização de cartão de pagamento magnético ou microprocessado e disponibilização de rede credenciada de postos de combustíveis",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "105",
+      "numeroControlePncp": "46374500000194-1-007683/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 7683,
+      "valorEstimado": 137141.1,
+      "dataPublicacao": "2026-09-16T18:12:17-03:00",
+      "dataAberturaProposta": "2026-09-17T08:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-01T09:00:00-03:00",
+      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=09017305001052026",
+      "linkPncp": "https://pncp.gov.br/app/editais/46374500000194/2026/7683",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=09017305001052026",
+      "categorias": [
+        "software"
+      ],
+      "categoriaPrincipal": "software",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
       "id": "03643856000173-1-000062/2026",
       "orgao": "SERVICO SOCIAL DO COMERCIO - ADMINISTRACAO REGIONAL NO ESTADO DE MINAS GERAIS",
       "cnpj": "03643856000173",
@@ -32869,38 +32901,6 @@
       "categorias": [
         "software",
         "ti-geral"
-      ],
-      "categoriaPrincipal": "software",
-      "segmentos": [
-        "tecnologia"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
-      "id": "46374500000194-1-007683/2026",
-      "orgao": "SECRETARIA DE ESTADO DA SAUDE",
-      "cnpj": "46374500000194",
-      "esfera": "Estadual",
-      "uf": "SP",
-      "municipio": "São Paulo",
-      "codigoIbge": "3550308",
-      "objeto": "Contratação de empresa especializada para prestação de Serviços de Gerenciamento do Abastecimento de Combustíveis em Veículos e outros serviços prestados por postos credenciados, mediante sistema informatizado e integrado, com utilização de cartão de pagamento magnético ou microprocessado e disponibilização de rede credenciada de postos de combustíveis",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "105",
-      "numeroControlePncp": "46374500000194-1-007683/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 7683,
-      "valorEstimado": 137141.1,
-      "dataPublicacao": "2026-09-16T18:12:17-03:00",
-      "dataAberturaProposta": "2026-09-17T08:00:00-03:00",
-      "dataEncerramentoProposta": "2026-10-01T09:00:00-03:00",
-      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=09017305001052026",
-      "linkPncp": "https://pncp.gov.br/app/editais/46374500000194/2026/7683",
-      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=09017305001052026",
-      "categorias": [
-        "software"
       ],
       "categoriaPrincipal": "software",
       "segmentos": [
@@ -38008,38 +38008,6 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
-      "id": "18243220000101-1-000140/2026",
-      "orgao": "MUNICIPIO DE ALFENAS",
-      "cnpj": "18243220000101",
-      "esfera": "Municipal",
-      "uf": "MG",
-      "municipio": "Alfenas",
-      "codigoIbge": "3101607",
-      "objeto": "[Portal de Compras Públicas] - Registro de Preço para futura e eventual contratação de empresa para prestação de serviços de arbitragem esportiva, por meio de empresa, liga ou associação especializada, para a condução técnica, imparcial e segura de campeonatos, torneios, jogos escolares e festivais promovidos pelas Secretarias Municipais da Juventude, Esporte e Lazer e de Educação.",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "058",
-      "numeroControlePncp": "18243220000101-1-000140/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 140,
-      "valorEstimado": 800090,
-      "dataPublicacao": "2026-09-14T15:42:51-03:00",
-      "dataAberturaProposta": "2026-09-14T18:00:00-03:00",
-      "dataEncerramentoProposta": "2026-10-02T08:30:00-03:00",
-      "link": "https://www.portaldecompraspublicas.com.br/processos/MG/Prefeitura-Municipal-de-Alfenas-2196/RPE-058-2026-2026-511220",
-      "linkPncp": "https://pncp.gov.br/app/editais/18243220000101/2026/140",
-      "linkSistemaOrigem": "https://www.portaldecompraspublicas.com.br/processos/MG/Prefeitura-Municipal-de-Alfenas-2196/RPE-058-2026-2026-511220",
-      "categorias": [
-        "eventos-festivais"
-      ],
-      "categoriaPrincipal": "eventos-festivais",
-      "segmentos": [
-        "cultura"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
       "id": "46643466000106-1-000984/2026",
       "orgao": "MUNICIPIO DE SAO JOSE DOS CAMPOS",
       "cnpj": "46643466000106",
@@ -38067,6 +38035,38 @@
       "categoriaPrincipal": "ti-geral",
       "segmentos": [
         "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
+      "id": "18243220000101-1-000140/2026",
+      "orgao": "MUNICIPIO DE ALFENAS",
+      "cnpj": "18243220000101",
+      "esfera": "Municipal",
+      "uf": "MG",
+      "municipio": "Alfenas",
+      "codigoIbge": "3101607",
+      "objeto": "[Portal de Compras Públicas] - Registro de Preço para futura e eventual contratação de empresa para prestação de serviços de arbitragem esportiva, por meio de empresa, liga ou associação especializada, para a condução técnica, imparcial e segura de campeonatos, torneios, jogos escolares e festivais promovidos pelas Secretarias Municipais da Juventude, Esporte e Lazer e de Educação.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "058",
+      "numeroControlePncp": "18243220000101-1-000140/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 140,
+      "valorEstimado": 800090,
+      "dataPublicacao": "2026-09-14T15:42:51-03:00",
+      "dataAberturaProposta": "2026-09-14T18:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-02T08:30:00-03:00",
+      "link": "https://www.portaldecompraspublicas.com.br/processos/MG/Prefeitura-Municipal-de-Alfenas-2196/RPE-058-2026-2026-511220",
+      "linkPncp": "https://pncp.gov.br/app/editais/18243220000101/2026/140",
+      "linkSistemaOrigem": "https://www.portaldecompraspublicas.com.br/processos/MG/Prefeitura-Municipal-de-Alfenas-2196/RPE-058-2026-2026-511220",
+      "categorias": [
+        "eventos-festivais"
+      ],
+      "categoriaPrincipal": "eventos-festivais",
+      "segmentos": [
+        "cultura"
       ],
       "situacao": "Divulgada no PNCP",
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
@@ -51232,38 +51232,6 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
-      "id": "20356739000148-1-000128/2026",
-      "orgao": "MUNICIPIO DE JECEABA",
-      "cnpj": "20356739000148",
-      "esfera": "Municipal",
-      "uf": "MG",
-      "municipio": "Jeceaba",
-      "codigoIbge": "3135407",
-      "objeto": "Contratação de empresa para prestação de serviços de licenciamento mensal de uso de Sistema Integrado de Gestão em Saúde Pública e que funcione a partir de um banco de dados único ou com integrações nativas entre bancos, permitindo maior segurança relacional dos dados, efetiva integridade e a eliminação de informações conflitantes em mais de um banco de dados.",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "058",
-      "numeroControlePncp": "20356739000148-1-000128/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 128,
-      "valorEstimado": 84709.95,
-      "dataPublicacao": "2026-09-23T09:35:48-03:00",
-      "dataAberturaProposta": "2026-09-23T09:00:00-03:00",
-      "dataEncerramentoProposta": "2026-10-06T08:59:00-03:00",
-      "link": "https://comprasbr.com.br/pregao-eletronico-detalhe/?idlicitacao=48461",
-      "linkPncp": "https://pncp.gov.br/app/editais/20356739000148/2026/128",
-      "linkSistemaOrigem": "https://comprasbr.com.br/pregao-eletronico-detalhe/?idlicitacao=48461",
-      "categorias": [
-        "software"
-      ],
-      "categoriaPrincipal": "software",
-      "segmentos": [
-        "tecnologia"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
       "id": "72311392000110-1-000024/2026",
       "orgao": "INSTITUTO DE PREVIDENCIA DO MUNICIPIO DE TAUBATE",
       "cnpj": "72311392000110",
@@ -51289,6 +51257,38 @@
         "ti-geral"
       ],
       "categoriaPrincipal": "ti-geral",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
+      "id": "20356739000148-1-000128/2026",
+      "orgao": "MUNICIPIO DE JECEABA",
+      "cnpj": "20356739000148",
+      "esfera": "Municipal",
+      "uf": "MG",
+      "municipio": "Jeceaba",
+      "codigoIbge": "3135407",
+      "objeto": "Contratação de empresa para prestação de serviços de licenciamento mensal de uso de Sistema Integrado de Gestão em Saúde Pública e que funcione a partir de um banco de dados único ou com integrações nativas entre bancos, permitindo maior segurança relacional dos dados, efetiva integridade e a eliminação de informações conflitantes em mais de um banco de dados.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "058",
+      "numeroControlePncp": "20356739000148-1-000128/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 128,
+      "valorEstimado": 84709.95,
+      "dataPublicacao": "2026-09-23T09:35:48-03:00",
+      "dataAberturaProposta": "2026-09-23T09:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-06T08:59:00-03:00",
+      "link": "https://comprasbr.com.br/pregao-eletronico-detalhe/?idlicitacao=48461",
+      "linkPncp": "https://pncp.gov.br/app/editais/20356739000148/2026/128",
+      "linkSistemaOrigem": "https://comprasbr.com.br/pregao-eletronico-detalhe/?idlicitacao=48461",
+      "categorias": [
+        "software"
+      ],
+      "categoriaPrincipal": "software",
       "segmentos": [
         "tecnologia"
       ],
@@ -52728,38 +52728,6 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
-      "id": "19843929000100-1-000695/2026",
-      "orgao": "FUNDACAO HOSPITALAR DO ESTADO DE MINAS GERAIS",
-      "cnpj": "19843929000100",
-      "esfera": "Estadual",
-      "uf": "MG",
-      "municipio": "Belo Horizonte",
-      "codigoIbge": "3106200",
-      "objeto": "Peças e materiais de informática",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "593",
-      "numeroControlePncp": "19843929000100-1-000695/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 695,
-      "valorEstimado": null,
-      "dataPublicacao": "2026-09-22T11:20:48-03:00",
-      "dataAberturaProposta": "2026-09-22T11:20:47-03:00",
-      "dataEncerramentoProposta": "2026-10-06T09:00:00-03:00",
-      "link": "https://www1.compras.mg.gov.br/n/procedimentolei14133/consulta/eletronico/visualizar/2026/593/510037",
-      "linkPncp": "https://pncp.gov.br/app/editais/19843929000100/2026/695",
-      "linkSistemaOrigem": "https://www1.compras.mg.gov.br/n/procedimentolei14133/consulta/eletronico/visualizar/2026/593/510037",
-      "categorias": [
-        "ti-geral"
-      ],
-      "categoriaPrincipal": "ti-geral",
-      "segmentos": [
-        "tecnologia"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
       "id": "56024581000156-1-000405/2026",
       "orgao": "MUNICIPIO DE RIBEIRAO PRETO",
       "cnpj": "56024581000156",
@@ -52785,6 +52753,38 @@
         "software"
       ],
       "categoriaPrincipal": "software",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
+      "id": "19843929000100-1-000695/2026",
+      "orgao": "FUNDACAO HOSPITALAR DO ESTADO DE MINAS GERAIS",
+      "cnpj": "19843929000100",
+      "esfera": "Estadual",
+      "uf": "MG",
+      "municipio": "Belo Horizonte",
+      "codigoIbge": "3106200",
+      "objeto": "Peças e materiais de informática",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "593",
+      "numeroControlePncp": "19843929000100-1-000695/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 695,
+      "valorEstimado": null,
+      "dataPublicacao": "2026-09-22T11:20:48-03:00",
+      "dataAberturaProposta": "2026-09-22T11:20:47-03:00",
+      "dataEncerramentoProposta": "2026-10-06T09:00:00-03:00",
+      "link": "https://www1.compras.mg.gov.br/n/procedimentolei14133/consulta/eletronico/visualizar/2026/593/510037",
+      "linkPncp": "https://pncp.gov.br/app/editais/19843929000100/2026/695",
+      "linkSistemaOrigem": "https://www1.compras.mg.gov.br/n/procedimentolei14133/consulta/eletronico/visualizar/2026/593/510037",
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
       "segmentos": [
         "tecnologia"
       ],
@@ -53897,38 +53897,6 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
-      "id": "08168940000104-1-000087/2026",
-      "orgao": "MUNICIPIO DE VARZEA",
-      "cnpj": "08168940000104",
-      "esfera": "Municipal",
-      "uf": "RN",
-      "municipio": "Várzea",
-      "codigoIbge": "2414704",
-      "objeto": "Registro de preços para futura e eventual contratação de empresa para fornecimento de equipamentos e materiais de informática destinados ao atendimento das necessidades dos órgãos da Administração Municipal de Várzea/RN.",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "003",
-      "numeroControlePncp": "08168940000104-1-000087/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 87,
-      "valorEstimado": 846040.05,
-      "dataPublicacao": "2026-09-23T14:55:52-03:00",
-      "dataAberturaProposta": "2026-09-24T00:00:00-03:00",
-      "dataEncerramentoProposta": "2026-10-06T10:00:00-03:00",
-      "link": "https://bnccompras.com/Process/ProcessView?param1=[gkz]gVMC6cyeB9VaqCy//tr2Ibg5XkrqQ5u6n54aVXjVotp/PicSGAcbq_CyNEIWk56SfaOiXAW_omFDbBc0iv52Ma4RT0xbj43T/qXuOToUImo=",
-      "linkPncp": "https://pncp.gov.br/app/editais/08168940000104/2026/87",
-      "linkSistemaOrigem": "https://bnccompras.com/Process/ProcessView?param1=[gkz]gVMC6cyeB9VaqCy//tr2Ibg5XkrqQ5u6n54aVXjVotp/PicSGAcbq_CyNEIWk56SfaOiXAW_omFDbBc0iv52Ma4RT0xbj43T/qXuOToUImo=",
-      "categorias": [
-        "ti-geral"
-      ],
-      "categoriaPrincipal": "ti-geral",
-      "segmentos": [
-        "tecnologia"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
       "id": "33683111000107-1-000073/2026",
       "orgao": "SERVICO FEDERAL DE PROCESSAMENTO DE DADOS (SERPRO)",
       "cnpj": "33683111000107",
@@ -53954,6 +53922,38 @@
         "infraestrutura"
       ],
       "categoriaPrincipal": "infraestrutura",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
+      "id": "08168940000104-1-000087/2026",
+      "orgao": "MUNICIPIO DE VARZEA",
+      "cnpj": "08168940000104",
+      "esfera": "Municipal",
+      "uf": "RN",
+      "municipio": "Várzea",
+      "codigoIbge": "2414704",
+      "objeto": "Registro de preços para futura e eventual contratação de empresa para fornecimento de equipamentos e materiais de informática destinados ao atendimento das necessidades dos órgãos da Administração Municipal de Várzea/RN.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "003",
+      "numeroControlePncp": "08168940000104-1-000087/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 87,
+      "valorEstimado": 846040.05,
+      "dataPublicacao": "2026-09-23T14:55:52-03:00",
+      "dataAberturaProposta": "2026-09-24T00:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-06T10:00:00-03:00",
+      "link": "https://bnccompras.com/Process/ProcessView?param1=[gkz]gVMC6cyeB9VaqCy//tr2Ibg5XkrqQ5u6n54aVXjVotp/PicSGAcbq_CyNEIWk56SfaOiXAW_omFDbBc0iv52Ma4RT0xbj43T/qXuOToUImo=",
+      "linkPncp": "https://pncp.gov.br/app/editais/08168940000104/2026/87",
+      "linkSistemaOrigem": "https://bnccompras.com/Process/ProcessView?param1=[gkz]gVMC6cyeB9VaqCy//tr2Ibg5XkrqQ5u6n54aVXjVotp/PicSGAcbq_CyNEIWk56SfaOiXAW_omFDbBc0iv52Ma4RT0xbj43T/qXuOToUImo=",
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
       "segmentos": [
         "tecnologia"
       ],
@@ -65376,38 +65376,6 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
-      "id": "17503475000101-1-000184/2026",
-      "orgao": "FUNDACAO EZEQUIEL DIAS",
-      "cnpj": "17503475000101",
-      "esfera": "Estadual",
-      "uf": "MG",
-      "municipio": "Belo Horizonte",
-      "codigoIbge": "3106200",
-      "objeto": "PREPARADOR DE MEIO DE CULTURA",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "356",
-      "numeroControlePncp": "17503475000101-1-000184/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 184,
-      "valorEstimado": null,
-      "dataPublicacao": "2026-09-11T09:27:29-03:00",
-      "dataAberturaProposta": "2026-09-11T09:27:29-03:00",
-      "dataEncerramentoProposta": "2026-10-08T09:00:00-03:00",
-      "link": "https://www1.compras.mg.gov.br/n/procedimentolei14133/consulta/eletronico/visualizar/2026/356/2261032",
-      "linkPncp": "https://pncp.gov.br/app/editais/17503475000101/2026/184",
-      "linkSistemaOrigem": "https://www1.compras.mg.gov.br/n/procedimentolei14133/consulta/eletronico/visualizar/2026/356/2261032",
-      "categorias": [
-        "cultura-geral"
-      ],
-      "categoriaPrincipal": "cultura-geral",
-      "segmentos": [
-        "cultura"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
       "id": "94309291000148-1-000206/2026",
       "orgao": "MUNICIPIO DE NOVA SANTA RITA",
       "cnpj": "94309291000148",
@@ -65435,6 +65403,38 @@
       "categoriaPrincipal": "software",
       "segmentos": [
         "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
+      "id": "17503475000101-1-000184/2026",
+      "orgao": "FUNDACAO EZEQUIEL DIAS",
+      "cnpj": "17503475000101",
+      "esfera": "Estadual",
+      "uf": "MG",
+      "municipio": "Belo Horizonte",
+      "codigoIbge": "3106200",
+      "objeto": "PREPARADOR DE MEIO DE CULTURA",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "356",
+      "numeroControlePncp": "17503475000101-1-000184/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 184,
+      "valorEstimado": null,
+      "dataPublicacao": "2026-09-11T09:27:29-03:00",
+      "dataAberturaProposta": "2026-09-11T09:27:29-03:00",
+      "dataEncerramentoProposta": "2026-10-08T09:00:00-03:00",
+      "link": "https://www1.compras.mg.gov.br/n/procedimentolei14133/consulta/eletronico/visualizar/2026/356/2261032",
+      "linkPncp": "https://pncp.gov.br/app/editais/17503475000101/2026/184",
+      "linkSistemaOrigem": "https://www1.compras.mg.gov.br/n/procedimentolei14133/consulta/eletronico/visualizar/2026/356/2261032",
+      "categorias": [
+        "cultura-geral"
+      ],
+      "categoriaPrincipal": "cultura-geral",
+      "segmentos": [
+        "cultura"
       ],
       "situacao": "Divulgada no PNCP",
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
@@ -65636,6 +65636,38 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
+      "id": "95591764000105-1-000255/2026",
+      "orgao": "UNIVERSIDADE FEDERAL DE SANTA MARIA",
+      "cnpj": "95591764000105",
+      "esfera": "Federal",
+      "uf": "RS",
+      "municipio": "Santa Maria",
+      "codigoIbge": "4316907",
+      "objeto": "Reforma total da cobertura do prédio onde atualmente funciona o Museu Gama d’Eça de acordo com as especificações técnicas; projetos; normas da ABNT e MTE; orçamento e cronograma em anexo a solicitação.",
+      "informacaoComplementar": "Conforme estabelece o edital, os descritivos e as unidades a serem consideradas para a elaboração das propostas são os constantes na listagem anexa ao termo de referência (anexo ao TR), emitida pela UFSM. Desta forma, ao incluir sua proposta no sistema, favor considerar apenas os descritivos e unidades constantes no anexo ao Termo de Referência do edital.\nO edital completo encontra-se disponível em https://www.ufsm.br/orgaos-executivos/demapa/licitacoes",
+      "modalidade": "Concorrência - Eletrônica",
+      "numeroCompra": "395",
+      "numeroControlePncp": "95591764000105-1-000255/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 255,
+      "valorEstimado": 549855.27,
+      "dataPublicacao": "2026-09-24T04:03:27-03:00",
+      "dataAberturaProposta": "2026-09-24T08:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-08T09:00:00-03:00",
+      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=15316403003952026",
+      "linkPncp": "https://pncp.gov.br/app/editais/95591764000105/2026/255",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=15316403003952026",
+      "categorias": [
+        "patrimonio"
+      ],
+      "categoriaPrincipal": "patrimonio",
+      "segmentos": [
+        "cultura"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
       "id": "01607627000178-1-000132/2026",
       "orgao": "MUNICIPIO DE GOIOXIM",
       "cnpj": "01607627000178",
@@ -65695,38 +65727,6 @@
       "categoriaPrincipal": "ti-geral",
       "segmentos": [
         "tecnologia"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
-      "id": "95591764000105-1-000255/2026",
-      "orgao": "UNIVERSIDADE FEDERAL DE SANTA MARIA",
-      "cnpj": "95591764000105",
-      "esfera": "Federal",
-      "uf": "RS",
-      "municipio": "Santa Maria",
-      "codigoIbge": "4316907",
-      "objeto": "Reforma total da cobertura do prédio onde atualmente funciona o Museu Gama d’Eça de acordo com as especificações técnicas; projetos; normas da ABNT e MTE; orçamento e cronograma em anexo a solicitação.",
-      "informacaoComplementar": "Conforme estabelece o edital, os descritivos e as unidades a serem consideradas para a elaboração das propostas são os constantes na listagem anexa ao termo de referência (anexo ao TR), emitida pela UFSM. Desta forma, ao incluir sua proposta no sistema, favor considerar apenas os descritivos e unidades constantes no anexo ao Termo de Referência do edital.\nO edital completo encontra-se disponível em https://www.ufsm.br/orgaos-executivos/demapa/licitacoes",
-      "modalidade": "Concorrência - Eletrônica",
-      "numeroCompra": "395",
-      "numeroControlePncp": "95591764000105-1-000255/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 255,
-      "valorEstimado": 549855.27,
-      "dataPublicacao": "2026-09-24T04:03:27-03:00",
-      "dataAberturaProposta": "2026-09-24T08:00:00-03:00",
-      "dataEncerramentoProposta": "2026-10-08T09:00:00-03:00",
-      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=15316403003952026",
-      "linkPncp": "https://pncp.gov.br/app/editais/95591764000105/2026/255",
-      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=15316403003952026",
-      "categorias": [
-        "patrimonio"
-      ],
-      "categoriaPrincipal": "patrimonio",
-      "segmentos": [
-        "cultura"
       ],
       "situacao": "Divulgada no PNCP",
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
@@ -65956,38 +65956,6 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
-      "id": "18349894000195-1-000059/2026",
-      "orgao": "MUNICIPIO DE ALMENARA",
-      "cnpj": "18349894000195",
-      "esfera": "Municipal",
-      "uf": "MG",
-      "municipio": "Almenara",
-      "codigoIbge": "3101706",
-      "objeto": "Aquisição de bens permanentes e de consumo (mobiliário, eletrônicos, eletrodomésticos, equipamentos de: telefonia, informática, fotográfico, áudio e vídeo, limpeza, utensílios de informática e de escritório), com vistas ao atendimento das demandas estruturais e operacionais da Secretaria da Mulher, Direitos Humanos e Igualdade Racial - Emenda Parlamentar Estadual, formalizada e devidamente registrada sob o número de controle SIGCON 003729/2026.",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "0022",
-      "numeroControlePncp": "18349894000195-1-000059/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 59,
-      "valorEstimado": 134243.44,
-      "dataPublicacao": "2026-09-23T16:35:08-03:00",
-      "dataAberturaProposta": "2026-09-24T00:00:00-03:00",
-      "dataEncerramentoProposta": "2026-10-08T09:00:00-03:00",
-      "link": "https://bnccompras.com/Process/ProcessView?param1=[gkz]OnGLAqd9_VBDaet0DbsQsjyanKqJBqtGIql5HBOBbRHs6IZmdYAGEe0xfsu7YwAhi0Dd666I4KZgCLOfrYTPMjplGJih4x5GKrPse1LZMjc=",
-      "linkPncp": "https://pncp.gov.br/app/editais/18349894000195/2026/59",
-      "linkSistemaOrigem": "https://bnccompras.com/Process/ProcessView?param1=[gkz]OnGLAqd9_VBDaet0DbsQsjyanKqJBqtGIql5HBOBbRHs6IZmdYAGEe0xfsu7YwAhi0Dd666I4KZgCLOfrYTPMjplGJih4x5GKrPse1LZMjc=",
-      "categorias": [
-        "ti-geral"
-      ],
-      "categoriaPrincipal": "ti-geral",
-      "segmentos": [
-        "tecnologia"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
       "id": "62577929000135-1-000044/2026",
       "orgao": "(UO) ESP-PRODESP-CIA.PROC DE DADOS EST. SP",
       "cnpj": "62577929000135",
@@ -66046,6 +66014,38 @@
         "licencas"
       ],
       "categoriaPrincipal": "software",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
+      "id": "18349894000195-1-000059/2026",
+      "orgao": "MUNICIPIO DE ALMENARA",
+      "cnpj": "18349894000195",
+      "esfera": "Municipal",
+      "uf": "MG",
+      "municipio": "Almenara",
+      "codigoIbge": "3101706",
+      "objeto": "Aquisição de bens permanentes e de consumo (mobiliário, eletrônicos, eletrodomésticos, equipamentos de: telefonia, informática, fotográfico, áudio e vídeo, limpeza, utensílios de informática e de escritório), com vistas ao atendimento das demandas estruturais e operacionais da Secretaria da Mulher, Direitos Humanos e Igualdade Racial - Emenda Parlamentar Estadual, formalizada e devidamente registrada sob o número de controle SIGCON 003729/2026.",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "0022",
+      "numeroControlePncp": "18349894000195-1-000059/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 59,
+      "valorEstimado": 134243.44,
+      "dataPublicacao": "2026-09-23T16:35:08-03:00",
+      "dataAberturaProposta": "2026-09-24T00:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-08T09:00:00-03:00",
+      "link": "https://bnccompras.com/Process/ProcessView?param1=[gkz]OnGLAqd9_VBDaet0DbsQsjyanKqJBqtGIql5HBOBbRHs6IZmdYAGEe0xfsu7YwAhi0Dd666I4KZgCLOfrYTPMjplGJih4x5GKrPse1LZMjc=",
+      "linkPncp": "https://pncp.gov.br/app/editais/18349894000195/2026/59",
+      "linkSistemaOrigem": "https://bnccompras.com/Process/ProcessView?param1=[gkz]OnGLAqd9_VBDaet0DbsQsjyanKqJBqtGIql5HBOBbRHs6IZmdYAGEe0xfsu7YwAhi0Dd666I4KZgCLOfrYTPMjplGJih4x5GKrPse1LZMjc=",
+      "categorias": [
+        "ti-geral"
+      ],
+      "categoriaPrincipal": "ti-geral",
       "segmentos": [
         "tecnologia"
       ],
@@ -66248,6 +66248,38 @@
       "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
     },
     {
+      "id": "63025530000104-1-003754/2026",
+      "orgao": "UNIVERSIDADE DE SAO PAULO",
+      "cnpj": "63025530000104",
+      "esfera": "Estadual",
+      "uf": "SP",
+      "municipio": "São Paulo",
+      "codigoIbge": "3550308",
+      "objeto": "Locação de sistema de monitoramento CFTV",
+      "informacaoComplementar": null,
+      "modalidade": "Pregão - Eletrônico",
+      "numeroCompra": "132",
+      "numeroControlePncp": "63025530000104-1-003754/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 3754,
+      "valorEstimado": 2154819.6,
+      "dataPublicacao": "2026-09-23T15:05:00-03:00",
+      "dataAberturaProposta": "2026-09-24T09:00:00-03:00",
+      "dataEncerramentoProposta": "2026-10-08T09:00:00-03:00",
+      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=10212705001322026",
+      "linkPncp": "https://pncp.gov.br/app/editais/63025530000104/2026/3754",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=10212705001322026",
+      "categorias": [
+        "infraestrutura"
+      ],
+      "categoriaPrincipal": "infraestrutura",
+      "segmentos": [
+        "tecnologia"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
       "id": "18668376000134-1-000130/2026",
       "orgao": "MUNICIPIO DE MONTE BELO",
       "cnpj": "18668376000134",
@@ -66279,38 +66311,6 @@
       "categoriaPrincipal": "formacao",
       "segmentos": [
         "cultura",
-        "tecnologia"
-      ],
-      "situacao": "Divulgada no PNCP",
-      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
-    },
-    {
-      "id": "63025530000104-1-003754/2026",
-      "orgao": "UNIVERSIDADE DE SAO PAULO",
-      "cnpj": "63025530000104",
-      "esfera": "Estadual",
-      "uf": "SP",
-      "municipio": "São Paulo",
-      "codigoIbge": "3550308",
-      "objeto": "Locação de sistema de monitoramento CFTV",
-      "informacaoComplementar": null,
-      "modalidade": "Pregão - Eletrônico",
-      "numeroCompra": "132",
-      "numeroControlePncp": "63025530000104-1-003754/2026",
-      "anoCompra": 2026,
-      "sequencialCompra": 3754,
-      "valorEstimado": 2154819.6,
-      "dataPublicacao": "2026-09-23T15:05:00-03:00",
-      "dataAberturaProposta": "2026-09-24T09:00:00-03:00",
-      "dataEncerramentoProposta": "2026-10-08T09:00:00-03:00",
-      "link": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=10212705001322026",
-      "linkPncp": "https://pncp.gov.br/app/editais/63025530000104/2026/3754",
-      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/compras/acompanhamento-compra?compra=10212705001322026",
-      "categorias": [
-        "infraestrutura"
-      ],
-      "categoriaPrincipal": "infraestrutura",
-      "segmentos": [
         "tecnologia"
       ],
       "situacao": "Divulgada no PNCP",
@@ -96538,6 +96538,38 @@
         "cultura-geral"
       ],
       "categoriaPrincipal": "musica",
+      "segmentos": [
+        "cultura"
+      ],
+      "situacao": "Divulgada no PNCP",
+      "origem": "PNCP — Portal Nacional de Contratações Públicas (API /api/consulta/v1/contratacoes/proposta)"
+    },
+    {
+      "id": "14221741000107-1-000042/2026",
+      "orgao": "MUNICIPIO DE CORRENTINA",
+      "cnpj": "14221741000107",
+      "esfera": "Municipal",
+      "uf": "BA",
+      "municipio": "Correntina",
+      "codigoIbge": "2909307",
+      "objeto": "Credenciamento de emissoras de TV aberta no estado da Bahia com transmissão em toda Região Oeste do estado, para prestação de serviços diversos relacionados à comunicação audiovisual, compreendendo a captação, produção e transmissão audiovisual de eventos e ações promovidos pela gestão municipal de Correntina /BA.",
+      "informacaoComplementar": null,
+      "modalidade": "Credenciamento",
+      "numeroCompra": "005",
+      "numeroControlePncp": "14221741000107-1-000042/2026",
+      "anoCompra": 2026,
+      "sequencialCompra": 42,
+      "valorEstimado": 567878.53,
+      "dataPublicacao": "2026-04-30T08:37:58-03:00",
+      "dataAberturaProposta": "2026-03-26T08:00:00-03:00",
+      "dataEncerramentoProposta": "2027-03-26T08:00:00-03:00",
+      "link": "https://pncp.gov.br/app/editais/14221741000107/2026/42",
+      "linkPncp": "https://pncp.gov.br/app/editais/14221741000107/2026/42",
+      "linkSistemaOrigem": null,
+      "categorias": [
+        "audiovisual"
+      ],
+      "categoriaPrincipal": "audiovisual",
       "segmentos": [
         "cultura"
       ],
