@@ -64,15 +64,44 @@ pode ser chamado por `C:\Program Files\Git\cmd\git.exe`.
 - `src/lib/alertas.ts` e teste: regras puras de elegibilidade/janelas.
 - `scripts/disparar-alertas.ts`: CLI idempotente, e-mail agrupado por busca,
   opção `--dry-run`, limitação por rodada e retry de falhas.
-- Cobertura de testes atual: **157 testes em 17 arquivos**.
+- Cobertura de testes na última verificação: **158 testes em 17 arquivos**.
+
+### Operação automatizada (adicionado em 2026-09-30)
+
+- `.github/workflows/atualizar-radar.yml`: GitHub Actions executa coleta →
+  ingestão → disparo de alertas a cada 12 horas e aceita execução manual; agora
+  valida envs obrigatórias, formato PostgreSQL, HTTPS e tamanho da sessão antes
+  de iniciar a coleta.
+- `README.md` documenta secrets/variables necessários e orienta aplicar as
+  migrations antes de ativar o workflow.
+- Secrets necessários no GitHub: `DATABASE_URL`, `SESSION_SECRET` e
+  `RESEND_API_KEY`; variables: `NEXT_PUBLIC_APP_URL` e `MAIL_FROM`.
+- Verificações após a mudança: `npm run typecheck`, `npm test` (158 testes),
+  `npm run build` e `git diff --check` passaram.
+- Workflow e documentação estão em preparo para publicação. A execução manual
+  só deve ocorrer após publicar a definição, confirmar migrations no Postgres e
+  garantir que o remetente temporário do Resend não tente alcançar outros
+  destinatários.
+- Em 2026-09-30 foi criado `SESSION_SECRET` aleatório diretamente como GitHub
+  Actions secret, sem expor seu valor. Nunca consultar/imprimir valores de
+  secrets. Secrets configurados no GitHub: `DATABASE_URL`, `SESSION_SECRET` e
+  `RESEND_API_KEY`. Variables configuradas: `NEXT_PUBLIC_APP_URL` e
+  `MAIL_FROM=Lotus Radar <onboarding@resend.dev>` (remetente temporário de
+  teste). O domínio próprio segue pendente para envio a usuários reais.
+- A variável `MAIL_FROM` foi inicialmente cadastrada como secret; corrigida
+  para Actions variable e o secret duplicado removido.
+- A cópia local de `.github/workflows/atualizar-radar.yml` ainda não está
+  disponível no branch padrão `main` do GitHub. O workflow local e a memória
+  estão sem commit; não disparar até publicar e confirmar destinatários seguros
+  para o remetente temporário do Resend.
 
 ## Ainda falta / validar antes de lançamento
 
 1. Testar checkout, cancelamento e ciclo de webhook em conta de teste Mercado
    Pago; o provider ainda não foi exercitado com credenciais reais.
 2. Testar Resend com domínio verificado e conferir entregabilidade.
-3. Configurar cron no host para coletar → ingerir → disparar alertas. O job CLI
-   existe; endpoints protegidos de cron não foram criados.
+3. Publicar e validar manualmente o workflow de coleta → ingestão → alertas em
+   um Postgres gerenciado, com destinatários seguros para o Resend de teste.
 4. Validar migrations e consultas em PostgreSQL gerenciado de staging (até aqui
    validação local foi PGlite).
 5. Revisar limites de plano e UX de busca/filtros, em especial upgrade/troca de
@@ -88,8 +117,7 @@ Os módulos puros de `src/lib/` continuam sendo referência: `categorias.ts`,
 
 Coletores existentes em `scripts/`: PNCP, SIC Cultura, MinC/PNAB,
 `gerar-geo-br.ts`, `reprocessar.ts` e `gerar-feeds.ts`. A SPA (`index.html`,
-`src/main.tsx`, `src/App.tsx`, `src/componentes/`) foi removida. Nenhum workflow
-em `.github/workflows/` está presente na árvore atual.
+`src/main.tsx`, `src/App.tsx`, `src/componentes/`) foi removida.
 
 ## Convenções
 

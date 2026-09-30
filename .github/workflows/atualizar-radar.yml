@@ -1,8 +1,8 @@
-name: Atualizar radar
+name: Atualizar radar e enviar alertas
 
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 */12 * * *'
   workflow_dispatch:
 
 permissions:
@@ -17,29 +17,57 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 240
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      NODE_ENV: production
       DB_DRIVER: postgres
-      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
       NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
       MAIL_FROM: ${{ vars.MAIL_FROM }}
     steps:
-      - name: Validar configuração de produção
+      - name: Validar configuracao obrigatoria
+        shell: bash
         run: |
-          test -n "$DATABASE_URL" || { echo 'Configure o secret DATABASE_URL.'; exit 1; }
-          test -n "$RESEND_API_KEY" || { echo 'Configure o secret RESEND_API_KEY.'; exit 1; }
-          test -n "$NEXT_PUBLIC_APP_URL" || { echo 'Configure a variável NEXT_PUBLIC_APP_URL.'; exit 1; }
-          test -n "$MAIL_FROM" || { echo 'Configure a variável MAIL_FROM com um remetente verificado.'; exit 1; }
+          falhas=0
+          for variavel in DATABASE_URL SESSION_SECRET RESEND_API_KEY NEXT_PUBLIC_APP_URL MAIL_FROM; do
+            if [[ -z "${!variavel}" ]]; then
+              printf 'Configuracao ausente: %s\n' "$variavel"
+              falhas=1
+            fi
+          done
+          if [[ -n "$SESSION_SECRET" && ${#SESSION_SECRET} -lt 32 ]]; then
+            printf 'SESSION_SECRET precisa ter pelo menos 32 caracteres.\n'
+            falhas=1
+          fi
+          if [[ -n "$DATABASE_URL" && ! "$DATABASE_URL" =~ ^postgres(ql)?:// ]]; then
+            printf 'DATABASE_URL precisa usar o protocolo PostgreSQL.\n'
+            falhas=1
+          fi
+          if [[ -n "$NEXT_PUBLIC_APP_URL" ]] && ! node -e 'const u = new URL(process.argv[1]); if (u.protocol !== "https:") process.exit(1)' "$NEXT_PUBLIC_APP_URL"; then
+            printf 'NEXT_PUBLIC_APP_URL precisa ser uma URL HTTPS publica.\n'
+            falhas=1
+          fi
+          if (( falhas != 0 )); then
+            exit 1
+          fi
 
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           cache: npm
 
-      - run: npm ci
-      - name: Coletar editais
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Coletar oportunidades
         run: npm run coletar
-      - name: Ingerir snapshot no PostgreSQL
+
+      - name: Ingerir snapshot no banco
         run: npm run ingest
-      - name: Disparar alertas por e-mail
+
+      - name: Enviar alertas das buscas salvas
         run: npm run alertas:disparar

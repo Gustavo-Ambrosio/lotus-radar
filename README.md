@@ -71,16 +71,26 @@ pública HTTPS da aplicação. Nunca registre tokens, senhas ou segredos em logs
 
 ### Agendamento automatizado no GitHub Actions
 
-O workflow `.github/workflows/atualizar-radar.yml` executa diariamente às 10h
-UTC e também pode ser iniciado em **Actions → Atualizar radar → Run workflow**.
+O workflow `.github/workflows/atualizar-radar.yml` executa a cada 12 horas
+(00h e 12h UTC) e também pode ser iniciado em **Actions → Atualizar radar e
+enviar alertas → Run workflow**.
 Configure no repositório:
 
-- Secrets `DATABASE_URL` (PostgreSQL gerenciado) e `RESEND_API_KEY`.
+- Secrets `DATABASE_URL` (PostgreSQL gerenciado), `SESSION_SECRET` (32 ou mais
+  caracteres aleatórios) e `RESEND_API_KEY`.
 - Variables `NEXT_PUBLIC_APP_URL` (URL HTTPS pública) e `MAIL_FROM` (remetente
   verificado no Resend).
 
-O job falha antes de rodar se faltar uma variável obrigatória; coleta, ingestão
-e envio de alertas ocorrem em sequência no mesmo runner.
+O job valida a configuração antes de rodar; falha se faltar algum valor ou se
+o banco, URL pública ou segredo de sessão não tiverem formato válido. Coleta,
+ingestão e envio de alertas ocorrem em sequência no mesmo runner.
+Antes de ativar o workflow, aplique as migrations ao Postgres de produção com
+`npm run db:migrate`.
+
+Para testes sem domínio, `Lotus Radar <onboarding@resend.dev>` pode ser usado
+como `MAIL_FROM`, mas o Resend só permite enviar para o endereço verificado da
+conta. Não execute o job de alertas com esse remetente se houver outros
+destinatários elegíveis; para envio a clientes, verifique um domínio próprio.
 
 ### Deploy da aplicação no Railway
 
@@ -98,7 +108,7 @@ e envio de alertas ocorrem em sequência no mesmo runner.
 5. Gere um domínio público no Railway, atualize `NEXT_PUBLIC_APP_URL` com a URL
    final e configure essa mesma URL como variable no GitHub Actions. Configure
    `DATABASE_URL` e `RESEND_API_KEY` como secrets e `MAIL_FROM` como variable no
-   GitHub Actions; assim o job diário roda contra o mesmo banco e app.
+   GitHub Actions; assim o job agendado roda contra o mesmo banco e app.
 
 Não use PGlite em produção. A aplicação falha ao iniciar se estiver em
 `NODE_ENV=production` sem `DATABASE_URL` PostgreSQL.
