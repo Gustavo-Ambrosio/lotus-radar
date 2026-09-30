@@ -24,7 +24,12 @@ async function principal(): Promise<void> {
 }
 
 principal().catch(async (erro: unknown) => {
-  process.stderr.write(`[db] falhou: ${erro instanceof Error ? erro.message : String(erro)}\n`);
+  const detalhes = erro instanceof Error
+    ? [erro.message, 'code' in erro ? `code=${String(erro.code)}` : '', `name=${erro.name}`]
+        .filter(Boolean)
+        .join(' | ')
+    : String(erro);
+  process.stderr.write(`[db] falhou: ${detalhes || 'erro sem mensagem'}\n`);
   await fecharDb().catch(() => undefined);
   process.exitCode = 1;
 });

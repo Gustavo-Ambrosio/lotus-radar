@@ -77,7 +77,13 @@ export async function acaoCheckout(formData: FormData): Promise<void> {
   }
 
   const endereco = urlSegura(checkout.url);
-  if (!endereco || !endereco.startsWith('https://')) redirect('/planos?checkout=erro');
+  if (!endereco || !endereco.startsWith('https://')) {
+    await banco
+      .update(assinaturas)
+      .set({ status: 'inativa', motivoStatus: 'URL de checkout invalida', atualizadoEm: new Date() })
+      .where(eq(assinaturas.id, assinaturaId));
+    redirect('/planos?checkout=erro');
+  }
 
   const valores = {
     plano: planoId,

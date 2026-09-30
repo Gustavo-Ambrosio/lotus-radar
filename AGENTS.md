@@ -97,6 +97,27 @@ pode ser chamado por `C:\Program Files\Git\cmd\git.exe`.
   ativado quando a definição chegar ao branch padrão. Não disparar até
   confirmar migrations e destinatários seguros para o remetente temporário.
 
+### Interface visual (adicionado em 2026-09-30)
+
+- Agente OpenCode `.opencode/agents/visual-lotus.md`: especialista em produto
+  SaaS, negócio, UX, UI, CRO ético e acessibilidade; diretrizes de proposta de
+  valor, jornada e planos em `docs/DIRETRIZES_PRODUTO_UX.md`.
+- Referência visual aprovada: `https://gustavo-ambrosio.github.io/lotus-radar`.
+  Usar como fonte vinculante de identidade, hierarquia e organização do layout.
+  `ROADMAP.md` continua tratando de fontes/coletores; a referência aprovada é o
+  GitHub Pages.
+- Capturas analisadas: `../layoutatual.png` (estado local em localhost:3000) e
+  `../situação visual.png` (estado anterior no Railway), ambas fora do
+  repositório; achados e prioridades persistidos em `docs/ANALISE_VISUAL_ATUAL.md`.
+- A captura do Railway mostra links com sublinhado padrão em cartões/abas/CTA e
+  hero com título e subtítulo comprimidos na mesma linha; comparar a captura ao
+  GitHub Pages no mesmo viewport sem confundir a referência aprovada com a
+  implementação corrente.
+- O agente implementou a primeira correção incremental de sublinhados em
+  `src/app/globals.css`; depois, a home recebeu correções do hero e alinhamento
+  do radar. Typecheck, testes (158) e build passaram. A validação visual mais
+  recente ainda depende de nova captura no localhost após atualizar o navegador.
+
 ## Ainda falta / validar antes de lançamento
 
 1. Testar checkout, cancelamento e ciclo de webhook em conta de teste Mercado

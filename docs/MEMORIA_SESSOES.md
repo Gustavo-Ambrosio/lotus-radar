@@ -136,3 +136,129 @@ interface da plataforma se for necessário preservá-lo palavra por palavra.
 - PR #2 permanece aberto; definição ainda não está no branch padrão `main`.
   Não disparar manualmente enquanto o Resend estiver em modo de teste. A
   execução agendada pula o envio usando onboarding@resend.dev.
+
+## Agente de interface visual — 2026-09-30
+
+- Usuário apontou a captura `situação visual.png`, localizada na pasta pai do
+  repositório (`../situação visual.png`).
+- Analisada a página inicial: sublinhado padrão em títulos/abas/CTA; hero com
+  título e subtítulo lado a lado; painel de filtros merece revisão de espaço e
+  alinhamento. As classes que ajudam a investigar estão em `globals.css` e a
+  estrutura inicial em `src/app/page.tsx`.
+- Criado agente primário `.opencode/agents/visual-lotus.md` e documentação dos
+  achados em `docs/ANALISE_VISUAL_ATUAL.md`. Nenhum CSS da aplicação foi alterado
+  nesta tarefa.
+- O arquivo de captura não está versionado; o agente instrui a pedir reanexo se
+  ele não estiver no workspace. Reiniciar o OpenCode para carregar o agente.
+- Alterações do agente e memória ainda não commitadas.
+
+## Expansão para produto, negócio, UX e UI — 2026-09-30
+
+- Usuário esclareceu que o agente visual precisa atuar profissionalmente em
+  produto, negócio, UX e UI e obedecer ao layout aprovado que já teria sido
+  definido na memória/roadmap.
+- Rebuscados todos os Markdown do repositório e da pasta `licitações`: o
+  `ROADMAP.md` disponível cobre fontes/coleta de dados, não especificação de
+  layout. Por isso, o agente recebeu regra de preservar a estrutura macro e
+  exigir a referência exata antes de mudanças estruturais, sem inventar um
+  layout aprovado.
+- Atualizado `.opencode/agents/visual-lotus.md` com competências de produto e
+  negócio SaaS, jornada/ativação/retensão/conversão, limites dos planos como
+  fonte de verdade, CRO ético, acessibilidade e critérios de trabalho.
+- Criado `docs/DIRETRIZES_PRODUTO_UX.md` com proposta de valor, tarefas,
+  objetivos de negócio, jornada e planos (valores devem sempre ser conferidos
+  em `src/billing/planos.ts`).
+- Usuário perguntou sobre trabalho paralelo. O agente de OpenCode não roda em
+  background só por existir; pode-se iniciar uma tarefa delegada de UI em
+  paralelo a uma frente separada de preparação do SaaS, evitando arquivos em
+  conflito.
+- Para a especificação visual aprovada, consultar o documento indicado pelo
+  usuário. O `ROADMAP.md` que existe neste checkout aborda coletores; se a
+  referência estiver em outro arquivo/local, solicitar caminho preciso em vez
+  de substituir ou inventar o layout.
+
+## Referência visual oficial confirmada pelo usuário — 2026-09-30
+
+- Usuário esclareceu: o layout aprovado é o GitHub Pages
+  `https://gustavo-ambrosio.github.io/lotus-radar`; a captura `../situação visual.png`
+  é o estado atual da aplicação SaaS no Railway
+  (`https://lotus-radar-production.up.railway.app`). Comparar as duas no mesmo
+  viewport e manter essa distinção.
+- Atualizados `.opencode/agents/visual-lotus.md`,
+  `docs/ANALISE_VISUAL_ATUAL.md`, `docs/DIRETRIZES_PRODUTO_UX.md` e `AGENTS.md`.
+  O Pages é agora fonte vinculante para identidade, hierarquia e organização;
+  preservar os fluxos SaaS novos ao adaptá-los.
+- Usuário perguntou se precisa fechar o terminal para reiniciar OpenCode. Não é
+  necessário fechar a janela: encerrar somente o processo OpenCode (`/exit` ou
+  `Ctrl+C`) e executar `opencode` de novo na raiz do projeto. Arquivos/memórias
+  já estão salvos no disco; a conversa pode ser retomada por `AGENTS.md` e
+  `docs/MEMORIA_SESSOES.md`. Alterações não commitadas permanecem na pasta.
+
+## Primeiro trabalho em paralelo — 2026-09-30
+
+- Seguindo `.opencode/agents/visual-lotus.md`, foi feita uma correção pequena em
+  `src/app/globals.css`: links de objeto, abas e CTA deixam o sublinhado padrão,
+  ganham hover coerente e foco visível. Sem alteração da macroestrutura.
+- A captura local foi consultada; a tela renderizada não foi verificada em
+  navegador. typecheck, testes (158) e build passaram.
+- Em paralelo, inspecionado o fluxo Mercado Pago. O teste existente cobre apenas
+  validação HMAC do webhook; os fluxos de criar/consultar/cancelar assinatura e
+  o ciclo real seguem precisando de credenciais de sandbox e testes integrados.
+  Nenhuma alteração no módulo de cobrança nesta sessão.
+- Atualizado `AGENTS.md`; alterações visuais, de documentação e do agente não
+  commitadas. Para carregar a configuração do agente, reiniciar OpenCode.
+
+## Correção do painel de filtros — 2026-09-30
+
+- Usuário indicou a captura `../layoutatual.png` como estado atual da aplicação
+  local em `localhost:3000`. Ela foi localizada e analisada; não é a captura
+  anterior do Railway.
+- A captura mostra os campos da sidebar extrapolando a coluna e a leitura do
+  hero sem o título aparente. Corrigida a grade interna dos filtros para duas
+  colunas fluidas (uma em celular estreito), inputs/selects com `min-width: 0`,
+  coluna principal encolhível e título do hero explícito como bloco branco.
+- Atualizada `docs/ANALISE_VISUAL_ATUAL.md` e referência correspondente no
+  `AGENTS.md`. `npm run typecheck`, `npm test` (158 testes), `npm run build` e
+  `git diff --check` passaram.
+- Sem navegador para validar uma captura após as mudanças; revisão visual final
+  ainda depende de atualizar `localhost:3000`. Não foi feito commit.
+
+## PostgreSQL Railway e prontidão local — 2026-09-30
+
+- Usuário configurou `.env.local` com a URL pública do PostgreSQL Railway. O
+  primeiro valor `DATABASE_URL` continha somente host/porta; ajustado para usar
+  a URL PostgreSQL completa já presente em `DATABASE_PUBLIC_URL`. `.env.local`
+  permanece ignorado pelo Git.
+- `npm run db:migrate` executou com sucesso no PostgreSQL Railway. A migration
+  já estava aplicada; a extensão `pg_trgm` e o schema Drizzle foram confirmados.
+- Adicionado `npm run db:check` (`scripts/db-check.ts`), verificação segura de
+  conectividade, 9 tabelas obrigatórias, extensão `pg_trgm` e quantidade de
+  migrations, sem consultar dados de usuários. Resultado: banco acessível, 9
+  tabelas, extensão ativa e 1 migration registrada.
+- `src/lib/env.ts` agora interpreta opções vazias no `.env` como não
+  configuradas. `scripts/db-migrate.ts` mostra nome/código de erros sem expor
+  credenciais. README documenta `db:check`.
+- Corrigido `src/app/acoes-billing.ts`: URL de checkout inválida do MP agora
+  encerra o estado local pendente como inativo para não bloquear novas tentativas.
+- Verificações: `npm run typecheck`, `npm test` (158), `npm run build`,
+  `npm run db:check` e `git diff --check` passaram. Alterações continuam sem
+  commit; alterações visuais/agente em andamento foram preservadas.
+- Próximas validações externas: teste integrado de checkout/cancelamento/webhook
+  com Mercado Pago sandbox, e-mail com remetente/destinatários de teste seguros,
+  e execução controlada do workflow de coleta e ingestão. A migration no banco
+  Railway e o schema estão verificados; ingestão ainda não foi executada.
+
+## Revisão de layout da home — continuação em 2026-09-30
+
+- Usuário apontou a captura `../layoutatual2.png`, ainda do localhost, e pediu a
+  conclusão sem novas interrupções. A captura mostra o título do hero ausente na
+  renderização, controles sem respiro interno, início da lista abaixo do painel
+  e links sublinhados nas categorias.
+- Para isolar o hero do CSS legado, trocadas as classes genéricas `marca*` por
+  classes próprias `hero__*`, com título responsivo explícito. Painel recebeu
+  padding, lista passou a alinhar seu cabeçalho ao topo do painel e chips/link
+  das categorias perderam a aparência padrão sublinhada. Mantido o grid
+  responsivo corrigido na etapa anterior.
+- Captura posterior ainda necessária para afirmar validação visual. O usuário
+  segue insatisfeito com a composição; a prioridade é conferir o mesmo viewport
+  do Pages aprovado e ajustar o que divergir, sem chamar testes de validação UI.

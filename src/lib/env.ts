@@ -108,7 +108,9 @@ export function carregarEnvDeArquivos(base: string = process.cwd()): string[] {
     const valores = analisarEnv(readFileSync(caminho, 'utf8'));
     let aplicados = 0;
     for (const [chave, valor] of Object.entries(valores)) {
-      if (process.env[chave] !== undefined) continue;
+      // Campos opcionais vazios no `.env` significam "nao configurado".
+      // Mantem os defaults do schema e evita validar string vazia como segredo.
+      if (process.env[chave] !== undefined || valor.length === 0) continue;
       process.env[chave] = valor;
       aplicados += 1;
     }

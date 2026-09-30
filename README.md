@@ -44,6 +44,7 @@ npm test                    # Vitest
 npm run build               # build de produção
 npm run db:generate         # gerar migration Drizzle
 npm run db:migrate          # aplicar migrations
+npm run db:check            # verificar conexão, tabelas e extensão PostgreSQL
 npm run db:seed             # conferir planos / seed opcional de admin
 npm run coletar             # PNCP/SIC/MinC/PNAB -> snapshot
 npm run ingest              # snapshot -> PostgreSQL/PGlite

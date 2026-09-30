@@ -80,9 +80,9 @@ export default async function PaginaRadar({ searchParams }: { searchParams: Para
     <>
       <section className="hero">
         <div className="container hero__interior">
-          <div className="marca">
-            <h1 className="marca__nome">Licitações de cultura e tecnologia</h1>
-            <p className="marca__legenda">O que está aberto agora no Brasil, do federal ao município.</p>
+          <div className="hero__marca">
+            <h1 className="hero__titulo">Licitações de cultura e tecnologia</h1>
+            <p className="hero__apoio">O que está aberto agora no Brasil, do federal ao município.</p>
           </div>
           <div className="hero__resumo">
             <p>

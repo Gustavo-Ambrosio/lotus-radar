@@ -73,13 +73,32 @@ strong {
 }
 
 .hero__interior {
-  padding-block: 40px 32px;
+  padding-block: 36px 30px;
 }
 
-.marca {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.hero__marca {
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  min-width: 0;
+}
+
+.hero__titulo {
+  display: block;
+  max-width: 100%;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.hero__apoio {
+  margin: 0;
+  color: #d9cdf5;
+  font-size: 1rem;
 }
 
 .marca__logo {
@@ -114,7 +133,7 @@ strong {
 
 .hero__resumo {
   max-width: 740px;
-  margin: 28px 0 0;
+  margin: 22px 0 0;
   font-size: 1.06rem;
   color: #e7e0f8;
 }
@@ -174,6 +193,22 @@ strong {
   background: transparent;
   color: #cfc3ec;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.segmento:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.segmento--ativo:hover {
+  background: #fff;
+  color: var(--primario-forte);
+}
+
+.segmento:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
 }
 
 .segmento--ativo {
@@ -541,6 +576,7 @@ strong {
   border: 1px solid var(--linha);
   background: #fff;
   color: var(--tinta);
+  text-decoration: none;
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s, transform 0.05s;
 }
@@ -724,6 +760,24 @@ strong {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.cartao__objeto a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cartao__objeto a:hover {
+  color: var(--primario-forte);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+}
+
+.cartao__objeto a:focus-visible {
+  border-radius: 2px;
+  outline: 3px solid var(--primario);
+  outline-offset: 3px;
 }
 
 .cartao__tooltip {
@@ -1011,6 +1065,17 @@ strong {
   color: var(--primario-forte);
 }
 
+a.ferramenta {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+a.ferramenta:focus-visible {
+  outline: 3px solid var(--primario);
+  outline-offset: 3px;
+}
+
 .mapa__botao-abrir {
   border-color: rgba(109, 46, 241, 0.4);
   background: var(--primario-claro);
@@ -1212,8 +1277,8 @@ strong {
     padding-block: 28px 24px;
   }
 
-  .marca__nome {
-    font-size: 1.25rem;
+  .hero__titulo {
+    font-size: 1.55rem;
   }
 
   .kpis {
@@ -1859,12 +1924,24 @@ strong {
 }
 @media (min-width: 1000px) {
   .radar {
-    grid-template-columns: 300px minmax(0, 1fr);
+    grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
+    gap: 24px;
   }
   .radar > aside {
     position: sticky;
     top: 72px;
   }
+  .radar > div {
+    min-width: 0;
+  }
+}
+
+.radar > aside.painel {
+  padding: 16px;
+}
+
+.radar .lista {
+  margin-top: 0;
 }
 
 .filtros__titulo .filtros__limpar {
@@ -1878,6 +1955,40 @@ strong {
 }
 .filtros__titulo .filtros__limpar:hover {
   background: #ddd0f7;
+}
+
+/* O painel lateral usa dois campos por linha, não as cinco colunas do formulário legado. */
+.radar .filtros__linha {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.radar .filtros__corpo > .filtros__linha:nth-child(4) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.radar .campo,
+.radar .campo input,
+.radar .campo select {
+  min-width: 0;
+  width: 100%;
+}
+
+.radar .filtros__corpo {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+@media (max-width: 1020px) {
+  .radar .filtros__linha {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .radar .filtros__linha {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .filtros__aplicar {
