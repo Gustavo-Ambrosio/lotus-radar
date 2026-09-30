@@ -69,6 +69,9 @@ jobs:
       - name: Instalar dependencias
         run: npm ci
 
+      - name: Verificar PostgreSQL e migrations
+        run: npm run db:check
+
       - name: Coletar oportunidades
         run: npm run coletar
 

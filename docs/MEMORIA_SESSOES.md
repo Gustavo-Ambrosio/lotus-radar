@@ -262,3 +262,20 @@ interface da plataforma se for necessário preservá-lo palavra por palavra.
 - Captura posterior ainda necessária para afirmar validação visual. O usuário
   segue insatisfeito com a composição; a prioridade é conferir o mesmo viewport
   do Pages aprovado e ajustar o que divergir, sem chamar testes de validação UI.
+
+## Commit e preflight do workflow — 2026-09-30
+
+- Usuário autorizou commits. Criado `934efa2` (`feat: prepara validacao do
+  postgres e refina interface`) com os ajustes de billing/env, ferramenta
+  `db:check`, documentação e trabalho visual/agente que estavam no checkout.
+- Confirmado pelo HTTP que a aplicação pública do Railway responde; PR #2 segue
+  aberto contra `main`, com validações Railway e GitHub Actions aprovadas.
+- Adicionado ao workflow um passo `npm run db:check` antes de iniciar a coleta,
+  evitando iniciar o job se as tabelas/extensão/migrations do banco estiverem
+  indisponíveis. README atualizado para documentar o preflight.
+- A alteração mais recente do workflow/README ainda não foi commitada nem
+  enviada. Não executar coleta/ingestão manual contra o banco real antes da
+  confirmação do usuário sobre janela/destinatários; o job envolve escrita de
+  dados e alertas.
+- Verificações desta continuação: `npm run db:check`, `npm run typecheck` e
+  `npm test` (158 testes) passaram.

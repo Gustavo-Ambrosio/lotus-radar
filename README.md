@@ -82,9 +82,10 @@ Configure no repositório:
 - Variables `NEXT_PUBLIC_APP_URL` (URL HTTPS pública) e `MAIL_FROM` (remetente
   verificado no Resend).
 
-O job valida a configuração antes de rodar; falha se faltar algum valor ou se
-o banco, URL pública ou segredo de sessão não tiverem formato válido. Coleta,
-ingestão e envio de alertas ocorrem em sequência no mesmo runner.
+O job valida a configuração antes de rodar e confere conexão, tabelas e
+migrations do PostgreSQL com `npm run db:check` antes da coleta; falha se faltar
+algum valor ou se o banco, URL pública ou segredo de sessão não tiverem formato
+válido. Coleta, ingestão e envio de alertas ocorrem em sequência no mesmo runner.
 Antes de ativar o workflow, aplique as migrations ao Postgres de produção com
 `npm run db:migrate`.
 
