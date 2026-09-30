@@ -82,6 +82,27 @@ Configure no repositório:
 O job falha antes de rodar se faltar uma variável obrigatória; coleta, ingestão
 e envio de alertas ocorrem em sequência no mesmo runner.
 
+### Deploy da aplicação no Railway
+
+1. Crie um projeto Railway, adicione um serviço PostgreSQL e conecte o serviço
+   da aplicação a este repositório/branch `main` (após aprovar o PR).
+2. O `railway.json` configura o build Next.js, aplica migrations antes de
+   iniciar o servidor e usa `/` como health check.
+3. No serviço da aplicação, configure `DATABASE_URL` como referência a
+   `${{Postgres.DATABASE_URL}}` (ajuste `Postgres` ao nome do serviço do banco),
+   `SESSION_SECRET` com pelo menos 32 caracteres aleatórios e
+   `NEXT_PUBLIC_APP_URL` com o domínio HTTPS gerado pelo Railway.
+4. Configure também `RESEND_API_KEY` e `MAIL_FROM` para e-mails. Adicione
+   `MERCADOPAGO_ACCESS_TOKEN` e `MERCADOPAGO_WEBHOOK_SECRET` após configurar a
+   aplicação e o webhook no painel Mercado Pago.
+5. Gere um domínio público no Railway, atualize `NEXT_PUBLIC_APP_URL` com a URL
+   final e configure essa mesma URL como variable no GitHub Actions. Configure
+   `DATABASE_URL` e `RESEND_API_KEY` como secrets e `MAIL_FROM` como variable no
+   GitHub Actions; assim o job diário roda contra o mesmo banco e app.
+
+Não use PGlite em produção. A aplicação falha ao iniciar se estiver em
+`NODE_ENV=production` sem `DATABASE_URL` PostgreSQL.
+
 ## Fontes e limitações dos dados
 
 Os coletores de `scripts/` consultam fontes públicas como PNCP, SIC Cultura,
