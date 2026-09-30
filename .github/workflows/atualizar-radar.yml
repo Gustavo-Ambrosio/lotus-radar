@@ -1,0 +1,45 @@
+name: Atualizar radar
+
+on:
+  schedule:
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atualizar-radar
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DB_DRIVER: postgres
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
+      MAIL_FROM: ${{ vars.MAIL_FROM }}
+    steps:
+      - name: Validar configuração de produção
+        run: |
+          test -n "$DATABASE_URL" || { echo 'Configure o secret DATABASE_URL.'; exit 1; }
+          test -n "$RESEND_API_KEY" || { echo 'Configure o secret RESEND_API_KEY.'; exit 1; }
+          test -n "$NEXT_PUBLIC_APP_URL" || { echo 'Configure a variável NEXT_PUBLIC_APP_URL.'; exit 1; }
+          test -n "$MAIL_FROM" || { echo 'Configure a variável MAIL_FROM com um remetente verificado.'; exit 1; }
+
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - name: Coletar editais
+        run: npm run coletar
+      - name: Ingerir snapshot no PostgreSQL
+        run: npm run ingest
+      - name: Disparar alertas por e-mail
+        run: npm run alertas:disparar

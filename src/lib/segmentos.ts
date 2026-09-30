@@ -1,6 +1,6 @@
 import { CATEGORIAS } from './categorias';
 import { CATEGORIAS_TECNOLOGIA } from './segmentos/tecnologia';
-import { normalizarTexto } from './texto';
+import { normalizarTexto, contemPrefixo } from './texto';
 import type { Categoria } from './categorias';
 import type { Licitacao, Segmento } from './tipos';
 
@@ -8,20 +8,29 @@ type Restricao = { id: string; label: string; cor: string };
 
 const REGISTO: Restricao[] = [...CATEGORIAS, ...CATEGORIAS_TECNOLOGIA];
 
+// Indice id -> categoria. O original fazia busca linear em ~30 itens por
+// chamada; com o mapa a resolucao vira O(1) e a lista pode crescer.
+const REGISTO_POR_ID = new Map(REGISTO.map((c) => [c.id, c]));
+
 export function rotuloCategoria(id: string): string {
-  return REGISTO.find((c) => c.id === id)?.label ?? id;
+  return REGISTO_POR_ID.get(id)?.label ?? id;
 }
 
 export function corCategoria(id: string): string {
-  return REGISTO.find((c) => c.id === id)?.cor ?? '#6b7280';
+  return REGISTO_POR_ID.get(id)?.cor ?? '#6b7280';
 }
 
 export function categoriasDoSegmento(segmento: Segmento): Categoria[] {
   return segmento === 'tecnologia' ? CATEGORIAS_TECNOLOGIA : CATEGORIAS;
 }
 
+const IDS_POR_SEGMENTO: Record<Segmento, ReadonlySet<string>> = {
+  cultura: new Set(CATEGORIAS.map((c) => c.id)),
+  tecnologia: new Set(CATEGORIAS_TECNOLOGIA.map((c) => c.id)),
+};
+
 export function principalDoSegmento(licitacao: Licitacao, segmento: Segmento): string | null {
-  const ids = new Set(categoriasDoSegmento(segmento).map((c) => c.id));
+  const ids = IDS_POR_SEGMENTO[segmento];
   return licitacao.categorias.find((c) => ids.has(c)) ?? null;
 }
 
@@ -62,6 +71,19 @@ const TECNOLOGIA_PRECEDENTE = [
   'tecnologia da informacao', 'suporte tecnico', 'help desk',
 ];
 
+/**
+ * Os padroes sao compilados UMA vez no carregamento do modulo, em vez de a cada
+ * chamada. A versao anterior construia 2 x |CULTURA| + 2 x |TECNOLOGIA| RegExp
+ * por licitacao, por render — o custo dominante do app. `contemPrefixo`
+ * memoiza por palavra, entao nem a normalizacao e' refeita.
+ */
+function contemAlgum(texto: string, palavras: readonly string[]): boolean {
+  for (const palavra of palavras) {
+    if (contemPrefixo(texto, palavra)) return true;
+  }
+  return false;
+}
+
 /***
  * Resolve a que aba uma licitacao pertence de forma EXCLUSIVA:
  * 1. Leitura direta de cultura vence (ex.: banda + som -> Cultura);
@@ -73,21 +95,8 @@ export function resolverSegmentoExclusivo(licitacao: Pick<Licitacao, 'objeto' | 
   const texto = normalizarTexto(licitacao.objeto);
   if (!texto) return null;
 
-  const temCulturaDireta = CULTURA_LEITURA_DIRETA.some((palavra) => {
-    const alvo = normalizarTexto(palavra);
-    if (!alvo) return false;
-    const escapado = alvo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return new RegExp(`(^| )${escapado}`).test(texto);
-  });
-  if (temCulturaDireta) return 'cultura';
-
-  const temTecnologiaPrecedente = TECNOLOGIA_PRECEDENTE.some((palavra) => {
-    const alvo = normalizarTexto(palavra);
-    if (!alvo) return false;
-    const escapado = alvo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return new RegExp(`(^| )${escapado}`).test(texto);
-  });
-  if (temTecnologiaPrecedente) return 'tecnologia';
+  if (contemAlgum(texto, CULTURA_LEITURA_DIRETA)) return 'cultura';
+  if (contemAlgum(texto, TECNOLOGIA_PRECEDENTE)) return 'tecnologia';
 
   if (licitacao.segmentos.length === 1) return licitacao.segmentos[0] ?? null;
   return null;
