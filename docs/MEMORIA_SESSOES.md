@@ -131,6 +131,8 @@ interface da plataforma se for necessário preservá-lo palavra por palavra.
   pula a etapa de envio; execuções manuais também não enviam por padrão e
   requerem marcar explicitamente `enviar_alertas`. Com domínio verificado, o
   agendamento envia normalmente.
-- Atualizados `README.md` e `AGENTS.md`. Próximo passo: revisar e publicar esta
-  proteção na mesma branch. Não disparar manualmente enquanto o Resend estiver
-  em modo de teste.
+- Atualizados `README.md` e `AGENTS.md`. Commit `cd03c14` publicado em
+  `origin/feat/saas-next`; CI de push e PR passou em typecheck, testes e build.
+- PR #2 permanece aberto; definição ainda não está no branch padrão `main`.
+  Não disparar manualmente enquanto o Resend estiver em modo de teste. A
+  execução agendada pula o envio usando onboarding@resend.dev.

@@ -91,7 +91,8 @@ pode ser chamado por `C:\Program Files\Git\cmd\git.exe`.
   teste). O domínio próprio segue pendente para envio a usuários reais.
 - A variável `MAIL_FROM` foi inicialmente cadastrada como secret; corrigida
   para Actions variable e o secret duplicado removido.
-- Commits `0ec2d1b` e `81d829c` foram enviados para `origin/feat/saas-next`.
+- Commits `0ec2d1b`, `81d829c` e `cd03c14` foram enviados para
+  `origin/feat/saas-next`.
   O workflow ainda não está no branch padrão `main`; o agendamento só será
   ativado quando a definição chegar ao branch padrão. Não disparar até
   confirmar migrations e destinatários seguros para o remetente temporário.
