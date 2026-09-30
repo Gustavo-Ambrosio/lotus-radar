@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Filtros } from '@/lib/filtros';
-import { montarQuery } from '@/lib/url';
+import { urlDaConsulta } from '@/lib/url';
 import type { Segmento } from '@/lib/tipos';
 
 /**
@@ -33,7 +33,7 @@ export function PainelFiltros({ segmento, categorias, filtros }: Props) {
     const marcadas = filtros.categorias.includes(id)
       ? filtros.categorias.filter((c) => c !== id)
       : [...filtros.categorias, id];
-    return `?${montarQuery(segmento, { ...filtros, categorias: marcadas })}`;
+    return urlDaConsulta(segmento, { ...filtros, categorias: marcadas });
   };
 
   const vazio =
