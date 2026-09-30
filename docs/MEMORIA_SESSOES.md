@@ -109,3 +109,14 @@ interface da plataforma se for necessário preservá-lo palavra por palavra.
   haver garantia de que os destinatários são somente endereços permitidos pelo
   Resend. No Railway, confirmar que `RESEND_API_KEY` e `MAIL_FROM` também foram
   definidas no serviço da aplicação.
+
+## Publicação do workflow autorizada — 2026-09-30
+
+- O usuário autorizou explicitamente commit e push.
+- Criado commit `0ec2d1b` (`ci: automatiza coleta e alertas do radar`) na branch
+  `feat/saas-next`, incluindo workflow, README e memória. Ainda falta enviar ao
+  remoto.
+- Após push, confirmar a branch remota. Não executar o workflow: o remetente
+  temporário `onboarding@resend.dev` só pode alcançar o e-mail verificado da
+  conta Resend e não há confirmação de que não existam outros destinatários
+  elegíveis no Postgres.

@@ -90,10 +90,10 @@ pode ser chamado por `C:\Program Files\Git\cmd\git.exe`.
   teste). O domínio próprio segue pendente para envio a usuários reais.
 - A variável `MAIL_FROM` foi inicialmente cadastrada como secret; corrigida
   para Actions variable e o secret duplicado removido.
-- A cópia local de `.github/workflows/atualizar-radar.yml` ainda não está
-  disponível no branch padrão `main` do GitHub. O workflow local e a memória
-  estão sem commit; não disparar até publicar e confirmar destinatários seguros
-  para o remetente temporário do Resend.
+- Commit `0ec2d1b` foi criado na branch `feat/saas-next` e aguarda publicação no
+  remoto. O workflow ainda não está no branch padrão `main`; não disparar até
+  publicar e confirmar destinatários seguros para o remetente temporário do
+  Resend.
 
 ## Ainda falta / validar antes de lançamento
 
