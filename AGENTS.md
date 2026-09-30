@@ -90,10 +90,10 @@ pode ser chamado por `C:\Program Files\Git\cmd\git.exe`.
   teste). O domínio próprio segue pendente para envio a usuários reais.
 - A variável `MAIL_FROM` foi inicialmente cadastrada como secret; corrigida
   para Actions variable e o secret duplicado removido.
-- Commit `0ec2d1b` foi criado na branch `feat/saas-next` e aguarda publicação no
-  remoto. O workflow ainda não está no branch padrão `main`; não disparar até
-  publicar e confirmar destinatários seguros para o remetente temporário do
-  Resend.
+- Commits `0ec2d1b` e `81d829c` foram enviados para `origin/feat/saas-next`.
+  O workflow ainda não está no branch padrão `main`; o agendamento só será
+  ativado quando a definição chegar ao branch padrão. Não disparar até
+  confirmar migrations e destinatários seguros para o remetente temporário.
 
 ## Ainda falta / validar antes de lançamento
 
