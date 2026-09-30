@@ -71,7 +71,8 @@ pode ser chamado por `C:\Program Files\Git\cmd\git.exe`.
 - `.github/workflows/atualizar-radar.yml`: GitHub Actions executa coleta →
   ingestão → disparo de alertas a cada 12 horas e aceita execução manual; agora
   valida envs obrigatórias, formato PostgreSQL, HTTPS e tamanho da sessão antes
-  de iniciar a coleta.
+  de iniciar a coleta. E-mails são ignorados com o remetente temporário do
+  Resend; execução manual exige opt-in explícito para enviar alertas.
 - `README.md` documenta secrets/variables necessários e orienta aplicar as
   migrations antes de ativar o workflow.
 - Secrets necessários no GitHub: `DATABASE_URL`, `SESSION_SECRET` e

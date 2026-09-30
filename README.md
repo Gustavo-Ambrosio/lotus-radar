@@ -91,6 +91,8 @@ Para testes sem domínio, `Lotus Radar <onboarding@resend.dev>` pode ser usado
 como `MAIL_FROM`, mas o Resend só permite enviar para o endereço verificado da
 conta. Não execute o job de alertas com esse remetente se houver outros
 destinatários elegíveis; para envio a clientes, verifique um domínio próprio.
+Execuções manuais iniciam sem envio de e-mail; o envio exige marcar a opção
+explícita. Com o remetente de teste do Resend, alertas são sempre ignorados.
 
 ### Deploy da aplicação no Railway
 

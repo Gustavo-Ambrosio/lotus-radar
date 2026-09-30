@@ -123,3 +123,14 @@ interface da plataforma se for necessário preservá-lo palavra por palavra.
   temporário `onboarding@resend.dev` só pode alcançar o e-mail verificado da
   conta Resend e não há confirmação de que não existam outros destinatários
   elegíveis no Postgres.
+
+## Proteção do remetente de teste — 2026-09-30
+
+- CI do PR #2 passou após a publicação anterior.
+- Ajustado o workflow: o remetente `Lotus Radar <onboarding@resend.dev>` sempre
+  pula a etapa de envio; execuções manuais também não enviam por padrão e
+  requerem marcar explicitamente `enviar_alertas`. Com domínio verificado, o
+  agendamento envia normalmente.
+- Atualizados `README.md` e `AGENTS.md`. Próximo passo: revisar e publicar esta
+  proteção na mesma branch. Não disparar manualmente enquanto o Resend estiver
+  em modo de teste.

@@ -4,6 +4,12 @@ on:
   schedule:
     - cron: '0 */12 * * *'
   workflow_dispatch:
+    inputs:
+      enviar_alertas:
+        description: 'Enviar alertas por e-mail nesta execução manual'
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -70,4 +76,9 @@ jobs:
         run: npm run ingest
 
       - name: Enviar alertas das buscas salvas
+        if: ${{ env.MAIL_FROM != 'Lotus Radar <onboarding@resend.dev>' && (github.event_name == 'schedule' || inputs.enviar_alertas) }}
         run: npm run alertas:disparar
+
+      - name: Pular alertas com remetente de teste ou sem confirmação manual
+        if: ${{ env.MAIL_FROM == 'Lotus Radar <onboarding@resend.dev>' || (github.event_name == 'workflow_dispatch' && !inputs.enviar_alertas) }}
+        run: echo 'Alertas não enviados. Use um remetente verificado para produção; execuções manuais exigem confirmação explícita.'
