@@ -555,5 +555,5 @@ principal()
   .then(() => process.exit(0))
   .catch((erro) => {
     console.error('[pncp] erro fatal na coleta:', erro);
-    process.exit(0);
+    process.exitCode = 1;
   });

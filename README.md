@@ -1,160 +1,134 @@
-# Radar Cultural Brasil
+# Lotus Radar
 
-Radar de **licitações e editais de cultura e tecnologia do Brasil inteiro** — Governo Federal, estados, Distrito Federal e municípios — com foco em oportunidades **com inscrição ainda aberta**, organizadas por **estado**, município, distância da sua localização, categoria, prazo, órgão e valor.
-
-- Fontes oficiais: **PNCP** (Portal Nacional de Contratações Públicas, API `/api/consulta/v1/contratacoes/proposta`) e **SIC Cultura** (Secretaria de Estado da Cultura do Paraná — editais de fomento/PNAB).
-- Site 100% estático (GitHub Pages). Um job do GitHub Actions coleta os dados, grava um snapshot JSON e publica o site.
-
-## Segmentos (abas)
-
-A interface tem duas abas: **Cultural** e **Tecnologia**. Cada licitação carrega um campo `segmentos` e aparece na aba correspondente (uma mesma compra pode ser dos dois — ex.: plataforma de streaming de um festival).
-
-- **Cultural**: categorias de artes e cultura (ver abaixo).
-- **Tecnologia**: desenvolvimento de software, infraestrutura e redes, qualidade de software, testes de software, segurança e firewall, licenças de software e tecnologia geral.
-
-A arquitetura é escalável: basta criar um classificador por segmento em `src/lib/segmentos/` e registrar as categorias em `src/lib/segmentos.ts` (que unifica rótulos, cores e a categoria principal exibida).
-
-## Por que existe um job de coleta
-
-A API do PNCP **não envia cabeçalhos CORS**, então o navegador não pode chamá-la direto. Ela também é lenta, limita requisições (às vezes respondendo `200` com HTML em vez de JSON) e cai com frequência. Por isso os dados são coletados fora do navegador, por um job agendado, e servidos como arquivo estático — o site abre rápido e continua no ar mesmo se o PNCP estiver fora.
-
-O coletor varre os **27 estados** na busca de licitações (órgãos federais também publicam no PNCP, sempre associados a uma UF — a unidade do órgão). Para ver só um estado: `npm run coletar` com `UFS=PR,SP`
-
-O snapshot contém **somente oportunidades abertas**: a cada coleta, e também no reprocessamento offline, as licitações com prazo de propostas já encerrado (ou anuladas, revogadas, desertas, concluídas etc.) são removidas (`src/lib/vigencia.ts`). Assim o número de editais não acumula — ele reflete apenas o que está "live" hoje.
+Radar de licitações e editais de cultura e tecnologia do Brasil — federal,
+estadual e municipal. O produto está migrando da SPA Vite/GitHub Pages para um
+SaaS com Next.js, PostgreSQL, contas, planos pagos, buscas salvas e alertas.
 
 ## Arquitetura
 
-```
-scripts/coletar.ts        Coletor PNCP: 27 UFs (+orgãos federais), retry/backoff, paginação, orçamento, snapshot
-scripts/coletar-sic.ts    Coletor SIC Cultura (editais de fomento do PR), best-effort com cache
-scripts/gerar-geo-br.ts   Regenera municipios-br.ts + public/dados/municipios.json (lista oficial IBGE com coordenadas)
-src/lib/categorias.ts     Classificador de cultura por palavras-chave (compartilhado)
-src/lib/segmentos/tecnologia.ts  Classificador de tecnologia por palavras-chave
-src/lib/segmentos.ts      Registro unificado de segmentos/categorias (rótulo, cor, principal)
-src/lib/seguranca.ts      Sanitização de URLs externas (http/https)
-src/lib/tipos.ts          Tipos do snapshot e da licitação
-src/lib/filtros.ts        Regras de filtro/ordenação (funções puras, inclui distância)
-src/lib/formato.ts        Formatação de moeda, data e prazo
-src/lib/vigencia.ts       Regra de "live": remove encerradas por prazo ou situação
-src/lib/url.ts            Sincronização de segmento/filtros com a URL
-src/lib/agrupar.ts        Agrupamento da lista por dia (Hoje/Ontem/data)
-src/lib/destaque.ts       Destaque dos termos da busca no cartão
-src/lib/exportar.ts       Exportação CSV/JSON do recorte filtrado
-src/lib/geo.ts            UFs, distância (haversine) e lookup de municípios no mapa/filtros
-src/lib/municipios-br.ts  Lista IBGE embutida — usada em scripts/testes; o app carrega a versão JSON em runtime
-scripts/gerar-feeds.ts    Gera feed.rss e calendario.ics no build
-src/componentes/          KPIs, filtros, cartões e mapa (Leaflet, carregado sob demanda)
-src/App.tsx               Dashboard
-public/dados/licitacoes.json   Snapshot publicado
-public/dados/municipios.json   Municípios em JSON compacto, carregado em runtime (fora do bundle inicial)
-.github/workflows/pages.yml    Coleta diária + build + deploy no Pages
-```
+- Next.js 15 App Router em `src/app/`; telas renderizadas no servidor.
+- Drizzle ORM com PostgreSQL em produção e PGlite local em `.pgdata/`.
+- `src/db/schema.ts` define usuários, sessões, tokens, assinaturas, eventos de
+  pagamento, licitações, buscas salvas e entregas de alertas.
+- O snapshot `public/dados/licitacoes.json` continua sendo o formato de
+  transporte dos coletores; a tabela `licitacoes` é a fonte das telas.
+- `src/lib/` mantém classificadores, filtros, geografia e formatação puros já
+  usados pela aplicação anterior.
+- Mercado Pago processa assinaturas recorrentes. O webhook consulta o recurso
+  diretamente no gateway e valida `x-signature` antes de atualizar o plano.
+- Resend envia confirmação de e-mail, redefinição de senha e alertas. Sem chave
+  em desenvolvimento, os envios são simulados no console.
 
-## Categorias
+## Requisitos e início local
 
-A categoria é inferida por palavras-chave do objeto do edital (uma licitação pode ter várias tags):
-
-**Cultura:** Música · Música eletrônica (psytrance, darkpsy, trance, rave, DJ) · Artes cênicas (teatro, dança, circo) · Audiovisual e cinema (inclui trilha sonora/produção audiovisual) · Artes visuais (inclui fotografia) · Experimental e arte digital · Eventos literários (festival do livro, sarau) · Publicações literárias · Literatura e livro · Patrimônio e memória · Cultura popular e tradicional · Produção cultural · Evento artístico · Eventos e festivais · Eventos multiculturais · Premiações e prêmios · Fomento e editais · Equipamentos e espaços culturais · Formação e oficinas · Gestão cultural · Cultura (geral).
-
-**Tecnologia:** Desenvolvimento de software · Infraestrutura e redes (servidores, rede de dados, switches/roteadores, Linux/Windows, monitoramento NOC, Zabbix/Grafana) · Qualidade de software · Testes de software · Segurança e firewall (firewall NGFW, VPN, SD-WAN, antivírus/EDR/XDR, gestão de vulnerabilidades) · Licenças de software · Tecnologia (geral, inclui suporte técnico, help desk, service desk, central de serviços, outsourcing e serviços continuados de TI).
-
-> Todos os **chips de filtro** do segmento ficam visíveis — mesmo sem oportunidades no momento (mostram `0`). A classificação é automática e aproximada; não substitui a leitura do edital.
-
-> A classificação é automática e aproximada; não substitui a leitura do edital.
-
-## Filtros
-
-Além da busca por texto e dos chips de categoria, o painel permite combinar:
-
-- Estado (27 UFs) e município — o dropdown de municípios usa a **lista oficial do IBGE** (5.570 municípios), filtrada pelo estado escolhido;
-- Distância da sua localização (**geolocalização do navegador**, opcional): até 50, 100, 150, 250, 500 ou 1000 km — o site calcula a distância até o centro de cada município;
-- Esfera (federal/estadual/municipal) e modalidade;
-- Prazo de encerramento (3, 7, 15 ou 30 dias);
-- Publicação (últimos 7, 15, 30 ou 60 dias);
-- Valor estimado (mínimo e máximo) e "só com valor informado";
-- Ordenação por prazo, data de publicação, valor, município ou órgão.
-
-Os **filtros ativos** aparecem como chips removíveis, um a um, acima do botão "Limpar filtros".
-
-## Amostragem, mapa e compartilhamento
-
-- **URL compartilhável**: cada combinação de segmento + filtros fica salva na query string (`?seg=tecnologia&uf=PR&busca=rede&municipio=Curitiba&distancia=100`). Copie com o botão **"Copiar link"** acima da lista e compartilhe o recorte exato.
-- **Agrupamento por dia**: a lista é organizada em **Hoje / Ontem / data** conforme a data de publicação, com ordenação interna seguindo o filtro escolhido.
-- **Mapa do Brasil** (Leaflet): o botão **"Ver mapa"** mostra um ponto por município com tamanho proporcional ao número de oportunidades; cada ponto pode ser usado para **filtrar** por aquele município. Como o Leaflet e a lista de municípios são carregados **sob demanda** (chunk separado + `public/dados/municipios.json`), o bundle inicial fica enxuto e o mapa só baixa o que precisa.
-- **Cartões**: o termo da busca fica **destacado em amarelo**, selos indicam **"novo"** (publicado nas últimas 72h) e **"encerra em Xh"** (últimas 24h), o cartão indica a **criticidade** pela borda (vermelho = encerra em ≤ 3 dias, âmbar = ≤ 10 dias) e dá para **expandir** para ver as informações complementares sem sair da lista.
-- **Exportar e assinar**: acima da lista, os botões **CSV** e **JSON** exportam exatamente o recorte filtrado. O build também gera **`dist/feed.rss`** (últimos 50 em RSS) e **`dist/calendario.ics`** (todos encerrando em um calendário do iCal), acessíveis em `/feed.rss` e `/calendario.ics` e linkados no rodapé — dá para assinar e acompanhar em qualquer leitor de feeds ou agenda.
-
-## Dados de cada licitação
-
-Cada item do arquivo `public/dados/licitacoes.json` (que funciona como a sua API pessoal) traz o que é preciso para pesquisar e participar:
-
-- `objeto` e `informacaoComplementar` — o que está sendo contratado;
-- `orgao`, `cnpj`, `esfera`, `municipio`, `uf`, `codigoIbge` — quem está comprando;
-- `numeroCompra`, `numeroControlePncp`, `anoCompra`, `sequencialCompra` — identificação do processo;
-- `dataPublicacao`, `dataAberturaProposta`, `dataEncerramentoProposta` — **período de inscrição**;
-- `linkPncp` — página oficial do edital no PNCP;
-- `linkSistemaOrigem` — link do sistema do órgão (quando existe), útil para dar o lance/proposta;
-- `valorEstimado`, `modalidade`, `situacao`;
-- `origem` — qual fonte originou o item (PNCP ou SIC Cultura);
-- `segmentos` — em quais abas a licitação aparece (`cultura` e/ou `tecnologia`);
-- `categorias` e `categoriaPrincipal` — classificação por segmento.
-
-## Rodando localmente
+Node.js 20.11 ou superior.
 
 ```bash
 npm install
-npm run coletar     # UFS=PR,SP limitam; padrão: 27 estados. Gera public/dados/licitacoes.json
-npm run dev         # abre o dashboard em http://localhost:5173
+Copy-Item .env.example .env.local
+npm run db:migrate
+npm run ingest
+npm run dev
 ```
 
-Outros scripts:
+Sem `DATABASE_URL`, o projeto usa PGlite persistido em `.pgdata/`. Para criar a
+conta administrativa local, defina `SEED_ADMIN_EMAIL` e `SEED_ADMIN_SENHA` no
+ambiente e rode `npm run db:seed`. Não há senha administrativa padrão.
+
+## Comandos
 
 ```bash
-npm run processar   # reprocessa APENAS o cache local (.cache/pncp), sem tocar no PNCP
-npm run reprocessar # reclassifica o snapshot já existente, sem rede
-npm run typecheck   # checagem de tipos
-npm run build       # build de produção em dist/
-npm run test        # testes (vitest)
+npm run dev                 # Next dev
+npm run typecheck           # tsc --noEmit
+npm test                    # Vitest
+npm run build               # build de produção
+npm run db:generate         # gerar migration Drizzle
+npm run db:migrate          # aplicar migrations
+npm run db:check            # verificar conexão, tabelas e extensão PostgreSQL
+npm run db:seed             # conferir planos / seed opcional de admin
+npm run coletar             # PNCP/SIC/MinC/PNAB -> snapshot
+npm run ingest              # snapshot -> PostgreSQL/PGlite
+npm run alertas:disparar -- --dry-run
 ```
 
-### Cache e modo offline
+## Ambiente
 
-O PNCP é lento e limita requisições. Para não repetir chamadas, cada página baixada é gravada em `.cache/pncp/` (fora do git). Rodar `npm run coletar` de novo reaproveita o que já está em cache e só busca o que falta; `npm run processar` regenera o snapshot inteiramente offline. Assim dá para ajustar categorias e apresentação sem bater na API.
+Copie o contrato de `.env.example`. Produção exige `DATABASE_URL` PostgreSQL e
+`SESSION_SECRET` com pelo menos 32 caracteres. Para pagamentos, configure
+`MERCADOPAGO_ACCESS_TOKEN` e `MERCADOPAGO_WEBHOOK_SECRET`; para e-mail real,
+configure `RESEND_API_KEY` e `MAIL_FROM`. `NEXT_PUBLIC_APP_URL` deve ser a URL
+pública HTTPS da aplicação. Nunca registre tokens, senhas ou segredos em logs.
 
-> Se o PNCP estiver fora do ar, a coleta mantém o snapshot anterior e nada é perdido.
+## Fluxos implementados
 
+- Cadastro, login/logout, sessão persistida em cookie httpOnly, confirmação de
+  e-mail e redefinição de senha por token de uso único.
+- Plano gratuito, Pro e Equipe; checkout recorrente MP e cancelamento da
+  renovação. O plano só é ativado/alterado após webhook válido do gateway.
+- Busca server-side com URL compartilhável, salvar/excluir buscas e ligar ou
+  desligar alertas por e-mail.
+- Job de alertas CLI idempotente: `npm run alertas:disparar`. Agendamento do job
+  deve ser configurado no host de produção.
 
-## Deploy (GitHub Pages)
+### Agendamento automatizado no GitHub Actions
 
-1. No repositório: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-2. Faça push para `main`. O workflow `Radar Cultural Brasil` roda a coleta, o build e publica.
-3. A URL fica em `https://<usuario>.github.io/lotus-radar/`.
-4. A coleta roda automaticamente todo dia (`cron: 0 9 * * *`, 06h de Brasília) e também pode ser disparada à mão em **Actions → Radar Cultural Brasil → Run workflow**.
+O workflow `.github/workflows/atualizar-radar.yml` executa a cada 12 horas
+(00h e 12h UTC) e também pode ser iniciado em **Actions → Atualizar radar e
+enviar alertas → Run workflow**.
+Configure no repositório:
 
-> Observação: o GitHub Actions ignora commits cuja mensagem contenha o token `[skip ci]` (é o que o commit automático da coleta usa para não republicar a cada dia). A detecção vale para a mensagem como um todo — inclusive se o token só aparecer como citação. Para disparar um deploy via push, **não** inclua o token na mensagem.
+- Secrets `DATABASE_URL` (PostgreSQL gerenciado), `SESSION_SECRET` (32 ou mais
+  caracteres aleatórios) e `RESEND_API_KEY`.
+- Variables `NEXT_PUBLIC_APP_URL` (URL HTTPS pública) e `MAIL_FROM` (remetente
+  verificado no Resend).
 
-Se usar domínio próprio, ajuste `base` em `vite.config.ts` para `'/'` (ou defina a variável `BASE_PATH`).
+O job valida a configuração antes de rodar e confere conexão, tabelas e
+migrations do PostgreSQL com `npm run db:check` antes da coleta; falha se faltar
+algum valor ou se o banco, URL pública ou segredo de sessão não tiverem formato
+válido. Coleta, ingestão e envio de alertas ocorrem em sequência no mesmo runner.
+Antes de ativar o workflow, aplique as migrations ao Postgres de produção com
+`npm run db:migrate`.
 
-## Limites conhecidos
+Para testes sem domínio, `Lotus Radar <onboarding@resend.dev>` pode ser usado
+como `MAIL_FROM`, mas o Resend só permite enviar para o endereço verificado da
+conta. Não execute o job de alertas com esse remetente se houver outros
+destinatários elegíveis; para envio a clientes, verifique um domínio próprio.
+Execuções manuais iniciam sem envio de e-mail; o envio exige marcar a opção
+explícita. Com o remetente de teste do Resend, alertas são sempre ignorados.
 
-- A cobertura depende de o órgão publicar no PNCP. Alguns municípios pequenos usam sistemas próprios e podem não aparecer.
-- **Editais de fomento culturais** (Aldir Blanc/PNAB, MinC, fundos estaduais e municipais, Transferegov) geralmente **não** passam pelo PNCP, que centraliza contratações. O governo não oferece um endpoint público estruturado desses editais (MinC publica só página HTML sem prazo parseável de forma confiável), então eles ficam de fora da cobertura automática. **Sugestão para evolução**: acompanhar o cofinanciamento via crawling do gov.br/Minc ou cobrar API pública do Mapa da Cultura.
-- Editais de **fomento (PNAB, Ministério da Cultura, fundos de cultura)** que não passam pelo PNCP ficam de fora: o Mapa da Cultura/CultBR (que os centraliza em todo o país) não expõe API pública estruturada e a página de editais do gov.br não tem prazo detectável de forma confiável em texto (as datas são baixadas em PDF). Próxima evolução natural é um coletor dedicado quando houver endpoint estruturado.
-- A classificação considera somente o **objeto**. Usar também a *informação complementar* foi testado, mas gerou falsos positivos em massa (ex.: "meio de cultura" em compras de laboratório, "creche" virando tecnologia) e foi mantida a regra conservadora atual.
-- O coletor tem limites de páginas e de tempo; quando corta, o snapshot é marcado como **parcial**.
-- `valorTotalEstimado` ausente ou zero é tratado como **não informado** (nunca como R$ 0,00).
-- O coletor do SIC Cultura é **best-effort**: o portal divulga prazos em linguagem natural; só entram os editais com data de encerramento futura claramente detectável.
-- O filtro de distância usa **geolocalização do navegador** (nada é enviado a servidores) e compara com o centro do município — é uma aproximação.
+### Deploy da aplicação no Railway
 
-## Segurança
+1. Crie um projeto Railway, adicione um serviço PostgreSQL e conecte o serviço
+   da aplicação a este repositório/branch `main` (após aprovar o PR).
+2. O `railway.json` configura o build Next.js, aplica migrations antes de
+   iniciar o servidor e usa `/` como health check.
+3. No serviço da aplicação, configure `DATABASE_URL` como referência a
+   `${{Postgres.DATABASE_URL}}` (ajuste `Postgres` ao nome do serviço do banco),
+   `SESSION_SECRET` com pelo menos 32 caracteres aleatórios e
+   `NEXT_PUBLIC_APP_URL` com o domínio HTTPS gerado pelo Railway.
+4. Configure também `RESEND_API_KEY` e `MAIL_FROM` para e-mails. Adicione
+   `MERCADOPAGO_ACCESS_TOKEN` e `MERCADOPAGO_WEBHOOK_SECRET` após configurar a
+   aplicação e o webhook no painel Mercado Pago.
+5. Gere um domínio público no Railway, atualize `NEXT_PUBLIC_APP_URL` com a URL
+   final e configure essa mesma URL como variable no GitHub Actions. Configure
+   `DATABASE_URL` e `RESEND_API_KEY` como secrets e `MAIL_FROM` como variable no
+   GitHub Actions; assim o job agendado roda contra o mesmo banco e app.
 
-O site é estático e não guarda dados de usuários, mas trata conteúdo **externo** (objetos, links e informações complementares vindos do PNCP):
+Não use PGlite em produção. A aplicação falha ao iniciar se estiver em
+`NODE_ENV=production` sem `DATABASE_URL` PostgreSQL.
 
-- **URLs**: todo link exibido passa por `src/lib/seguranca.ts` (`urlSegura`) — aceita apenas `http`/`https`, sem credenciais embutidas e com tamanho limitado. A sanitização é aplicada na coleta (`scripts/coletar.ts`, `scripts/reprocessar.ts`) e de novo na renderização (`CartaoLicitacao.tsx`) como defesa em profundidade.
-- **CSP**: o build injeta uma Content-Security-Policy restritiva (`default-src 'self'`, sem scripts inline, `object-src 'none'`, `frame-ancestors 'none'`), via plugin em `vite.config.ts`. O mapa permite apenas os tiles do OpenStreetMap (`img-src`/`connect-src` → `https://*.tile.openstreetmap.org`).
-- **Código/caracteres**: o conteúdo é renderizado com React (XSS mitigado por padrão); o coletor valida e limita tamanhos de todos os campos.
-- **Dependências**: `npm audit` acompanhado; as dependências de produção são só `react`/`react-dom`.
+## Fontes e limitações dos dados
 
-## Licença
+Os coletores de `scripts/` consultam fontes públicas como PNCP, SIC Cultura,
+MinC e PNAB. A cobertura depende da disponibilidade e estrutura dessas fontes;
+a classificação por categoria é automática e aproximada. Leia sempre o edital
+original antes de preparar uma proposta. Links externos são filtrados por
+`urlSegura`.
 
-MIT.
+## Próximas validações de lançamento
+
+- Rodar checkout, cancelamento e webhooks em uma conta de teste do Mercado Pago.
+- Testar entrega de e-mail em domínio verificado do Resend.
+- Configurar os secrets/variables e validar uma execução manual do workflow de
+  coleta, ingestão e envio de alertas.
+- Validar PostgreSQL gerenciado e migrations em ambiente de staging.

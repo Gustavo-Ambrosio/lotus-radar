@@ -1,0 +1,87 @@
+name: Atualizar radar e enviar alertas
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+    inputs:
+      enviar_alertas:
+        description: 'Enviar alertas por e-mail nesta execução manual'
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atualizar-radar
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      NODE_ENV: production
+      DB_DRIVER: postgres
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      MAIL_FROM: ${{ vars.MAIL_FROM }}
+    steps:
+      - name: Validar configuracao obrigatoria
+        shell: bash
+        run: |
+          falhas=0
+          for variavel in DATABASE_URL SESSION_SECRET RESEND_API_KEY NEXT_PUBLIC_APP_URL MAIL_FROM; do
+            if [[ -z "${!variavel}" ]]; then
+              printf 'Configuracao ausente: %s\n' "$variavel"
+              falhas=1
+            fi
+          done
+          if [[ -n "$SESSION_SECRET" && ${#SESSION_SECRET} -lt 32 ]]; then
+            printf 'SESSION_SECRET precisa ter pelo menos 32 caracteres.\n'
+            falhas=1
+          fi
+          if [[ -n "$DATABASE_URL" && ! "$DATABASE_URL" =~ ^postgres(ql)?:// ]]; then
+            printf 'DATABASE_URL precisa usar o protocolo PostgreSQL.\n'
+            falhas=1
+          fi
+          if [[ -n "$NEXT_PUBLIC_APP_URL" ]] && ! node -e 'const u = new URL(process.argv[1]); if (u.protocol !== "https:") process.exit(1)' "$NEXT_PUBLIC_APP_URL"; then
+            printf 'NEXT_PUBLIC_APP_URL precisa ser uma URL HTTPS publica.\n'
+            falhas=1
+          fi
+          if (( falhas != 0 )); then
+            exit 1
+          fi
+
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Verificar PostgreSQL e migrations
+        run: npm run db:check
+
+      - name: Coletar oportunidades
+        run: npm run coletar
+
+      - name: Ingerir snapshot no banco
+        run: npm run ingest
+
+      - name: Enviar alertas das buscas salvas
+        if: ${{ env.MAIL_FROM != 'Lotus Radar <onboarding@resend.dev>' && (github.event_name == 'schedule' || inputs.enviar_alertas) }}
+        run: npm run alertas:disparar
+
+      - name: Pular alertas com remetente de teste ou sem confirmação manual
+        if: ${{ env.MAIL_FROM == 'Lotus Radar <onboarding@resend.dev>' || (github.event_name == 'workflow_dispatch' && !inputs.enviar_alertas) }}
+        run: echo 'Alertas não enviados. Use um remetente verificado para produção; execuções manuais exigem confirmação explícita.'

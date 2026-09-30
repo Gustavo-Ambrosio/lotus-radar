@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { filtrosDaUrl, montarQuery, segmentoDaUrl } from './url';
+import { filtrosDaUrl, montarQuery, segmentoDaUrl, urlDaConsulta } from './url';
 import type { Filtros } from './filtros';
 
 function deUrl(texto: string): URLSearchParams {
@@ -93,6 +93,29 @@ describe('url', () => {
     expect(query).toContain('distancia=100');
     expect(query).toContain('somenteComValor=1');
     expect(query).toContain('ordenacao=recentes');
+  });
+
+  it('monta links de consulta válidos ao alternar categorias', () => {
+    const filtros: Filtros = {
+      busca: '',
+      categorias: ['musica'],
+      uf: '',
+      municipio: '',
+      esfera: '',
+      modalidade: '',
+      distanciaMaxKm: null,
+      prazoMaxDias: null,
+      publicadoDias: null,
+      valorMinimo: null,
+      valorMaximo: null,
+      somenteComValor: false,
+      ordenacao: 'prazo',
+    };
+
+    expect(urlDaConsulta('cultura', filtros)).toBe('/?categorias=musica');
+    expect(urlDaConsulta('cultura', { ...filtros, categorias: [] })).toBe('/');
+    expect(urlDaConsulta('tecnologia', { ...filtros, categorias: ['software'] }))
+      .toBe('/?seg=tecnologia&categorias=software');
   });
 
   it('descarta categorias de outro segmento vindas da URL', () => {

@@ -1,9 +1,17 @@
 node_modules/
+.next/
 dist/
+out/
 .vite/
 .cache/
 *.local
 .env
 .env.*
+!.env.example
 .DS_Store
 Thumbs.db
+
+# Banco local embutido (PGlite) e artefatos de dev
+.pgdata/
+*.tsbuildinfo
+next-env.d.ts

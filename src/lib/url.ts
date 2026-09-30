@@ -67,3 +67,8 @@ export function montarQuery(segmento: Segmento, filtros: Filtros): string {
   const texto = params.toString();
   return texto ? `?${texto}` : '';
 }
+
+/** Caminho absoluto local, para links que reaproveitam os filtros da URL. */
+export function urlDaConsulta(segmento: Segmento, filtros: Filtros): string {
+  return `/${montarQuery(segmento, filtros)}`;
+}

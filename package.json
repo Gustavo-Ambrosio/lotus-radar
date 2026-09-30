@@ -1,33 +1,51 @@
 {
   "name": "lotus-radar",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "description": "Radar de licitacoes e editais de cultura e tecnologia do Brasil (federal, estados e municipios), com categorias e foco em editais abertos.",
+  "description": "Radar de licitacoes e editais de cultura e tecnologia do Brasil (federal, estados e municipios), com categorias, alertas e assinaturas.",
   "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build && tsx scripts/gerar-feeds.ts",
-    "preview": "vite preview",
-    "coletar": "tsx scripts/coletar.ts",
-    "processar": "tsx scripts/coletar.ts --offline",
-    "reprocessar": "tsx scripts/reprocessar.ts",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx scripts/db-migrate.ts",
+    "db:check": "tsx scripts/db-check.ts",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx scripts/db-seed.ts",
+    "ingest": "tsx scripts/ingerir-snapshot.ts",
+    "coletar": "tsx scripts/coletar.ts",
+    "coletar:offline": "tsx scripts/coletar.ts --offline",
+    "reprocessar": "tsx scripts/reprocessar.ts",
+    "alertas:disparar": "tsx scripts/disparar-alertas.ts"
   },
   "dependencies": {
+    "@electric-sql/pglite": "^0.2.17",
+    "bcryptjs": "^2.4.3",
+    "drizzle-orm": "^0.38.3",
     "leaflet": "^1.9.4",
+    "next": "^15.1.3",
+    "postgres": "^3.4.5",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "resend": "^4.0.1",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/leaflet": "^1.9.22",
     "@types/node": "^22.10.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
-    "@vitejs/plugin-react": "^4.3.4",
+    "drizzle-kit": "^0.30.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
-    "vite": "^6.0.5",
     "vitest": "^4.1.11"
   }
 }
